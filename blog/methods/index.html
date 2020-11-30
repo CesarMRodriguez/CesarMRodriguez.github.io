@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <title>Cesar Rodriguez | Personal blog</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="frida scripting guide methods">
+  <meta name="author" content="Cesar Rodriguez">
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="https://cesar-rodriguez.com.ar/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="https://cesar-rodriguez.com.ar/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom pl-0">
+      <a class="navbar-brand mobile-view" href="https://cesar-rodriguez.com.ar"><img class="img-fluid" style="max-height: 5rem;"
+          src="https://cesar-rodriguez.com.ar/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/warlockk87"><i class="ti-twitter-alt"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CesarMRodriguez"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/cesar-mario-rodriguez/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <a class="navbar-brand mx-auto desktop-view" href="https://cesar-rodriguez.com.ar"><img class="img-fluid" style="max-height: 5rem;"
+            src="https://cesar-rodriguez.com.ar/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+
+        <ul class="navbar-nav">
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/blog">Post</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/contact">Contact</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search pl-lg-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://cesar-rodriguez.com.ar/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/frida"
+          class="text-primary">Frida</a>
+        
+        <a href="/categories/android"
+          class="text-primary">Android</a>
+        
+        <h2>Frida Scripting Guide (2) - Methods</h2>
+        <div class="mb-3 post-meta">
+          <span>By Cesar Rodriguez</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>23 May 2020</span>
+          
+        </div>
+        
+        <img src="https://cesar-rodriguez.com.ar/images/featured-post/methods.jpg" class="img-fluid w-100 mb-4" alt="Frida Scripting Guide (2) - Methods">
+        
+        <div class="content mb-5">
+          <p>In this post I will explain how to call methods from java through Frida. A method is a function that belongs to a class. In Java all the functions are attached to classes. We have two different kind of methods. The static ones, that can be called from a Class, and the non-static that can only be used from an instance of an object. If you need any more information about this, check the following link: <a href="https://www.geeksforgeeks.org/difference-between-static-and-non-static-method-in-java/">Static and Non Static Methods</a>.</p>
+<p>The following code snippet shows how to call a static method:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+<span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideFloat</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div><p>To call a non-static method, we need to get first an object, so we need first to get the class reference in Frida:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.Person&#34;</span><span class="p">);</span>
+</code></pre></div><p>Then we create an object from that class. This special method is called <a href="https://www.w3schools.com/java/java_constructors.asp">constructor</a>):</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">personInstance</span> <span class="o">=</span> <span class="nx">Person</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span> 
+<span class="nx">personInstance</span><span class="p">.</span><span class="nx">setId</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div><p>The following code shows how to send parameters to a method:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span> 
+<span class="nx">personInstance</span><span class="p">.</span><span class="nx">setName</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;Peter Griffin&#34;</span><span class="p">));</span>
+</code></pre></div><blockquote>
+<p><strong>Note</strong> that the parameters sent have to be javascript encapsulated objects</p>
+</blockquote>
+<h3 id="overridden-methods">Overridden methods</h3>
+<p>In Java there is a possibility to generate overridden methods. Basically it means that two or more methods have the same name and different parameters (in quantity and type). As an example the following java code snippet is valid:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">val1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">val2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">val1</span> <span class="o">*</span> <span class="n">val2</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="err">​</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">byte</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">byte</span> <span class="n">val1</span><span class="o">,</span> <span class="kt">byte</span> <span class="n">val2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span> <span class="o">(</span><span class="n">val1</span> <span class="o">*</span> <span class="n">val2</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div><p>If you want to use an overridden method, the syntax does not change, as Frida solves the method by the argument types, so in the previous example the snippet code to call the multiply operation would be the following one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
+</code></pre></div><p>The difference in the syntax comes when you want to modify a method with overridden options. The naive approach would be the following one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">  <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
+<span class="err">​</span>
+  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">multiply</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">val1</span><span class="p">,</span> <span class="nx">val2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;it works&#34;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">val1</span> <span class="o">*</span> <span class="nx">val2</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div><p>If that code is executed, you&rsquo;ll see in the Frida cli console the following error:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">Error</span><span class="o">:</span> <span class="nx">multiply</span><span class="p">()</span><span class="o">:</span> <span class="nx">has</span> <span class="nx">more</span> <span class="nx">than</span> <span class="nx">one</span> <span class="nx">overload</span><span class="p">,</span> <span class="nx">use</span> <span class="p">.</span><span class="nx">overload</span><span class="p">()</span> <span class="nx">to</span> <span class="nx">choose</span> <span class="nx">from</span><span class="o">:</span> 
+  <span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="s1">&#39;long&#39;</span><span class="p">)</span> 
+  <span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;byte&#39;</span><span class="p">,</span> <span class="s1">&#39;byte&#39;</span><span class="p">)</span> 
+  <span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;short&#39;</span><span class="p">,</span> <span class="s1">&#39;short&#39;</span><span class="p">)</span> 
+  <span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">)</span> 
+  <span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">)</span> 
+<span class="nx">at</span> <span class="nx">throwOverloadError</span> <span class="p">(</span><span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">1054</span><span class="p">)</span> 
+<span class="nx">at</span> <span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">714</span> 
+<span class="nx">at</span> <span class="o">/</span><span class="nx">examples</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">164</span>
+</code></pre></div><p>which states that you should define which of the overridden methods you want to modify. As an example we&rsquo;ll modify the multiplication of two ints:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">multiply</span><span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;int&#39;</span><span class="p">).</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">val1</span><span class="p">,</span> <span class="nx">val2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">val1</span> <span class="o">*</span> <span class="nx">val2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>Once you start to write Frida scripts, you will eventually find the need to modify or rewrite an overridden method. Not all the types of attributes are written as clear as the basic types. The following table can help to search for the types:</p>
+<table>
+<thead>
+<tr>
+<th>Java Type</th>
+<th>Frida Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td>int</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>short</td>
+</tr>
+<tr>
+<td>long</td>
+<td>long</td>
+</tr>
+<tr>
+<td>float</td>
+<td>float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>double</td>
+</tr>
+<tr>
+<td>char</td>
+<td>char</td>
+</tr>
+<tr>
+<td>{Object} (eg. String)</td>
+<td>{package}.{Object} (eg. java.lang.String)</td>
+</tr>
+<tr>
+<td>int[]</td>
+<td>[I</td>
+</tr>
+<tr>
+<td>byte[]</td>
+<td>[B</td>
+</tr>
+<tr>
+<td>short[]</td>
+<td>[S</td>
+</tr>
+<tr>
+<td>long[]</td>
+<td>[J</td>
+</tr>
+<tr>
+<td>float[]</td>
+<td>[F</td>
+</tr>
+<tr>
+<td>double[]</td>
+<td>[D</td>
+</tr>
+<tr>
+<td>char[]</td>
+<td>[C</td>
+</tr>
+<tr>
+<td>{Object}[]</td>
+<td>[L{package}.{Object} (eg. [Ljava.lang.String)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong> that the object array starts with a &ldquo;L&rdquo; char.</p>
+</blockquote>
+<p>If you wander where those weird data types comes from, they are inherited by the dex specification (Java code is transformed in dex format when the application is compiled). Primitives are represented by a single letter. They are actually stored in the dex file, in string form. They are specified in the <a href="https://android.googlesource.com/platform/dalvik/+/gingerbread/docs/dex-format.html">Dex format document</a> in the AOSP repository.</p>
+<p>As an example the following script lists all the overridden methods with their signatures:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">listOverritenMethods</span><span class="p">(</span><span class="nx">className</span><span class="p">,</span> <span class="nx">func</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">Class</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">className</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">overloadedMethods</span> <span class="o">=</span> <span class="nx">Class</span><span class="p">[</span><span class="nx">func</span><span class="p">].</span><span class="nx">overloads</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">overloadedMethods</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">overloadedMethods</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">&#39;argumentTypes&#39;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">parameterString</span> <span class="o">=</span> <span class="s2">&#34;(&#34;</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="k">in</span> <span class="nx">overloadedMethods</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">argumentTypes</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">parameterString</span> <span class="o">=</span> <span class="nx">parameterString</span> <span class="o">+</span> <span class="nx">overloadedMethods</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">argumentTypes</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">className</span> <span class="o">+</span> <span class="s2">&#34;,&#34;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">parameterString</span> <span class="o">=</span> <span class="nx">parameterString</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;)&#34;</span><span class="p">;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">func</span> <span class="o">+</span> <span class="nx">parameterString</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="err">​</span>
+<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="nx">listOverritenMethods</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">,</span><span class="s2">&#34;multiply&#34;</span><span class="p">)</span> <span class="p">});</span>
+</code></pre></div><p>Next: <a href="https://cesar-rodriguez.com.ar/blog/classes-content/">Access to content of classes</a></p>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><i
+                class="ti-twitter mr-3 text-primary"></i>@warlockk87</li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Buenos Aires, Argentina</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:hohenhaimmaster@email.com"><i
+                class="ti-email mr-3 text-primary"></i>hohenhaimmaster@email.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://twitter.com/warlockk87">twitter</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/CesarMRodriguez">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/cesar-mario-rodriguez/">linkedin</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/android">Android</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/ctf">Ctf</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/frida">Frida</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/misc">Misc</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/blog">Post</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/contact">Contact</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://cesar-rodriguez.com.ar">Cesar Rodriguez</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "https://cesar-rodriguez.com.ar/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="https://cesar-rodriguez.com.ar/plugins/jQuery/jquery.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/slick/slick.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/venobox/venobox.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/fuse.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/mark.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="https://cesar-rodriguez.com.ar/js/script.min.js"></script>
+<!-- google analitycs -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'Your ID', 'auto');
+  ga('send', 'pageview');
+</script></body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <title>Cesar Rodriguez | Personal blog</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="frida scripting guide inheritance">
+  <meta name="author" content="Cesar Rodriguez">
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="https://cesar-rodriguez.com.ar/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="https://cesar-rodriguez.com.ar/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom pl-0">
+      <a class="navbar-brand mobile-view" href="https://cesar-rodriguez.com.ar"><img class="img-fluid" style="max-height: 5rem;"
+          src="https://cesar-rodriguez.com.ar/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/warlockk87"><i class="ti-twitter-alt"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CesarMRodriguez"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/cesar-mario-rodriguez/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <a class="navbar-brand mx-auto desktop-view" href="https://cesar-rodriguez.com.ar"><img class="img-fluid" style="max-height: 5rem;"
+            src="https://cesar-rodriguez.com.ar/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+
+        <ul class="navbar-nav">
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/blog">Post</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/contact">Contact</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search pl-lg-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://cesar-rodriguez.com.ar/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/frida"
+          class="text-primary">Frida</a>
+        
+        <a href="/categories/android"
+          class="text-primary">Android</a>
+        
+        <h2>Frida Scripting Guide (8) - Inheritance</h2>
+        <div class="mb-3 post-meta">
+          <span>By Cesar Rodriguez</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>29 October 2019</span>
+          
+        </div>
+        
+        <img src="https://cesar-rodriguez.com.ar/images/featured-post/inheritance.jpg" class="img-fluid w-100 mb-4" alt="Frida Scripting Guide (8) - Inheritance">
+        
+        <div class="content mb-5">
+          <p>In this post I will show how to use inheritance in Java from Frida. Java as a OOP language has the inheritance feature. When one class inherits from another class in Java, the two classes take on certain roles. The class that extends (inherits from another class) is the subclass and the class that is being extended (the class being inherited from) is the superclass. In other words, the subclass extends the superclass. Or, the subclass inherits from the superclass. The subclass inherits the attributes and methods from their parents, so a subclass behaves like a superclass.</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span> <span class="nf">getPerimeter</span><span class="o">(</span><span class="n">Figure</span> <span class="n">figure</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">figure</span><span class="o">.</span><span class="na">perimeter</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div><p>As it can be seen it receives a &ldquo;Figure&rdquo; class type. As the Circle and Square classes are figures (because of inheritance), you can send any instance of these two classes to the getPerimeter method. Let&rsquo;s do this with Frida:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">TestInheritance</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.inheritance.TestInheritance&#34;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Square</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.inheritance.Square&#34;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">squareInstance</span> <span class="o">=</span> <span class="nx">Square</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;square perimeter: &#34;</span> <span class="o">+</span> <span class="nx">TestInheritance</span><span class="p">.</span><span class="nx">getPerimeter</span><span class="p">(</span><span class="nx">squareInstance</span><span class="p">));</span>
+</code></pre></div><p>In Frida you can work with inherited classes as you would do directly in Java, as the methods automatically casts the object to the right type.</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span> <span class="nf">getPerimeter</span><span class="o">(</span><span class="n">Figure</span> <span class="n">figure</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">figure</span><span class="o">.</span><span class="na">perimeter</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div><p>When we retrieve the value from Frida and check the class:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">figureInstance</span> <span class="o">=</span> <span class="nx">TestInheritance</span><span class="p">.</span><span class="nx">getCircle</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">figureInstance</span><span class="p">.</span><span class="nx">$className</span><span class="p">);</span>
+</code></pre></div><p>we get that the className is &lsquo;<strong>com.blog.testfrida.inheritance.Circle</strong>'. But when we try to use a method that is in the Circle only (<strong>getCircleName</strong>) we get that the method is undefined. This means the object is casted to a Figure:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">figureInstance</span> <span class="o">=</span> <span class="nx">TestInheritance</span><span class="p">.</span><span class="nx">getCircle</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">figureInstance</span><span class="p">.</span><span class="nx">getCircleName</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Instance is figure, the getCircleName does not exist.&#34;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">figureInstance</span><span class="p">.</span><span class="nx">getCircleName</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div><p>To access the circle method, we should cast it:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">circleInstance</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">figureInstance</span><span class="p">,</span><span class="nx">Circle</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">circleInstance</span><span class="p">.</span><span class="nx">getCircleName</span><span class="p">());</span>
+</code></pre></div><p>Sometimes in Java we want to reuse some code of a parent class, but we want to add some component that exists or makes sense only in the subclass. As an example a constructor that sets all the private attributes to a default value. As an example, in the Android application I created two classes. One is SuperClass, and the other SubClass. In the SuperClass we have the &ldquo;superValue&rdquo;. In the constructor we set its value to 10:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">public</span> <span class="nx">SuperClass</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">superValue</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The SubClass has two attributes that are being set in the constructor.</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">public</span> <span class="nx">SubClass</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">();</span>
+    <span class="nx">subValue</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="nx">setValue</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>To avoid copy the SuperClass content to the SubClass constructor (in some cases it isn&rsquo;t even possible), Java has a &ldquo;super&rdquo; attribute that points to the SuperClass object. We can use it to call the SuperClass method, so then when we use the SubClass method to get the superValue, we&rsquo;ll see that it was set to 10.</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">//In this case I rewrote a new function that has a super implementation
+</span><span class="c1"></span><span class="nx">SubClass</span><span class="p">.</span><span class="nx">$init</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">superInheritance</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">SuperClass</span><span class="p">);</span>
+    <span class="nx">superInheritance</span><span class="p">.</span><span class="nx">$init</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">subValue</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>There a couple of things to tell about this example. When you want to change or intercept a constructor, you need to modify the $init function in Frida. To call the super class, you need to cast the &ldquo;this&rdquo; variable (reference to itself).</p>
+<p>Next: <a href="https://cesar-rodriguez.com.ar/blog/interfaces/">Interfaces</a></p>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><i
+                class="ti-twitter mr-3 text-primary"></i>@warlockk87</li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Buenos Aires, Argentina</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:hohenhaimmaster@email.com"><i
+                class="ti-email mr-3 text-primary"></i>hohenhaimmaster@email.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://twitter.com/warlockk87">twitter</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/CesarMRodriguez">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/cesar-mario-rodriguez/">linkedin</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/android">Android</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/ctf">Ctf</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/frida">Frida</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/misc">Misc</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/blog">Post</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/contact">Contact</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://cesar-rodriguez.com.ar">Cesar Rodriguez</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "https://cesar-rodriguez.com.ar/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="https://cesar-rodriguez.com.ar/plugins/jQuery/jquery.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/slick/slick.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/venobox/venobox.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/fuse.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/mark.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="https://cesar-rodriguez.com.ar/js/script.min.js"></script>
+<!-- google analitycs -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'Your ID', 'auto');
+  ga('send', 'pageview');
+</script></body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Misc on Cesar Rodriguez | Personal blog</title>
+    <link>https://cesar-rodriguez.com.ar/categories/misc/</link>
+    <description>Recent content in Misc on Cesar Rodriguez | Personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 30 Nov 2020 10:07:47 +0600</lastBuildDate>
+    
+	<atom:link href="https://cesar-rodriguez.com.ar/categories/misc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CTF - Solving Serialized</title>
+      <link>https://cesar-rodriguez.com.ar/blog/solving-serialized/</link>
+      <pubDate>Mon, 30 Nov 2020 10:07:47 +0600</pubDate>
+      
+      <guid>https://cesar-rodriguez.com.ar/blog/solving-serialized/</guid>
+      <description>In this post I will solve the challenge called Serializado, created for the Ekoparty 2020 - Mobile Hacking Space CTF.</description>
+    </item>
+    
+    <item>
+      <title>Hello World!</title>
+      <link>https://cesar-rodriguez.com.ar/blog/hello-world/</link>
+      <pubDate>Sun, 24 May 2020 10:07:47 +0600</pubDate>
+      
+      <guid>https://cesar-rodriguez.com.ar/blog/hello-world/</guid>
+      <description>Hi there! My name is Cesar! It will be next April 3 years, since I am advocated full time to my Security Career.</description>
+    </item>
+    
+  </channel>
+</rss>

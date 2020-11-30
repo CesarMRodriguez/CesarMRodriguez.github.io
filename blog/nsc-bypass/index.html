@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <title>Cesar Rodriguez | Personal blog</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="frida android network security config bypass">
+  <meta name="author" content="Cesar Rodriguez">
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="https://cesar-rodriguez.com.ar/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="https://cesar-rodriguez.com.ar/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="https://cesar-rodriguez.com.ar/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom pl-0">
+      <a class="navbar-brand mobile-view" href="https://cesar-rodriguez.com.ar"><img class="img-fluid" style="max-height: 5rem;"
+          src="https://cesar-rodriguez.com.ar/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/warlockk87"><i class="ti-twitter-alt"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CesarMRodriguez"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/cesar-mario-rodriguez/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <a class="navbar-brand mx-auto desktop-view" href="https://cesar-rodriguez.com.ar"><img class="img-fluid" style="max-height: 5rem;"
+            src="https://cesar-rodriguez.com.ar/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+
+        <ul class="navbar-nav">
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/blog">Post</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cesar-rodriguez.com.ar/contact">Contact</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search pl-lg-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://cesar-rodriguez.com.ar/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/frida"
+          class="text-primary">Frida</a>
+        
+        <a href="/categories/android"
+          class="text-primary">Android</a>
+        
+        <h2>Analysis of Network Security Configuration bypasses with Frida</h2>
+        <div class="mb-3 post-meta">
+          <span>By Cesar Rodriguez</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>29 October 2019</span>
+          
+        </div>
+        
+        <img src="https://cesar-rodriguez.com.ar/images/featured-post/network-security-config.jpg" class="img-fluid w-100 mb-4" alt="Analysis of Network Security Configuration bypasses with Frida">
+        
+        <div class="content mb-5">
+          <p><strong>TL;DR In this blogpost I show the results of an analysis done over some frida scripts that allows the bypass of the network security configuration in Android. I show a new way to bypass the configuration. Also I will show the procedure used to test the scripts in multiple scenarios, and an analysis of the reason some scripts do not work in all the test-cases.</strong></p>
+<p>A couple of months ago I was in the middle of an Android application security assessment. One of the first steps while preparing the environment to start the pentest is configuring the application to bypass the network security config (check this link for references regarding network security config: <a href="https://developer.android.com/training/articles/security-config)">https://developer.android.com/training/articles/security-config)</a>. As I am a frida fan, I tend to do everything with it (there are other alternatives to do this: <a href="https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2017/november/bypassing-androids-network-security-configuration/)">https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2017/november/bypassing-androids-network-security-configuration/)</a>.</p>
+<p>I downloaded two or three scripts at that moment, but when I run it in my Android 7.1.0, none of those worked. That was the reason I started to analyze how the network security config worked, and how to bypass it with frida.
+The first thing I did was to generate different test cases. I tried to choose the most popular ones:</p>
+<ul>
+<li>OKHttp (it is also used in retrofit and volley also)</li>
+<li>HttpsURLConnection</li>
+<li>WebView (Chromium in API 25 and 26, and Default WebView in API 24).</li>
+</ul>
+<p>Then I generated three applications with different network security config:</p>
+<ol>
+<li>An application that used the default NSC configuration (without network-security-config xml file) - called BypassNSC</li>
+<li>An application with a NSC file that used only system certificates  - called BypassNSC2.</li>
+<li>An application with a NSC file that enforced the certificate pinning  - called BypassNSC3.</li>
+</ol>
+<p>At the time of evaluating the scripts with my test suite, only one worked in the 100% of the cases. I also developed an alternative that also works in all of the cases.</p>
+<p>The code that parses and validates the network security config is in the Android SDK, so it might change between versions. I tested the scripts with the versions 24,25 and 26.</p>
+<p>The following github repository has all the applications I developed and the scripts I used.</p>
+<p><a href="https://github.com/CesarMRodriguez/network-security-config-frida">https://github.com/CesarMRodriguez/network-security-config-frida</a></p>
+<p>The scripts are called:</p>
+<ul>
+<li>network-security-config-bypass-1.js</li>
+<li>network-security-config-bypass-2.js</li>
+<li>network-security-config-bypass-3.js</li>
+<li>network-security-config-bypass-cr.js &lt;&ndash; this is the one I created</li>
+</ul>
+<p>The following is a screenshot of the table I created with the results of the analysis:</p>
+<p><img src="/images/featured-post/nsc-table.png" alt="This is an image"></p>
+<p>I analysed all the scripts I downloaded to know why it didn&rsquo;t work in some of the scenarios.</p>
+<h3 id="network-security-config-bypass-1js">network-security-config-bypass-1.js</h3>
+<p>Original reference: <a href="https://codeshare.frida.re/@tiiime/android-network-security-config-bypass/">Link</a></p>
+<p>In this case the script basically modifies the getEffectiveCertificatesEntryRefs method from the NetworkSecurityConfig.Builder class. This method returns the list of valid certificates. In a standard Android configuration, the list of certificates it returns is the ones installed in the system. In this script, the certificates installed by the user are also returned. So it is logical that the bypass for the first two applications worked, but I was surprised that the ones with the certificate pinning configuration also worked. The method that validates the pinning is the following one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkPins</span>
+</code></pre></div><p>The following stacktrace shows the path executed till it gets to the checkPins function:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">    <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkPins</span><span class="p">(</span><span class="nx">Native</span> <span class="nx">Method</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">95</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">88</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">178</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">verifyCertificateChain</span><span class="p">(</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">596</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">NativeCrypto</span><span class="p">.</span><span class="nx">SSL_do_handshake</span><span class="p">(</span><span class="nx">Native</span> <span class="nx">Method</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">startHandshake</span><span class="p">(</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">357</span><span class="p">)</span>
+    <span class="p">...</span>
+</code></pre></div><p>If the patch is not executed, the following exception is thrown when it gets to that method:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">   <span class="nx">Caused</span> <span class="nx">by</span><span class="o">:</span> <span class="nx">java</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">cert</span><span class="p">.</span><span class="nx">CertificateException</span><span class="o">:</span> <span class="nx">Pin</span> <span class="nx">verification</span> <span class="nx">failed</span>
+        <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkPins</span><span class="p">(</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">148</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">95</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">88</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">178</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">verifyCertificateChain</span><span class="p">(</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">596</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">NativeCrypto</span><span class="p">.</span><span class="nx">SSL_do_handshake</span><span class="p">(</span><span class="nx">Native</span> <span class="nx">Method</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span>
+</code></pre></div><p>Let&rsquo;s check the implementation of this method (API 25):</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">checkPins</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">X509Certificate</span><span class="o">&gt;</span> <span class="n">chain</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">CertificateException</span> <span class="o">{</span>
+        <span class="n">PinSet</span> <span class="n">pinSet</span> <span class="o">=</span> <span class="n">mNetworkSecurityConfig</span><span class="o">.</span><span class="na">getPins</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">pinSet</span><span class="o">.</span><span class="na">pins</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span>
+                <span class="o">||</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">pinSet</span><span class="o">.</span><span class="na">expirationTime</span>
+                <span class="o">||</span> <span class="o">!</span><span class="n">isPinningEnforced</span><span class="o">(</span><span class="n">chain</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">pinAlgorithms</span> <span class="o">=</span> <span class="n">pinSet</span><span class="o">.</span><span class="na">getPinAlgorithms</span><span class="o">();</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">MessageDigest</span><span class="o">&gt;</span> <span class="n">digestMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">MessageDigest</span><span class="o">&gt;(</span>
+                <span class="n">pinAlgorithms</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">0</span> <span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+            <span class="n">X509Certificate</span> <span class="n">cert</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="kt">byte</span><span class="o">[]</span> <span class="n">encodedSPKI</span> <span class="o">=</span> <span class="n">cert</span><span class="o">.</span><span class="na">getPublicKey</span><span class="o">().</span><span class="na">getEncoded</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">algorithm</span> <span class="o">:</span> <span class="n">pinAlgorithms</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">MessageDigest</span> <span class="n">md</span> <span class="o">=</span> <span class="n">digestMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">algorithm</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">md</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">try</span> <span class="o">{</span>
+                        <span class="n">md</span> <span class="o">=</span> <span class="n">MessageDigest</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">algorithm</span><span class="o">);</span>
+                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">GeneralSecurityException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="n">digestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">algorithm</span><span class="o">,</span> <span class="n">md</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">pinSet</span><span class="o">.</span><span class="na">pins</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="k">new</span> <span class="n">Pin</span><span class="o">(</span><span class="n">algorithm</span><span class="o">,</span> <span class="n">md</span><span class="o">.</span><span class="na">digest</span><span class="o">(</span><span class="n">encodedSPKI</span><span class="o">))))</span> <span class="o">{</span>
+                    <span class="k">return</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">// TODO: Throw a subclass of CertificateException which indicates a pinning failure.
+</span><span class="c1"></span>        <span class="k">throw</span> <span class="k">new</span> <span class="n">CertificateException</span><span class="o">(</span><span class="s">&#34;Pin verification failed&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div><p>This method receives a list of certificates returned by the site when the communication starts. The first thing it does is checking some conditions:</p>
+<ol>
+<li>the pinset (list of pins loaded during the configuration instantiation) is empty.</li>
+<li>the pinset has expired at the moment of validation</li>
+<li>pinning is NOT enforced by configuration</li>
+</ol>
+<p>If any of those conditions are true, pinning validation is ignored. In case the validation must be achieved, the application checks if any of the certificates provided by the site matches with one of the pins defined in the network security config file. In that case the validation is successful. If that does not happen, the method throws the exception shown in the previous stacktrace.</p>
+<p>Initially I thought the issue was in the for loop that analyzed each of the certificates, so I added the following log in the frida script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">    <span class="kd">var</span> <span class="nx">Pin</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.security.net.config.Pin&#34;</span><span class="p">);</span>
+    <span class="nx">Pin</span><span class="p">.</span><span class="nx">$init</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">digestAlg</span><span class="p">,</span> <span class="nx">digest</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">bt</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.util.Log&#34;</span><span class="p">).</span><span class="nx">getStackTraceString</span><span class="p">(</span><span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.Exception&#34;</span><span class="p">).</span><span class="nx">$new</span><span class="p">());</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;\nBacktrace:\n&#34;</span> <span class="o">+</span> <span class="nx">bt</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">digestAlg</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">$init</span><span class="p">(</span><span class="nx">digestAlg</span><span class="p">,</span><span class="nx">digest</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div><p>It should print each of the Pins created during the evaluation. When I run the application with the changes I found that the application wasn&rsquo;t getting to that point.</p>
+<p>I thought it could be because of the for loop, so I added a log in the call to pinSet.getPinAlgorithms(), that was executed before the for loop:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">    <span class="kd">var</span> <span class="nx">PinSet</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.security.net.config.PinSet&#34;</span><span class="p">);</span>
+    <span class="nx">PinSet</span><span class="p">.</span><span class="nx">getPinAlgorithms</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">bt</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.util.Log&#34;</span><span class="p">).</span><span class="nx">getStackTraceString</span><span class="p">(</span><span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.Exception&#34;</span><span class="p">).</span><span class="nx">$new</span><span class="p">());</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;\nBacktrace:\n&#34;</span> <span class="o">+</span> <span class="nx">bt</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getPinAlgorithms</span><span class="p">();</span>
+    <span class="p">}</span>
+</code></pre></div><p>And nothing was printed. My next idea was that the first if was evaluated to true, and that was the reason it didn&rsquo;t get to the rest of the method. To check which conditions were the ones that made the method exit, I added the following lines to the script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">     <span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkPins</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">pins</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">bt</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.util.Log&#34;</span><span class="p">).</span><span class="nx">getStackTraceString</span><span class="p">(</span><span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.Exception&#34;</span><span class="p">).</span><span class="nx">$new</span><span class="p">());</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;\nBacktrace:\n&#34;</span> <span class="o">+</span> <span class="nx">bt</span><span class="p">);</span>
+        <span class="nx">pinSet</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">mNetworkSecurityConfig</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">getPins</span><span class="p">();</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;pinSet.pins.value.isEmpty: &#34;</span> <span class="o">+</span><span class="nx">pinSet</span><span class="p">.</span><span class="nx">pins</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">());</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;isPinningEnforced: &#34;</span> <span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">isPinningEnforced</span><span class="p">(</span><span class="nx">pins</span><span class="p">));</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;pins.isEmpty: &#34;</span> <span class="o">+</span><span class="nx">pins</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">());</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">System</span><span class="p">.</span><span class="nx">currentTimeMillis</span><span class="p">())</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">pinSet</span><span class="p">.</span><span class="nx">expirationTime</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">System</span><span class="p">.</span><span class="nx">currentTimeMillis</span><span class="p">()</span> <span class="o">&gt;</span> <span class="nx">pinSet</span><span class="p">.</span><span class="nx">expirationTime</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">checkPins</span><span class="p">(</span><span class="nx">pins</span><span class="p">);</span> 
+    <span class="p">}</span>
+</code></pre></div><p>So after running the application I got the following output:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">pinSet</span><span class="p">.</span><span class="nx">pins</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">isEmpty</span><span class="o">:</span> <span class="kc">false</span>
+<span class="nx">isPinningEnforced</span><span class="o">:</span> <span class="kc">false</span> <span class="o">&lt;--</span> <span class="k">this</span> <span class="nx">condition</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">problematic</span> <span class="nx">one</span>
+<span class="nx">pins</span><span class="p">.</span><span class="nx">isEmpty</span><span class="o">:</span> <span class="kc">false</span>
+<span class="mi">1562031248274</span>
+<span class="mi">9223372036854775807</span>
+<span class="kc">false</span>
+</code></pre></div><p>As it can be seen, the isPinningEnforced was evaluated to false and then as it was negated, it transformed all the expression to true.</p>
+<p>The method has the following implementation:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isPinningEnforced</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">X509Certificate</span><span class="o">&gt;</span> <span class="n">chain</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">CertificateException</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">chain</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">X509Certificate</span> <span class="n">anchorCert</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">chain</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+        <span class="n">TrustAnchor</span> <span class="n">chainAnchor</span> <span class="o">=</span>
+                <span class="n">mNetworkSecurityConfig</span><span class="o">.</span><span class="na">findTrustAnchorBySubjectAndPublicKey</span><span class="o">(</span><span class="n">anchorCert</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">chainAnchor</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">CertificateException</span><span class="o">(</span><span class="s">&#34;Trusted chain does not end in a TrustAnchor&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="o">!</span><span class="n">chainAnchor</span><span class="o">.</span><span class="na">overridesPins</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>I knew the chain wasn&rsquo;t empty, as I already executed the evaluation of the List, so the problem should ne in the findTrustAnchorBySubjectAndPublicKey, which returned a chainAnchor with the attribute overridesPins in true.</p>
+<p>The findTrustAnchorBySubjectAndPublicKey method is implemented in the NetworkSecurityConfig class:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="n">TrustAnchor</span> <span class="nf">findTrustAnchorBySubjectAndPublicKey</span><span class="o">(</span><span class="n">X509Certificate</span> <span class="n">cert</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">CertificatesEntryRef</span> <span class="n">ref</span> <span class="o">:</span> <span class="n">mCertificatesEntryRefs</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">TrustAnchor</span> <span class="n">anchor</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="na">findBySubjectAndPublicKey</span><span class="o">(</span><span class="n">cert</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">anchor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">anchor</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>It iterates over all the CertificatesEntryRef created during the seting up, and returns the first one that matches the SubjectAndPublicKey. In this scenario it will always return the ones from the proxy. After reading the source code I went to the CertificatesEntryRef class to check where the classes were instantiated, and found that the only constructor was the following one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">    <span class="kr">public</span> <span class="nx">CertificatesEntryRef</span><span class="p">(</span><span class="nx">CertificateSource</span> <span class="nx">source</span><span class="p">,</span> <span class="kr">boolean</span> <span class="nx">overridesPins</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">mSource</span> <span class="o">=</span> <span class="nx">source</span><span class="p">;</span>
+        <span class="nx">mOverridesPins</span> <span class="o">=</span> <span class="nx">overridesPins</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div><p>If you read the frida script again, you will see that the CertificatesEntryRef were created in the following way:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">    <span class="nx">NetworkSecurityConfig_Builder</span><span class="p">.</span><span class="nx">getEffectiveCertificatesEntryRefs</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+
+        <span class="nx">origin</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getEffectiveCertificatesEntryRefs</span><span class="p">()</span>
+
+        <span class="nx">source</span> <span class="o">=</span> <span class="nx">UserCertificateSource</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">()</span>
+        <span class="nx">userCert</span> <span class="o">=</span> <span class="nx">CertificatesEntryRef</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">source</span><span class="p">,</span><span class="kc">true</span><span class="p">)</span> <span class="o">&lt;--</span> <span class="nx">sets</span> <span class="nx">overridesPins</span> <span class="k">in</span> <span class="kc">true</span>
+        <span class="nx">origin</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">userCert</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nx">origin</span>
+    <span class="p">}</span>
+</code></pre></div><p>And that is the reason why this script works for all the scenarios.</p>
+<h3 id="network-security-config-bypass-2js">network-security-config-bypass-2.js</h3>
+<p>Original Reference: <a href="https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2017/november/bypassing-androids-network-security-configuration/">Link</a></p>
+<p>In this case, the only case that worked was the one where the network security config file was not present.
+I analyzed why this patch didn&rsquo;t work. The issue is in the XmlConfigSource in the method &ldquo;parseNetworkSecurityConfig&rdquo;:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">        <span class="n">XmlUtils</span><span class="o">.</span><span class="na">beginDocument</span><span class="o">(</span><span class="n">parser</span><span class="o">,</span> <span class="s">&#34;network-security-config&#34;</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">outerDepth</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="na">getDepth</span><span class="o">();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">XmlUtils</span><span class="o">.</span><span class="na">nextElementWithin</span><span class="o">(</span><span class="n">parser</span><span class="o">,</span> <span class="n">outerDepth</span><span class="o">))</span> <span class="o">{</span>
+            <span class="c1">//here it creates a NetworkSecurityconfig.Builder based on the xml structure.
+</span><span class="c1"></span>            <span class="o">...</span>
+        <span class="o">}</span>
+        <span class="o">...</span>
+        <span class="n">NetworkSecurityConfig</span><span class="o">.</span><span class="na">Builder</span> <span class="n">platformDefaultBuilder</span> <span class="o">=</span>
+                <span class="n">NetworkSecurityConfig</span><span class="o">.</span><span class="na">getDefaultBuilder</span><span class="o">(</span><span class="n">mTargetSdkVersion</span><span class="o">);</span> <span class="o">&lt;--</span> <span class="k">this</span> <span class="n">is</span> <span class="n">the</span> <span class="n">method</span> <span class="n">changed</span> <span class="n">with</span> <span class="n">the</span> <span class="n">script</span>
+        <span class="nf">addDebugAnchorsIfNeeded</span><span class="o">(</span><span class="n">debugConfigBuilder</span><span class="o">,</span> <span class="n">platformDefaultBuilder</span><span class="o">);</span>
+
+        <span class="c1">//baseConfigBuilder is null only if the xml network-security-config is not defined in the AndroidManifest.xml 
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">baseConfigBuilder</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">baseConfigBuilder</span><span class="o">.</span><span class="na">setParent</span><span class="o">(</span><span class="n">platformDefaultBuilder</span><span class="o">);</span>
+            <span class="n">addDebugAnchorsIfNeeded</span><span class="o">(</span><span class="n">debugConfigBuilder</span><span class="o">,</span> <span class="n">baseConfigBuilder</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">baseConfigBuilder</span> <span class="o">=</span> <span class="n">platformDefaultBuilder</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="o">...</span>
+        <span class="n">mDefaultConfig</span> <span class="o">=</span> <span class="n">baseConfigBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">mDomainMap</span> <span class="o">=</span> <span class="n">configs</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>The build method generates the NetworkSecurityConfig entity:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">        <span class="kd">public</span> <span class="n">NetworkSecurityConfig</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kt">boolean</span> <span class="n">cleartextPermitted</span> <span class="o">=</span> <span class="n">getEffectiveCleartextTrafficPermitted</span><span class="o">();</span>
+            <span class="kt">boolean</span> <span class="n">hstsEnforced</span> <span class="o">=</span> <span class="n">getEffectiveHstsEnforced</span><span class="o">();</span>
+            <span class="n">PinSet</span> <span class="n">pinSet</span> <span class="o">=</span> <span class="n">getEffectivePinSet</span><span class="o">();</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">CertificatesEntryRef</span><span class="o">&gt;</span> <span class="n">entryRefs</span> <span class="o">=</span> <span class="n">getEffectiveCertificatesEntryRefs</span><span class="o">();</span> 
+            <span class="k">return</span> <span class="k">new</span> <span class="n">NetworkSecurityConfig</span><span class="o">(</span><span class="n">cleartextPermitted</span><span class="o">,</span> <span class="n">hstsEnforced</span><span class="o">,</span> <span class="n">pinSet</span><span class="o">,</span> <span class="n">entryRefs</span><span class="o">);</span>
+        <span class="o">}</span>
+</code></pre></div><p>The valid certificate sources are defined in the entryRefs variable, which is constructed as:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">CertificatesEntryRef</span><span class="o">&gt;</span> <span class="nf">getEffectiveCertificatesEntryRefs</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mCertificatesEntryRefs</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">mCertificatesEntryRefs</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mParentBuilder</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">mParentBuilder</span><span class="o">.</span><span class="na">getEffectiveCertificatesEntryRefs</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">Collections</span><span class="o">.&lt;</span><span class="n">CertificatesEntryRef</span><span class="o">&gt;</span><span class="n">emptyList</span><span class="o">();</span>
+        <span class="o">}</span>
+</code></pre></div><p>In this case mCertificatesEntryRefs is not null, as it returns the standard SystemCertificateSource (looks for all the certs in the system ca folder). So the mParentBuilder (the one modified in the script) is never called.</p>
+<p>Later on, when the server certificate is validated, the application calls the method NetworkSecurityConfig.findTrustAnchorBySubjectAndPublicKey, which filters the valid certificates from the system folder:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="n">TrustAnchor</span> <span class="nf">findTrustAnchorBySubjectAndPublicKey</span><span class="o">(</span><span class="n">X509Certificate</span> <span class="n">cert</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">CertificatesEntryRef</span> <span class="n">ref</span> <span class="o">:</span> <span class="n">mCertificatesEntryRefs</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">TrustAnchor</span> <span class="n">anchor</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="na">findBySubjectAndPublicKey</span><span class="o">(</span><span class="n">cert</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">anchor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">anchor</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>leading to the exception thrown in the stacktrace, because there aren&rsquo;t coincidences as the certificate return by the server is self-signed:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">TrustManagerImpl</span><span class="p">.</span><span class="nx">checkTrusted</span><span class="p">(</span><span class="nx">TrustManagerImpl</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">375</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">TrustManagerImpl</span><span class="p">.</span><span class="nx">getTrustedChainForServer</span><span class="p">(</span><span class="nx">TrustManagerImpl</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">304</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">94</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">88</span><span class="p">)</span>
+        <span class="p">...</span>
+</code></pre></div><h3 id="network-security-config-bypass-3js">network-security-config-bypass-3.js</h3>
+<p>Original Reference: <a href="https://sensepost.com/blog/2018/tip-toeing-past-android-7s-network-security-configuration/">Link</a></p>
+<p>This works in two of the three scenarios, because the patch is executed in the method that validates certificates. But it does not work in the third scenario because the pin validation is executed in other method, as shown in the error stacktrace:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkPins</span><span class="p">(</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">148</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">NetworkSecurityTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">95</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">android</span><span class="p">.</span><span class="nx">security</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">RootTrustManager</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">88</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">checkServerTrusted</span><span class="p">(</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">203</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">verifyCertificateChain</span><span class="p">(</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">592</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">NativeCrypto</span><span class="p">.</span><span class="nx">SSL_do_handshake</span><span class="p">(</span><span class="nx">Native</span> <span class="nx">Method</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">com</span><span class="p">.</span><span class="nx">android</span><span class="p">.</span><span class="nx">org</span><span class="p">.</span><span class="nx">conscrypt</span><span class="p">.</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">startHandshake</span><span class="p">(</span><span class="nx">OpenSSLSocketImpl</span><span class="p">.</span><span class="nx">java</span><span class="o">:</span><span class="mi">351</span><span class="p">)</span>
+        <span class="p">...</span> <span class="mi">25</span> <span class="nx">more</span>
+</code></pre></div><h3 id="network-security-config-bypass-crjs">network-security-config-bypass-cr.js</h3>
+<p>In this case the method patched is getConfigSource, which is called when the network-security-config is parsed. As it can be seen, the reimplementation proposed creates a DefaultConfigSource, setting as a parameter the android version 23. So regardless of the file uploaded in the application, it will always retrieve the configuration of Android 23 (adds user certificates, does not validate certificate pinning, and allows http communication at http level).</p>
+<h3 id="conclusion">Conclusion:</h3>
+<p>I could achieve my goal, that was finding a script to bypass the network security configuration implemented by the Android SDK. Creating a new alternative to the one I found was a bonus track. During the process I learnt many aspects of the SDK, frida and the Android ecosystem. It is not easy to find bypasses. The hardest part during my analysis was the definition and setting up of all the environment to execution different test scenarios. Adding a new script, a new way to execute requests or another SDK would lead to at least 18 new cases. I guess this is the main reason many of the scripts I found worked for some cases (but not for all of them).</p>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><i
+                class="ti-twitter mr-3 text-primary"></i>@warlockk87</li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Buenos Aires, Argentina</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:hohenhaimmaster@email.com"><i
+                class="ti-email mr-3 text-primary"></i>hohenhaimmaster@email.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://twitter.com/warlockk87">twitter</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/CesarMRodriguez">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/cesar-mario-rodriguez/">linkedin</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/android">Android</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/ctf">Ctf</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/frida">Frida</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/misc">Misc</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/blog">Post</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cesar-rodriguez.com.ar/contact">Contact</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://cesar-rodriguez.com.ar">Cesar Rodriguez</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "https://cesar-rodriguez.com.ar/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="https://cesar-rodriguez.com.ar/plugins/jQuery/jquery.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/slick/slick.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/venobox/venobox.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/fuse.min.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/mark.js"></script>
+
+<script src="https://cesar-rodriguez.com.ar/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="https://cesar-rodriguez.com.ar/js/script.min.js"></script>
+<!-- google analitycs -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'Your ID', 'auto');
+  ga('send', 'pageview');
+</script></body>
+</html>
