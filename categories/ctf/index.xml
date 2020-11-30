@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CTF on Cesar Rodriguez | Personal blog</title>
-    <link>https://cesar-rodriguez.com.ar/categories/ctf/</link>
+    <link>https://cmrodriguez.me/categories/ctf/</link>
     <description>Recent content in CTF on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 30 Nov 2020 10:07:47 +0600</lastBuildDate>
     
-	<atom:link href="https://cesar-rodriguez.com.ar/categories/ctf/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cmrodriguez.me/categories/ctf/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>CTF - Solving Serialized</title>
-      <link>https://cesar-rodriguez.com.ar/blog/solving-serialized/</link>
+      <link>https://cmrodriguez.me/blog/solving-serialized/</link>
       <pubDate>Mon, 30 Nov 2020 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/solving-serialized/</guid>
+      <guid>https://cmrodriguez.me/blog/solving-serialized/</guid>
       <description>In this post I will solve the challenge called Serializado, created for the Ekoparty 2020 - Mobile Hacking Space CTF.</description>
     </item>
     

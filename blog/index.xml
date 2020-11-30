@@ -2,138 +2,138 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>blog on Cesar Rodriguez | Personal blog</title>
-    <link>https://cesar-rodriguez.com.ar/blog/</link>
+    <link>https://cmrodriguez.me/blog/</link>
     <description>Recent content in blog on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 26 May 2019 13:49:23 +0600</lastBuildDate>
     
-	<atom:link href="https://cesar-rodriguez.com.ar/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cmrodriguez.me/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>CTF - Solving Serialized</title>
-      <link>https://cesar-rodriguez.com.ar/blog/solving-serialized/</link>
+      <link>https://cmrodriguez.me/blog/solving-serialized/</link>
       <pubDate>Mon, 30 Nov 2020 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/solving-serialized/</guid>
+      <guid>https://cmrodriguez.me/blog/solving-serialized/</guid>
       <description>In this post I will solve the challenge called Serializado, created for the Ekoparty 2020 - Mobile Hacking Space CTF.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide for Java</title>
-      <link>https://cesar-rodriguez.com.ar/blog/frida-scripting-guide/</link>
+      <link>https://cmrodriguez.me/blog/frida-scripting-guide/</link>
       <pubDate>Sun, 24 May 2020 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/frida-scripting-guide/</guid>
+      <guid>https://cmrodriguez.me/blog/frida-scripting-guide/</guid>
       <description>In this guide I will show how to write scripts in Frida.</description>
     </item>
     
     <item>
       <title>Hello World!</title>
-      <link>https://cesar-rodriguez.com.ar/blog/hello-world/</link>
+      <link>https://cmrodriguez.me/blog/hello-world/</link>
       <pubDate>Sun, 24 May 2020 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/hello-world/</guid>
+      <guid>https://cmrodriguez.me/blog/hello-world/</guid>
       <description>Hi there! My name is Cesar! It will be next April 3 years, since I am advocated full time to my Security Career.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (1) - Primitive Types</title>
-      <link>https://cesar-rodriguez.com.ar/blog/primitive-types/</link>
+      <link>https://cmrodriguez.me/blog/primitive-types/</link>
       <pubDate>Sat, 23 May 2020 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/primitive-types/</guid>
+      <guid>https://cmrodriguez.me/blog/primitive-types/</guid>
       <description>In this post I will explain how to use and instance different data types from Java with Frida.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (2) - Methods</title>
-      <link>https://cesar-rodriguez.com.ar/blog/methods/</link>
+      <link>https://cmrodriguez.me/blog/methods/</link>
       <pubDate>Sat, 23 May 2020 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/methods/</guid>
+      <guid>https://cmrodriguez.me/blog/methods/</guid>
       <description>In this post I will explain how to call methods from java through Frida.</description>
     </item>
     
     <item>
       <title>Analysis of Network Security Configuration bypasses with Frida</title>
-      <link>https://cesar-rodriguez.com.ar/blog/nsc-bypass/</link>
+      <link>https://cmrodriguez.me/blog/nsc-bypass/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/nsc-bypass/</guid>
+      <guid>https://cmrodriguez.me/blog/nsc-bypass/</guid>
       <description>TL;DR In this blogpost I show the results of an analysis done over some frida scripts that allows the bypass of the network security configuration in Android.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (10) - Exception Handling</title>
-      <link>https://cesar-rodriguez.com.ar/blog/exception-handling/</link>
+      <link>https://cmrodriguez.me/blog/exception-handling/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/exception-handling/</guid>
+      <guid>https://cmrodriguez.me/blog/exception-handling/</guid>
       <description>In this post I will explain how to try exception handling in Java with Frida.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (3) - Access to content of classes</title>
-      <link>https://cesar-rodriguez.com.ar/blog/classes-content/</link>
+      <link>https://cmrodriguez.me/blog/classes-content/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/classes-content/</guid>
+      <guid>https://cmrodriguez.me/blog/classes-content/</guid>
       <description>In this blogpost I will explain how to access different methods with different visibilities in a class through Frida.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (4) - &#39;this&#39; Reference</title>
-      <link>https://cesar-rodriguez.com.ar/blog/this-reference/</link>
+      <link>https://cmrodriguez.me/blog/this-reference/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/this-reference/</guid>
+      <guid>https://cmrodriguez.me/blog/this-reference/</guid>
       <description>In this post I&amp;rsquo;ll show how to access the this reference.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (5) - Arrays</title>
-      <link>https://cesar-rodriguez.com.ar/blog/arrays/</link>
+      <link>https://cmrodriguez.me/blog/arrays/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/arrays/</guid>
+      <guid>https://cmrodriguez.me/blog/arrays/</guid>
       <description>In this post I&amp;rsquo;ll explain how to use arrays from Java in Frida.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (6) - Enums</title>
-      <link>https://cesar-rodriguez.com.ar/blog/enums/</link>
+      <link>https://cmrodriguez.me/blog/enums/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/enums/</guid>
+      <guid>https://cmrodriguez.me/blog/enums/</guid>
       <description>It is a bit complicated to work on Enums. There is a difference between Enums and common classes.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (8) - Inheritance</title>
-      <link>https://cesar-rodriguez.com.ar/blog/inheritance/</link>
+      <link>https://cmrodriguez.me/blog/inheritance/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/inheritance/</guid>
+      <guid>https://cmrodriguez.me/blog/inheritance/</guid>
       <description>In this post I will show how to use inheritance in Java from Frida.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (9) - Inner Classes</title>
-      <link>https://cesar-rodriguez.com.ar/blog/inner-classes/</link>
+      <link>https://cmrodriguez.me/blog/inner-classes/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/inner-classes/</guid>
+      <guid>https://cmrodriguez.me/blog/inner-classes/</guid>
       <description>In this blogpost I will show how to consume inner classes in Java from Frida.</description>
     </item>
     
     <item>
       <title>Frida Scripting Guide (9) - Interfaces</title>
-      <link>https://cesar-rodriguez.com.ar/blog/interfaces/</link>
+      <link>https://cmrodriguez.me/blog/interfaces/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://cesar-rodriguez.com.ar/blog/interfaces/</guid>
+      <guid>https://cmrodriguez.me/blog/interfaces/</guid>
       <description>An interface is a reference type in Java. It is similar to class.</description>
     </item>
     
