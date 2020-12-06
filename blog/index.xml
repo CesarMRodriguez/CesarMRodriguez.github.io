@@ -120,21 +120,21 @@
     </item>
     
     <item>
+      <title>Frida Scripting Guide (8) - Interfaces</title>
+      <link>https://cmrodriguez.me/blog/interfaces/</link>
+      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/interfaces/</guid>
+      <description>An interface is a reference type in Java. It is similar to class.</description>
+    </item>
+    
+    <item>
       <title>Frida Scripting Guide (9) - Inner Classes</title>
       <link>https://cmrodriguez.me/blog/inner-classes/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/blog/inner-classes/</guid>
       <description>In this blogpost I will show how to consume inner classes in Java from Frida.</description>
-    </item>
-    
-    <item>
-      <title>Frida Scripting Guide (9) - Interfaces</title>
-      <link>https://cmrodriguez.me/blog/interfaces/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/blog/interfaces/</guid>
-      <description>An interface is a reference type in Java. It is similar to class.</description>
     </item>
     
   </channel>
