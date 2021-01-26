@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <title>Cesar Rodriguez | Personal blog</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="frida android network security config bypass">
+  <meta name="author" content="Cesar Rodriguez">
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom pl-0">
+      <a class="navbar-brand mobile-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+          src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/warlockk87"><i class="ti-twitter-alt"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CesarMRodriguez"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/cesar-mario-rodriguez/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.instagram.com/cesarm_rodriguez/"><i class="ti-instagram"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <a class="navbar-brand mx-auto desktop-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+            src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+
+        <ul class="navbar-nav">
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/blog">Post</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/contact">Contact</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search pl-lg-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://cmrodriguez.me/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/frida"
+          class="text-primary">Frida</a>
+        
+        <a href="/categories/android"
+          class="text-primary">Android</a>
+        
+        <h2>Network Security Configuration bypasses with Frida (update API 27-29)</h2>
+        <div class="mb-3 post-meta">
+          <span>By Cesar Rodriguez</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>26 January 2021</span>
+          
+        </div>
+        
+        <img src="https://cmrodriguez.me/images/featured-post/network-security-config.jpg" class="img-fluid w-100 mb-4" alt="Network Security Configuration bypasses with Frida (update API 27-29)">
+        
+        <div class="content mb-5">
+          <p><strong>TL;DR In this blogpost I show the update of the analysis on different scripts that executes the bypass of network security configuration with Frida on devices with API 27 to 29.</strong></p>
+<p>In the previous post I explain how and why each script works. It is not mandatory to read it before reading this one:</p>
+<p>It has been a while since I did the first analysis of different scripts used to bypass the network security configuration of Android devices. In the moment I did it we did not have in Genymotion (the VM I use for pentesting) devices with Android 27 and above, so I limited the analysis on the devices with API 24 to 26. Now we can create Android emulated devices till API 29, so I thought it was a good moment to do a review on the scripts I had collected for the first post.</p>
+<p>I&rsquo;ll use the same criteria to execute the analysis as I did before. I created three applications with different network security configurations:</p>
+<ol>
+<li>An application that used the default NSC configuration (without network-security-config xml file) - called BypassNSC</li>
+<li>An application with a NSC file that used only system certificates  - called BypassNSC2.</li>
+<li>An application with a NSC file that enforced the certificate pinning  - called BypassNSC3.</li>
+</ol>
+<p>Each application has three different ways to execure requests:</p>
+<ul>
+<li>OKHttp (it is also used in retrofit and volley also)</li>
+<li>HttpsURLConnection</li>
+<li>WebView (Chromium in API 25 and 26, and Default WebView in API 24).</li>
+</ul>
+<p>The scripts I used are the following ones:</p>
+<ul>
+<li>network-security-config-bypass-1.js</li>
+<li>network-security-config-bypass-2.js</li>
+<li>network-security-config-bypass-3.js</li>
+<li>network-security-config-bypass-cr.js &lt;&ndash; this is the one I created</li>
+</ul>
+<p>The following github repository has all the applications I developed and the scripts I used.</p>
+<p><a href="https://github.com/CesarMRodriguez/network-security-config-frida-2">https://github.com/CesarMRodriguez/network-security-config-frida-2</a></p>
+<p>The following is a screenshot of the table I created with the results of the analysis:</p>
+<p><img src="/images/featured-post/nsc-table-2.png" alt="This is an image"></p>
+<h3 id="network-security-config-bypass-1js">network-security-config-bypass-1.js</h3>
+<p>Original reference: <a href="https://codeshare.frida.re/@tiiime/android-network-security-config-bypass/">Link</a></p>
+<p>I had to change the network-security-config-bypass-1.js. It threw some errors that in previous version of frida-cli worked. The errors were related to <em>undefined variables</em>. The change to avoid this error was to add in some variable declarations were the let or var modified.</p>
+<h3 id="network-security-config-bypass-2js">network-security-config-bypass-2.js</h3>
+<p>Original Reference: <a href="https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2017/november/bypassing-androids-network-security-configuration/">Link</a></p>
+<p>I had to change the network-security-config-bypass-2.js. It threw the same kind of errors as in the firs script.</p>
+<h3 id="network-security-config-bypass-3js">network-security-config-bypass-3.js</h3>
+<p>Original Reference: <a href="https://sensepost.com/blog/2018/tip-toeing-past-android-7s-network-security-configuration/">Link</a></p>
+<p>In this case I did not need to change anything from the original script</p>
+<h3 id="network-security-config-bypass-crjs">network-security-config-bypass-cr.js</h3>
+<p>For API 28 and AÏ 29, the original script does not work. There is a change in the signatures of the methods hooked by the library, which throws the following error:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="p">[</span><span class="nx">NSC</span> <span class="mi">28</span><span class="o">::</span><span class="nx">com</span><span class="p">.</span><span class="nx">example</span><span class="p">.</span><span class="nx">bypassnsc</span><span class="p">]</span><span class="o">-&gt;</span> <span class="nb">Error</span><span class="o">:</span> <span class="nx">ManifestConfigSource$DefaultConfigSource</span><span class="p">()</span><span class="o">:</span> <span class="nx">specified</span> <span class="nx">argument</span> <span class="nx">types</span> <span class="k">do</span> <span class="nx">not</span> <span class="nx">match</span> <span class="nx">any</span> <span class="k">of</span><span class="o">:</span>
+    <span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;boolean&#39;</span><span class="p">,</span> <span class="s1">&#39;android.content.pm.ApplicationInfo&#39;</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">ge</span> <span class="p">(</span><span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">584</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">923</span>
+    <span class="nx">at</span> <span class="o">/</span><span class="nx">network</span><span class="o">-</span><span class="nx">security</span><span class="o">-</span><span class="nx">config</span><span class="o">-</span><span class="nx">bypass</span><span class="o">-</span><span class="mf">2.</span><span class="nx">js</span><span class="o">:</span><span class="mi">16</span>
+    <span class="nx">at</span> <span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="nx">vm</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">11</span>
+    <span class="nx">at</span> <span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">index</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">446</span>
+    <span class="nx">at</span> <span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">index</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">431</span>                                                                                                                                                   
+    <span class="nx">at</span> <span class="nx">je</span> <span class="p">(</span><span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">633</span><span class="p">)</span>
+    <span class="nx">at</span> <span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">616</span>
+</code></pre></div><p>The fix was the following one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="k">if</span> <span class="p">(</span><span class="nx">DefaultConfigSource</span><span class="p">.</span><span class="nx">$new</span><span class="p">.</span><span class="nx">argumentTypes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">className</span> <span class="o">==</span> <span class="s2">&#34;android.content.pm.ApplicationInfo&#34;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">ApplicationInfo</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.content.pm.ApplicationInfo&#34;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">appInstance</span> <span class="o">=</span> <span class="nx">ApplicationInfo</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+    <span class="nx">appInstance</span><span class="p">.</span><span class="nx">targetSdkVersion</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">ANDROID_VERSION_M</span><span class="p">;</span>
+    <span class="nx">appInstance</span><span class="p">.</span><span class="nx">targetSandboxVersion</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">DefaultConfigSource</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="nx">appInstance</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre></div><p>The change is neccesary because the constructor of &ldquo;DefaultConfigSource&rdquo; changed to the following one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="n">DefaultConfigSource</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">usesCleartextTraffic</span><span class="o">,</span> <span class="n">ApplicationInfo</span> <span class="n">info</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mDefaultConfig</span> <span class="o">=</span> <span class="n">NetworkSecurityConfig</span><span class="o">.</span><span class="na">getDefaultBuilder</span><span class="o">(</span><span class="n">info</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">setCleartextTrafficPermitted</span><span class="o">(</span><span class="n">usesCleartextTraffic</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div><p>I also had to set some values in the second parameter (object from class ApplicatoinInfo). In order to see what we need to set, we had to check the implementation of the method <em>getDefaultBuilder</em> from the NetworkSecurityConfig class:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Builder</span> <span class="nf">getDefaultBuilder</span><span class="o">(</span><span class="n">ApplicationInfo</span> <span class="n">info</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Builder</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">setHstsEnforced</span><span class="o">(</span><span class="n">DEFAULT_HSTS_ENFORCED</span><span class="o">)</span>
+                <span class="c1">// System certificate store, does not bypass static pins.
+</span><span class="c1"></span>                <span class="o">.</span><span class="na">addCertificatesEntryRef</span><span class="o">(</span>
+                        <span class="k">new</span> <span class="n">CertificatesEntryRef</span><span class="o">(</span><span class="n">SystemCertificateSource</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(),</span> <span class="kc">false</span><span class="o">));</span>
+        <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">cleartextTrafficPermitted</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="na">targetSdkVersion</span> <span class="o">&lt;</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">P</span>
+                <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="o">.</span><span class="na">targetSandboxVersion</span> <span class="o">&lt;</span> <span class="n">2</span><span class="o">;</span>
+        <span class="n">builder</span><span class="o">.</span><span class="na">setCleartextTrafficPermitted</span><span class="o">(</span><span class="n">cleartextTrafficPermitted</span><span class="o">);</span>
+        <span class="c1">// Applications targeting N and above must opt in into trusting the user added certificate
+</span><span class="c1"></span>        <span class="c1">// store.
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="na">targetSdkVersion</span> <span class="o">&lt;=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">M</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">info</span><span class="o">.</span><span class="na">isPrivilegedApp</span><span class="o">())</span> <span class="o">{</span>
+            <span class="c1">// User certificate store, does not bypass static pins.
+</span><span class="c1"></span>            <span class="n">builder</span><span class="o">.</span><span class="na">addCertificatesEntryRef</span><span class="o">(</span>
+                    <span class="k">new</span> <span class="n">CertificatesEntryRef</span><span class="o">(</span><span class="n">UserCertificateSource</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(),</span> <span class="kc">false</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>we can see that we have to set the &ldquo;targetSdkVersion&rdquo; to 23 in order to make the application to import UserCertificateSource, and we need to set targetSandboxVersion to 1, so the clearTextTraffic is set to true.</p>
+<p>With this change, the script worked as intended. I also checked the parameter types to make the script compatible with older versions as well.</p>
+<h3 id="conclusion">Conclusion:</h3>
+<p>The results from the analysis of the scripts used for the network security config bypass show that they are as effective in the newer APIs as they were in the old ones. Two of the scripts works in all scenarios (network-security-config-1.js) and (network-security-config-cr.js).</p>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><i
+                class="ti-twitter mr-3 text-primary"></i>@warlockk87</li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Buenos Aires, Argentina</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:cmrodriguez.mobile@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>cmrodriguez.mobile@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://twitter.com/warlockk87">twitter</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/CesarMRodriguez">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/cesar-mario-rodriguez/">linkedin</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.instagram.com/cesarm_rodriguez/">instagram</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/android">Android</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/ctf">Ctf</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/frida">Frida</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/misc">Misc</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/blog">Post</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/contact">Contact</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://cmrodriguez.me">Cesar Rodriguez</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "https://cmrodriguez.me/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="https://cmrodriguez.me/plugins/jQuery/jquery.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/slick/slick.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/venobox/venobox.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/fuse.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/mark.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="https://cmrodriguez.me/js/script.min.js"></script>
+<!-- google analitycs -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'Your ID', 'auto');
+  ga('send', 'pageview');
+</script></body>
+</html>
