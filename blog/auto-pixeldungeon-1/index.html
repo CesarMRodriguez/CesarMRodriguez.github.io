@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <title>Cesar Rodriguez | Personal blog</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="frida pixeldungeon automation">
+  <meta name="author" content="Cesar Rodriguez">
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom pl-0">
+      <a class="navbar-brand mobile-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+          src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/warlockk87"><i class="ti-twitter-alt"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CesarMRodriguez"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/cesar-mario-rodriguez/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.instagram.com/cesarm_rodriguez/"><i class="ti-instagram"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <a class="navbar-brand mx-auto desktop-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+            src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+
+        <ul class="navbar-nav">
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/blog">Post</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/contact">Contact</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search pl-lg-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://cmrodriguez.me/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/frida"
+          class="text-primary">Frida</a>
+        
+        <a href="/categories/android"
+          class="text-primary">Android</a>
+        
+        <a href="/categories/pixeldungeon"
+          class="text-primary">Pixel dungeon</a>
+        
+        <a href="/categories/automation"
+          class="text-primary">Automation</a>
+        
+        <h2>Automating Game Resolution - PixelDungeon Edition - Phase 1</h2>
+        <div class="mb-3 post-meta">
+          <span>By Cesar Rodriguez</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>18 April 2021</span>
+          
+        </div>
+        
+        <img src="https://cmrodriguez.me/images/featured-post/pixel-dungeon-screenshot.png" class="img-fluid w-100 mb-4" alt="Automating Game Resolution - PixelDungeon Edition - Phase 1">
+        
+        <div class="content mb-5">
+          <p>Hi there! I come this time with a new project, automating the resolution of a game. I&rsquo;ve been thinking about doing it since I found the game in 2019 for one of the presentations I did about Frida. I was hesitant of doing it because it is  complex project, there are lots of things to do, a lot of tests on each step, and long hours of coding and thinking. But after around two years of trying to forget about it, the idea keeps getting in my mind over and over again. So I dediced to give it a try, and so the journey begins&hellip;</p>
+<p>This is the first post of a series focused on the automation of the resolution of a game with Frida. I&rsquo;ll try to create a Frida script that will start a game and will play it till it finishes. Finish does not mean winning it necessarily, but getting to the game over state (trying my best to get a script with good results). I will explain later why it is not possible to achieve a 100% winning rate.</p>
+<p>I chose <a href="https://play.google.com/store/apps/details?id=com.watabou.pixeldungeon&amp;hl=es_AR&amp;gl=US">Pixel Dungeon</a> for many reasons:</p>
+<ol>
+<li>It is an RPG game, which are my favourite type of games.</li>
+<li>It is open source, so I just have to focus on understanding the code and creating the script rather than reversing the application.</li>
+<li>It is written fully on Java, so it is a good way to practice Frida&rsquo;s Java API.</li>
+</ol>
+<p><strong>Note:This series of posts are not security oriented. I&rsquo;ll explain how I solved each step of the automation algorithm.</strong></p>
+<h2 id="about-the-game">About the game</h2>
+<p>Pixel Dungeon is a roguelike(1) RPG game, and the objective of the game is go through all the levels of a dungeon. The player can choose between four character classes (Warrior, Mage, Rogue &amp; Huntress), which have different abilities and stats. The character has different stats, a character level and HP. The player looses when the character&rsquo;s HP gets to 0. In order to level-up the character has to kill monsters that will spawn while the user crawls the dungeon.</p>
+<p>The dungeon is divided in levels. Each level is divided in different rooms which are connected through corridors, with stairs to go up and down the dungeon. Each level is generated randomly when the user gets into it. The algorithm assures that there is always an accesible stair to go up and down.</p>
+<p>The developer of the game added a mechanics related to food consumption. The character needs to eat food regularly in order to not get to the starving state, where the player will loose 1 HP after he does a couple of steps. Food is rarely scarce, so the player needs to manage all the resources in order to avoid getting to that state. Because of this, the easiest strategies of farming monsters and getting levels won&rsquo;t work. Also as everything is generated randomnly, the player will not be able to find food to give the character, and they will get to the starving state.</p>
+<p>That are the reasons the game is hard to play, and it is impossible to get to a 100% win rate.</p>
+<p>(1) From Wikipedia:</p>
+<blockquote>
+<p>Roguelike is a sub-genre of role-playing video games, characterized by random level generation, tile-based graphics and permanent death.</p>
+</blockquote>
+<h2 id="strategy-to-solve-the-game">Strategy to solve the game</h2>
+<p>I&rsquo;ll use a basic strategy in order to solve this game, which is the one I use in order to play the game as well. It is a greedy strategy:</p>
+<ul>
+<li>get in each level of the dungeon.</li>
+<li>try to go through all the rooms killing all monsters found during the process and getting all the items.</li>
+<li>use food whenever the character is getting in the starved state.</li>
+<li>use health potions whenever the user gets to low levels.</li>
+</ul>
+<p>There are multiple upgrades to the strategy, that I will add after I achieve the first iteration of the algorithm.</p>
+<h2 id="pixel-dungeon-concepts-and-internals">Pixel Dungeon concepts and internals</h2>
+<h3 id="character">Character</h3>
+<p>The application has the following classes related to the character:</p>
+<p><img src="/images/featured-post/hero-classes.png" alt="classdiagrams"></p>
+<p>From this class diagram the most important attributes that will be used in the algorithms are:</p>
+<ul>
+<li>Char.pos: position of the character in the map.</li>
+<li>Char.HT: temporary hitpoints. When this value gets to 0 the character dies, finishing the game.</li>
+</ul>
+<p>The main stats can be found in the Hero class:</p>
+<ul>
+<li>Hero.attackSkill</li>
+<li>Hero.defenseSkill</li>
+<li>Hero.STR</li>
+<li>Hero.exp</li>
+</ul>
+<p>In order to make the characted do things, the application calls the Hero.call() method. This method checks the type of the HeroAction stored in the <em>curAction</em> attribute and then it calls the actXxxx(HeroAction) based on it. As an example if in the <strong>curAction</strong> the application stored a HeroAction.Move object, whenever the Hero.call() is invoked, the Hero will end up calling the <em>actMove()</em> method, sending as a parameter the HeroAction.Move from the <strong>curAction</strong> attribute.</p>
+<p>As an example, the following code can be used to move a character from one position to another:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">moveCharacter</span><span class="p">(</span><span class="nx">endPos</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> 
+
+	    <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.Hero&#34;</span><span class="p">,</span> <span class="p">{</span>
+	        <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">hero</span><span class="p">)</span> <span class="p">{</span>
+	        	<span class="kd">var</span> <span class="nx">heroObject</span> <span class="o">=</span> <span class="nx">hero</span><span class="p">;</span>
+	        	<span class="kd">var</span> <span class="nx">moveActionClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.HeroAction$Move&#34;</span><span class="p">);</span>
+				<span class="kd">var</span> <span class="nx">moveAction</span> <span class="o">=</span> <span class="nx">moveActionClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">endPos</span><span class="p">);</span>
+				<span class="nx">heroObject</span><span class="p">.</span><span class="nx">curAction</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">moveAction</span><span class="p">;</span>
+				<span class="nx">heroObject</span><span class="p">.</span><span class="nx">act</span><span class="p">();</span>	
+			<span class="p">},</span>
+	        <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+	    <span class="p">});</span>
+	<span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div><p>In this case we use the <strong>Java.choose</strong> API call, because we want the Hero instance created by the application when the game starts.</p>
+<h3 id="level--map">Level &amp; Map</h3>
+<p>The following diagram shows the main classes related to the level and map creation and update:</p>
+<p><img src="/images/featured-post/pixel-dungeon-levels.png" alt="classdiagrams"></p>
+<p>The map is divided in discrete units of space, that we will call &ldquo;pixels&rdquo;. Each pixel has a terrain type (the information about the values are stored in the Terrain class). Each terrain type is associated with an integer value, which can also be seen in the Terrain type. The map is basically a matrix of pixels. In the game this is stored as an array, and whenever the application needs a position, it makes count to convert the array to a matrix. This can be done, because the width of the map is a constant. Each pixel has an id, that is the position of the pixel in the array, which will be used to execute operations and validations during the game lifecycle.</p>
+<p>The following image shows the values of the positions in a Room:</p>
+<p><img src="/images/featured-post/pixel-dungeon-map-position.png" alt="Positions in a map"></p>
+<p>The following script was used to print the positions of the cells:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+            <span class="c1">//values in Terrain.java
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="nx">posPrint</span> <span class="o">+</span> <span class="s2">&#34; &#34;</span><span class="p">;</span>
+            <span class="p">}</span> 
+        <span class="p">}</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span>
+
+
+<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> 
+
+    <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.Hero&#34;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">hero</span><span class="p">)</span> <span class="p">{</span>
+        	<span class="kd">var</span> <span class="nx">heroObject</span> <span class="o">=</span> <span class="nx">hero</span><span class="p">;</span>
+        	<span class="c1">//cast a Char
+</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">charClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.Char&#34;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">charObj</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">hero</span><span class="p">,</span><span class="nx">charClass</span><span class="p">);</span>
+
+            <span class="kd">var</span> <span class="nx">Dungeon</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.Dungeon&#34;</span><span class="p">);</span>
+			<span class="kd">var</span> <span class="nx">level</span> <span class="o">=</span> <span class="nx">Dungeon</span><span class="p">.</span><span class="nx">level</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+            <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">);</span>
+
+		<span class="p">},</span>
+        <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div><p>The following image shows the values stored in the map attribute for the same Room:</p>
+<p><img src="/images/featured-post/pixel-dungeon-map-value.png" alt="Positions in a map"></p>
+<p>The only change from the above script was the printMap function:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+            <span class="c1">//values in Terrain.java
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="nx">level</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&#34; &#34;</span><span class="p">;</span>
+            <span class="p">}</span> 
+        <span class="p">}</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Another important attribute from the Level class is <strong>visited</strong>, which has an Array of booleans. This array has one item per pixel, and it stores if the user visited the pixel or not. Visit a pixel means it gets into the field of view of the character.</p>
+<p><img src="/images/featured-post/pixel-dungeon-map-visited.png" alt="Positions in a map"></p>
+<p>In this case the visited = true is mapped to 1 and the visited = false is mapped to 0. The only change from the above script was the printMap function:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+            <span class="c1">//values in Terrain.java
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="p">.</span><span class="nx">visited</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">])</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;1 &#34;</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;0 &#34;</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>The attribute <strong>fieldOfView</strong> attribute holds which pixels can be seen by the character. It depends on the place where the user is, the max range of sight (8 pixels), and if there is any object that blocks the sight (like a wall or a closed door). This attribute is reloaded each time the character moves.</p>
+<p><img src="/images/featured-post/pixel-dungeon-map-fieldofview.png" alt="Positions in a map"></p>
+<p>In this case the visible pixels are mapped to 1 and the others are mapped to 0. The only change from the above script was the printMap function:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+            <span class="c1">//values in Terrain.java
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="p">.</span><span class="nx">fieldOfView</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">])</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;1 &#34;</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;0 &#34;</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>With all this information, in next Phase, I&rsquo;ll try to generate an algorithm that crawls a level in the dungeon. See you soon!</p>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><i
+                class="ti-twitter mr-3 text-primary"></i>@warlockk87</li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Buenos Aires, Argentina</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:cmrodriguez.mobile@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>cmrodriguez.mobile@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://twitter.com/warlockk87">twitter</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/CesarMRodriguez">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/cesar-mario-rodriguez/">linkedin</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.instagram.com/cesarm_rodriguez/">instagram</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/android">Android</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/automation">Automation</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/ctf">Ctf</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/frida">Frida</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/misc">Misc</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/pixeldungeon">Pixeldungeon</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/blog">Post</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/contact">Contact</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://cmrodriguez.me">Cesar Rodriguez</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "https://cmrodriguez.me/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="https://cmrodriguez.me/plugins/jQuery/jquery.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/slick/slick.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/venobox/venobox.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/fuse.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/mark.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="https://cmrodriguez.me/js/script.min.js"></script>
+<!-- google analitycs -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'Your ID', 'auto');
+  ga('send', 'pageview');
+</script></body>
+</html>

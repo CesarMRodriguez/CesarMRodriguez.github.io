@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Jan 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Sun, 18 Apr 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,18 +14,36 @@
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/tags/android/</link>
-      <pubDate>Tue, 26 Jan 2021 10:07:47 +0600</pubDate>
+      <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/tags/android/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Automation</title>
+      <link>https://cmrodriguez.me/tags/automation/</link>
+      <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/tags/automation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Frida</title>
       <link>https://cmrodriguez.me/tags/frida/</link>
-      <pubDate>Tue, 26 Jan 2021 10:07:47 +0600</pubDate>
+      <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/tags/frida/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PixelDungeon</title>
+      <link>https://cmrodriguez.me/tags/pixeldungeon/</link>
+      <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/tags/pixeldungeon/</guid>
       <description></description>
     </item>
     
