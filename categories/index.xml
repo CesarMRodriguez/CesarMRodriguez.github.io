@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 18 Apr 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Fri, 11 Jun 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,45 @@
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/categories/android/</link>
-      <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
+      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Challenge</title>
+      <link>https://cmrodriguez.me/categories/challenge/</link>
+      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/challenge/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CTF</title>
+      <link>https://cmrodriguez.me/categories/ctf/</link>
+      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/ctf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Frida</title>
+      <link>https://cmrodriguez.me/categories/frida/</link>
+      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/frida/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HTTP</title>
+      <link>https://cmrodriguez.me/categories/http/</link>
+      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/http/</guid>
       <description></description>
     </item>
     
@@ -30,29 +66,11 @@
     </item>
     
     <item>
-      <title>Frida</title>
-      <link>https://cmrodriguez.me/categories/frida/</link>
-      <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/frida/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>PixelDungeon</title>
       <link>https://cmrodriguez.me/categories/pixeldungeon/</link>
       <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/pixeldungeon/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CTF</title>
-      <link>https://cmrodriguez.me/categories/ctf/</link>
-      <pubDate>Mon, 30 Nov 2020 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/ctf/</guid>
       <description></description>
     </item>
     
