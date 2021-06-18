@@ -6,10 +6,19 @@
     <description>Recent content in Frida on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 11 Jun 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jun 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/categories/frida/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Solving CTF with Frida - Part 2</title>
+      <link>https://cmrodriguez.me/blog/hpandro-2/</link>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/hpandro-2/</guid>
+      <description>In this series of posts I&amp;rsquo;ll be solving the hpandro ctf challenges.</description>
+    </item>
     
     <item>
       <title>Solving CTF with Frida - Part 1</title>

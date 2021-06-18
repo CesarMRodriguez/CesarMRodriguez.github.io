@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 11 Jun 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jun 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/categories/android/</link>
-      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/android/</guid>
       <description></description>
@@ -23,7 +23,7 @@
     <item>
       <title>Challenge</title>
       <link>https://cmrodriguez.me/categories/challenge/</link>
-      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/challenge/</guid>
       <description></description>
@@ -32,7 +32,7 @@
     <item>
       <title>CTF</title>
       <link>https://cmrodriguez.me/categories/ctf/</link>
-      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/ctf/</guid>
       <description></description>
@@ -41,7 +41,7 @@
     <item>
       <title>Frida</title>
       <link>https://cmrodriguez.me/categories/frida/</link>
-      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/frida/</guid>
       <description></description>
@@ -50,9 +50,36 @@
     <item>
       <title>HTTP</title>
       <link>https://cmrodriguez.me/categories/http/</link>
-      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HTTPS</title>
+      <link>https://cmrodriguez.me/categories/https/</link>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/https/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TCP</title>
+      <link>https://cmrodriguez.me/categories/tcp/</link>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/tcp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>UDP</title>
+      <link>https://cmrodriguez.me/categories/udp/</link>
+      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/udp/</guid>
       <description></description>
     </item>
     
