@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bug on Cesar Rodriguez | Personal blog</title>
+    <link>https://cmrodriguez.me/tags/bug/</link>
+    <description>Recent content in Bug on Cesar Rodriguez | Personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 30 Jun 2021 10:07:47 +0600</lastBuildDate>
+    
+	<atom:link href="https://cmrodriguez.me/tags/bug/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Analyzing bug - Dynamic Code Loading on Google App</title>
+      <link>https://cmrodriguez.me/blog/bug-analysis-google-search-rce/</link>
+      <pubDate>Wed, 30 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/bug-analysis-google-search-rce/</guid>
+      <description>In this post I&amp;rsquo;ll do an analysis of the vulnerability found in analized the bug found on the Google application com.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Jun 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Wed, 30 Jun 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,18 @@
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/tags/android/</link>
-      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
+      <pubDate>Wed, 30 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/tags/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bug</title>
+      <link>https://cmrodriguez.me/tags/bug/</link>
+      <pubDate>Wed, 30 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/tags/bug/</guid>
       <description></description>
     </item>
     

@@ -6,10 +6,19 @@
     <description>Recent content in Android on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Jun 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Wed, 30 Jun 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Analyzing bug - Dynamic Code Loading on Google App</title>
+      <link>https://cmrodriguez.me/blog/bug-analysis-google-search-rce/</link>
+      <pubDate>Wed, 30 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/bug-analysis-google-search-rce/</guid>
+      <description>In this post I&amp;rsquo;ll do an analysis of the vulnerability found in analized the bug found on the Google application com.</description>
+    </item>
     
     <item>
       <title>Solving CTF with Frida - Part 2</title>

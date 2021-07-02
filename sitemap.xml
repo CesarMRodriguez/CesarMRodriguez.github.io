@@ -3,23 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://cmrodriguez.me/blog/bug-analysis-google-search-rce/</loc>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://cmrodriguez.me/tags/android/</loc>
-    <lastmod>2021-06-17T10:07:47+06:00</lastmod>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
   </url>
   
   <url>
     <loc>https://cmrodriguez.me/categories/android/</loc>
-    <lastmod>2021-06-17T10:07:47+06:00</lastmod>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cmrodriguez.me/tags/bug/</loc>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cmrodriguez.me/categories/bug/</loc>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
   </url>
   
   <url>
     <loc>https://cmrodriguez.me/categories/</loc>
-    <lastmod>2021-06-17T10:07:47+06:00</lastmod>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
   </url>
   
   <url>
     <loc>https://cmrodriguez.me/</loc>
-    <lastmod>2021-06-17T10:07:47+06:00</lastmod>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cmrodriguez.me/tags/</loc>
+    <lastmod>2021-06-30T10:07:47+06:00</lastmod>
   </url>
   
   <url>
@@ -74,11 +94,6 @@
   
   <url>
     <loc>https://cmrodriguez.me/blog/hpandro-2/</loc>
-    <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://cmrodriguez.me/tags/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
   </url>
   
