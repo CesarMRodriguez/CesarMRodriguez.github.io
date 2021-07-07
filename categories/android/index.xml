@@ -6,10 +6,19 @@
     <description>Recent content in Android on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 30 Jun 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Tue, 06 Jul 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/categories/android/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Solving CTF with Frida - Part 3</title>
+      <link>https://cmrodriguez.me/blog/hpandro-3/</link>
+      <pubDate>Tue, 06 Jul 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/hpandro-3/</guid>
+      <description>In this series of posts I&amp;rsquo;ll be solving some persistence challenges from hpandro ctf challenges.</description>
+    </item>
     
     <item>
       <title>Analyzing bug - Dynamic Code Loading on Google App</title>

@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 30 Jun 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Tue, 06 Jul 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,45 @@
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/categories/android/</link>
-      <pubDate>Wed, 30 Jun 2021 10:07:47 +0600</pubDate>
+      <pubDate>Tue, 06 Jul 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Challenge</title>
+      <link>https://cmrodriguez.me/categories/challenge/</link>
+      <pubDate>Tue, 06 Jul 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/challenge/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CTF</title>
+      <link>https://cmrodriguez.me/categories/ctf/</link>
+      <pubDate>Tue, 06 Jul 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/ctf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Frida</title>
+      <link>https://cmrodriguez.me/categories/frida/</link>
+      <pubDate>Tue, 06 Jul 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/frida/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SQLite</title>
+      <link>https://cmrodriguez.me/categories/sqlite/</link>
+      <pubDate>Tue, 06 Jul 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/sqlite/</guid>
       <description></description>
     </item>
     
@@ -26,33 +62,6 @@
       <pubDate>Wed, 30 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/bug/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Challenge</title>
-      <link>https://cmrodriguez.me/categories/challenge/</link>
-      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/challenge/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CTF</title>
-      <link>https://cmrodriguez.me/categories/ctf/</link>
-      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/ctf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Frida</title>
-      <link>https://cmrodriguez.me/categories/frida/</link>
-      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/frida/</guid>
       <description></description>
     </item>
     

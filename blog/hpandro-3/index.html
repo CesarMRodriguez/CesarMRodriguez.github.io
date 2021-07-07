@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <title>Cesar Rodriguez | Personal blog</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="frida ctf challenge sqlite">
+  <meta name="author" content="Cesar Rodriguez">
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom pl-0">
+      <a class="navbar-brand mobile-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+          src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/warlockk87"><i class="ti-twitter-alt"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CesarMRodriguez"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/cesar-mario-rodriguez/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.instagram.com/cesarm_rodriguez/"><i class="ti-instagram"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <a class="navbar-brand mx-auto desktop-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+            src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+
+        <ul class="navbar-nav">
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/blog">Post</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/contact">Contact</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search pl-lg-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://cmrodriguez.me/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/frida"
+          class="text-primary">Frida</a>
+        
+        <a href="/categories/android"
+          class="text-primary">Android</a>
+        
+        <a href="/categories/ctf"
+          class="text-primary">C t f</a>
+        
+        <a href="/categories/challenge"
+          class="text-primary">Challenge</a>
+        
+        <a href="/categories/sqlite"
+          class="text-primary">S q lite</a>
+        
+        <h2>Solving CTF with Frida - Part 3</h2>
+        <div class="mb-3 post-meta">
+          <span>By Cesar Rodriguez</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>06 July 2021</span>
+          
+        </div>
+        
+        <img src="https://cmrodriguez.me/images/featured-post/ctf-challenge.png" class="img-fluid w-100 mb-4" alt="Solving CTF with Frida - Part 3">
+        
+        <div class="content mb-5">
+          <p>In this series of posts I&rsquo;ll be solving some persistence challenges from <a href="http://ctf.hpandro.raviramesh.info/">hpandro ctf challenges</a>. hpAndro created an Android application with multiple vulnerabilities, following the <a href="https://github.com/OWASP/owasp-mstg">MSTG</a>.</p>
+<p>We have two different challenges to solve:</p>
+<ul>
+<li>SQLite database storage.</li>
+<li>SQLite encrypted storage.</li>
+</ul>
+<h3 id="sqlite-database-storage">SQLite database storage</h3>
+<p>I start by searching the AndroidManifest.xml to find the Activity that could be called in order to solve the task:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.ui.activity.task.datastorage.SQLiteDataBaseActivity&#34;</span><span class="nt">/&gt;</span>
+</code></pre></div><p>by checking the com.hpandro.androidsecurity.ui.activity.task.datastorage.SQLiteDataBaseActivity class. The first method to see is <strong>onCreate</strong> where I found the OnClickListener event for a button with if btnCheckStorageFlag:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="o">((</span><span class="n">Button</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">btnCheckStorageFlag</span><span class="o">)).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">j0</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="k">this</span><span class="o">));</span>
+</code></pre></div><p>I went to the class j0, where we had to focus on the following code (the important code is i == 2 because of the first parameter sent in the constructor to the class:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">ProgressBar</span> <span class="n">progressBar</span> <span class="o">=</span> <span class="o">(</span><span class="n">ProgressBar</span><span class="o">)</span> <span class="o">((</span><span class="n">SQLiteDataBaseActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">progress</span><span class="o">);</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">progressBar</span><span class="o">,</span> <span class="s">&#34;progress&#34;</span><span class="o">);</span>
+    <span class="n">progressBar</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+    <span class="n">a</span> <span class="n">aVar</span> <span class="o">=</span> <span class="o">((</span><span class="n">SQLiteDataBaseActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">s</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">aVar</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">aVar</span><span class="o">.</span><span class="na">b</span><span class="o">(</span><span class="s">&#34;db&#34;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">g</span><span class="o">.</span><span class="na">k</span><span class="o">(</span><span class="s">&#34;presenter&#34;</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span> 
+</code></pre></div><p>I had to check what type of variable is &ldquo;s&rdquo;, which is of type &ldquo;v0.d.a.c.a.d.b.e.a&rdquo;. It is being called with the this variable, which is a SQLiteDataBaseActivity:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="k">this</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="k">new</span> <span class="n">a</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</code></pre></div><p>In the constructor of a, the SQLiteDataBaseActivity is casted to b and set to the &ldquo;b&rdquo; attribute:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="nf">a</span><span class="o">(</span><span class="n">b</span> <span class="n">bVar</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">g</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">bVar</span><span class="o">,</span> <span class="s">&#34;activity&#34;</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">bVar</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>I searched where this variable was being used, and I found it on the following method:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">a</span><span class="o">(</span><span class="n">r</span> <span class="n">rVar</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">r</span> <span class="n">rVar2</span> <span class="o">=</span> <span class="n">rVar</span><span class="o">;</span>
+    <span class="n">b</span> <span class="n">bVar</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">b</span><span class="o">;</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">rVar2</span><span class="o">,</span> <span class="s">&#34;result&#34;</span><span class="o">);</span>
+    <span class="n">bVar</span><span class="o">.</span><span class="na">b</span><span class="o">(</span><span class="n">rVar2</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div><p>which is being used in the following method (from v0.d.a.c.a.d.b.e.a class):</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">b</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="s">&#34;flag&#34;</span><span class="o">);</span>
+    <span class="n">a</span><span class="o">().</span><span class="na">c</span><span class="o">(</span><span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">a</span><span class="o">().</span><span class="na">b</span><span class="o">(</span><span class="n">str</span><span class="o">).</span><span class="na">e</span><span class="o">(</span><span class="n">y0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">o</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">).</span><span class="na">a</span><span class="o">(</span><span class="n">y0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">i</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">()).</span><span class="na">b</span><span class="o">(</span><span class="k">new</span> <span class="n">C0142a</span><span class="o">(</span><span class="k">this</span><span class="o">),</span> <span class="k">new</span> <span class="n">b</span><span class="o">(</span><span class="k">this</span><span class="o">)));</span>
+<span class="o">}</span>
+</code></pre></div><p>In the a method the application calls bVar.b(rVar2); which is the b method from SQLiteBaseActivity.</p>
+<p>Whenever I went to the method, I found that at the end a toast is being generated with the following message: &ldquo;Successfully added flag to SQLite.&quot;. I saw that toast on the application when I press the button to retrieve the flag:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">b</span><span class="o">(</span><span class="n">r</span> <span class="n">rVar</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">rVar</span><span class="o">,</span> <span class="s">&#34;response&#34;</span><span class="o">);</span>
+    <span class="n">ProgressBar</span> <span class="n">progressBar</span> <span class="o">=</span> <span class="o">(</span><span class="n">ProgressBar</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">progress</span><span class="o">);</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">progressBar</span><span class="o">,</span> <span class="s">&#34;progress&#34;</span><span class="o">);</span>
+    <span class="n">progressBar</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">8</span><span class="o">);</span>
+    <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">a</span> <span class="n">aVar</span> <span class="o">=</span> <span class="k">new</span> <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">f</span> <span class="o">=</span> <span class="n">v0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">f</span><span class="o">(</span><span class="n">rVar</span><span class="o">,</span> <span class="s">&#34;flag&#34;</span><span class="o">,</span> <span class="s">&#34;response.asJsonObject.get(\&#34;flag\&#34;)&#34;</span><span class="o">,</span> <span class="s">&#34;response.asJsonObject.get(\&#34;flag\&#34;).asString&#34;</span><span class="o">);</span>
+    <span class="n">o</span> <span class="n">j</span> <span class="o">=</span> <span class="n">rVar</span><span class="o">.</span><span class="na">d</span><span class="o">().</span><span class="na">j</span><span class="o">(</span><span class="s">&#34;flag&#34;</span><span class="o">);</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">j</span><span class="o">,</span> <span class="s">&#34;response.asJsonObject.get(\&#34;flag\&#34;)&#34;</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">substring</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">j</span><span class="o">.</span><span class="na">g</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="s">&#34;(this as java.lang.Strin…ing(startIndex, endIndex)&#34;</span><span class="o">);</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="s">&#34;data&#34;</span><span class="o">);</span>
+    <span class="n">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">);</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">substring</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">2</span><span class="o">;</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="n">v0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">x</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i2</span><span class="o">,</span> <span class="s">&#34;(this as java.lang.Strin…ing(startIndex, endIndex)&#34;</span><span class="o">,</span> <span class="n">16</span><span class="o">,</span> <span class="n">16</span><span class="o">));</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i2</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">String</span> <span class="n">sb2</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">sb2</span><span class="o">,</span> <span class="s">&#34;output.toString()&#34;</span><span class="o">);</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">sb2</span><span class="o">,</span> <span class="s">&#34;flag&#34;</span><span class="o">);</span>
+    <span class="n">SQLiteDatabase</span> <span class="n">writableDatabase</span> <span class="o">=</span> <span class="n">aVar</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+    <span class="n">ContentValues</span> <span class="n">contentValues</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContentValues</span><span class="o">();</span>
+    <span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">a</span><span class="o">;</span>
+    <span class="n">contentValues</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;flag&#34;</span><span class="o">,</span> <span class="n">sb2</span><span class="o">);</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">aVar</span><span class="o">.</span><span class="na">e</span><span class="o">,</span> <span class="n">writableDatabase</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="s">&#34;Flags&#34;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">contentValues</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span> <span class="o">?</span> <span class="s">&#34;Failed to add flag to SQLite.&#34;</span> <span class="o">:</span> <span class="s">&#34;Successfully added flag to SQLite.&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Storage flag received successfully.&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div><p>I did not try to analyze all the content on the method, just the instructions related to the database:</p>
+<p>a. A databse instance is retrieved</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">SQLiteDatabase</span> <span class="n">writableDatabase</span> <span class="o">=</span> <span class="n">aVar</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+</code></pre></div><p>b. A ContentValue instance is set with a key-pair &ldquo;flag&rdquo;, sb2. This class is used to execute updates and inserts. The keys are the name of the columns on the tables, and the values are set in the second parameter:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">contentValues</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;flag&#34;</span><span class="o">,</span> <span class="n">sb2</span><span class="o">);</span>
+</code></pre></div><p>c. Then the data is stored in the database:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">aVar</span><span class="o">.</span><span class="na">e</span><span class="o">,</span> <span class="n">writableDatabase</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="s">&#34;Flags&#34;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">contentValues</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span> <span class="o">?</span> <span class="s">&#34;Failed to add flag to SQLite.&#34;</span> <span class="o">:</span> <span class="s">&#34;Successfully added flag to SQLite.&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+</code></pre></div><p>In order to find which database is being updated I needed to find the name of the file with the db. I found it in:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">a</span> <span class="n">aVar</span> <span class="o">=</span> <span class="k">new</span> <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">b</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</code></pre></div><p>I checked the constructor of &ldquo;v0.d.a.d.b.a&rdquo;, and I found the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">a</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="s">&#34;AndroidSecurity.db&#34;</span><span class="o">,</span> <span class="o">(</span><span class="n">SQLiteDatabase</span><span class="o">.</span><span class="na">CursorFactory</span><span class="o">)</span> <span class="kc">null</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="s">&#34;context&#34;</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="na">a</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">e</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><p>In that method the AndroidSecurity.db file is the one being opened, so after finding that informations I had the name of the file AndroidSecurity.db, the name of the table (Flags) and the name of column (flag).</p>
+<p>I had two alternatives now to solve the challenge. The first one was checking the content of the folder of the application, and the second one is using Frida. I started with the first one:</p>
+<p>a- Search where was the file located (generally it is in the folder databases of the private folder of the application):</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">&gt; find /data/data/com.hpandro.androidsecurity -name AndroidSecurity.db
+</code></pre></div><p>which returns just the following result:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">/data/data/com.hpandro.androidsecurity/databases/AndroidSecurity.db
+</code></pre></div><p>I opened the database and read the table Flags:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sqlite3 /data/data/com.hpandro.androidsecurity/databases/AndroidSecurity.db
+</code></pre></div><p>and then execute:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">select</span> * from Flags<span class="p">;</span>
+</code></pre></div><p>which returns:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">1<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+2<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+3<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+4<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+5<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+6<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+7<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+8<span class="p">|</span>hpandro<span class="o">{</span>sqlite.5xQcqhGNCVoXinSqZWJau1SXgdfX3oYp<span class="o">}</span>
+</code></pre></div><p>So each time I press the button that retrieves the flag, it adds a new row to the table.</p>
+<p>At this point I had the challenge solved, but I got curious about where the flag was retrieved from. By checking the traffic sent and received from the servers I got the following content:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">{</span>
+    <span class="s2">&#34;flag&#34;</span>: <span class="s2">&#34;16870616e64726f7b73716c6974652e357851637168474e43566f58696e53715a574a617531535867646658336f59707d1&#34;</span>
+<span class="o">}</span>
+</code></pre></div><p>I wanted to know how that hexa String was converted to the flag in the database. In the b method from SQLiteDataBaseActivity:</p>
+<p>The first thing the application does is remove the first and the last numbers from the flag:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">substring</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">j</span><span class="o">.</span><span class="na">g</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</code></pre></div><p>and then it iterates the String:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">substring</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">2</span><span class="o">;</span>
+    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="n">v0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">x</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i2</span><span class="o">,</span> <span class="s">&#34;(this as java.lang.Strin…ing(startIndex, endIndex)&#34;</span><span class="o">,</span> <span class="n">16</span><span class="o">,</span> <span class="n">16</span><span class="o">));</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i2</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><p>In the while code the following method is called:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">v0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">x</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i2</span><span class="o">,</span> <span class="s">&#34;(this as java.lang.Strin…ing(startIndex, endIndex)&#34;</span><span class="o">,</span> <span class="n">16</span><span class="o">,</span> <span class="n">16</span><span class="o">)</span>
+</code></pre></div><p>where i is an even number (it starts with the value 0 and it is being incremented 2) and i2 = i + 2. Let&rsquo;s check the following examples:</p>
+<ul>
+<li>first time application gets in while: i = 0, i2 = 2,</li>
+<li>second time application gets in while: i = 2, i2 = 4,</li>
+</ul>
+<p>X method does the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">x</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i2</span><span class="o">,</span> <span class="n">String</span> <span class="n">str2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i4</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">substring</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">i2</span><span class="o">);</span> <span class="o">&lt;--</span> <span class="n">takes</span> <span class="n">two</span> <span class="n">digits</span> <span class="n">of</span> <span class="nf">String</span> <span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">1</span> <span class="o">-</span> <span class="n">2</span><span class="o">,</span><span class="n">3</span> <span class="o">-</span> <span class="n">4</span><span class="o">,</span><span class="n">5</span><span class="o">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="n">str2</span><span class="o">);</span>
+    <span class="n">y0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">n</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">h</span><span class="o">(</span><span class="n">i3</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="n">i4</span><span class="o">);</span> <span class="o">&lt;--</span> <span class="n">converts</span> <span class="n">it</span> <span class="n">to</span> <span class="n">a</span> <span class="n">decimal</span> <span class="n">number</span><span class="o">.</span>
+<span class="o">}</span>
+</code></pre></div><p>and then it casts it to a char. Let&rsquo;s test this with Frida:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">aClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;v0.a.a.a.a&#34;</span><span class="p">);</span>
+    <span class="nx">aClass</span><span class="p">.</span><span class="nx">x</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">i2</span><span class="p">,</span> <span class="nx">str2</span><span class="p">,</span> <span class="nx">i3</span><span class="p">,</span> <span class="nx">i4</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;input str=&#34;</span><span class="o">+</span><span class="nx">str</span><span class="o">+</span><span class="s2">&#34; i=&#34;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">&#34; i2=&#34;</span> <span class="o">+</span> <span class="nx">i2</span> <span class="o">+</span> <span class="s2">&#34; i4=&#34;</span> <span class="o">+</span> <span class="nx">i4</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span><span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">i2</span><span class="p">,</span> <span class="nx">str2</span><span class="p">,</span> <span class="nx">i3</span><span class="p">,</span> <span class="nx">i4</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;result= &#34;</span> <span class="o">+</span> <span class="nx">res</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;charat= &#34;</span> <span class="o">+</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">res</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div><p>which will return the characters from the flag. Then I created a script that retrieves the full flag by hooking the <strong>SQLiteDatabase.insert</strong> method:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    
+    <span class="kd">var</span> <span class="nx">SQLiteDatabase</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.database.sqlite.SQLiteDatabase&#34;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">ContentValues</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.content.ContentValues&#34;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">SetClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.util.Set&#34;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">MapEntryClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.util.Map$Entry&#34;</span><span class="p">);</span>
+
+    <span class="nx">SQLiteDatabase</span><span class="p">.</span><span class="nx">insert</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">table</span><span class="p">,</span> <span class="nx">otherVal</span><span class="p">,</span> <span class="nx">contentValues</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Valor insertado en tabla: &#34;</span> <span class="o">+</span> <span class="nx">table</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">valueSetGeneric</span> <span class="o">=</span> <span class="nx">contentValues</span><span class="p">.</span><span class="nx">valueSet</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">valueSet</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">valueSetGeneric</span><span class="p">,</span><span class="nx">SetClass</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">valueSet</span><span class="p">.</span><span class="nx">iterator</span><span class="p">();</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">mapEntry</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">(),</span><span class="nx">MapEntryClass</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mapEntry</span><span class="p">.</span><span class="nx">getKey</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34;=&#34;</span> <span class="o">+</span> <span class="nx">mapEntry</span><span class="p">.</span><span class="nx">getValue</span><span class="p">().</span><span class="nx">toString</span><span class="p">());</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="nx">table</span><span class="p">,</span> <span class="nx">otherVal</span><span class="p">,</span> <span class="nx">contentValues</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div><h3 id="encryptedsqlitedb">EncryptedSqliteDB</h3>
+<p>In this challenge I could not get to te task after pressing it:</p>
+<p><img src="/images/featured-post/sqlite-encrypted.png" alt="Encrypted SQLite Database"></p>
+<p>What was weird initially, is that in the application whenever a task is not ready a Toast shows an error pointing that. I searched for the place where the SQLiteDataBaseActivity was being called (it had to be through an Intent), and in order to compare what was being done with it. I found the class &ldquo;v0.d.a.c.b.c&rdquo; which is a Fragment and it has the following code in the <strong>onClick</strong> method:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="o">...</span>
+<span class="c1">//this if with multiple or corresponds to root check exercises, which were not ready in this version (now they are ready though)
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">root_management</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">potentially_dangerous</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">root_clocking</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">text_keys</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">dangerous_props</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">busybox_binaries</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">su_binary</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">su_exists</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">rw_system</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">emulator_detection</span><span class="o">))</span> <span class="o">||</span> <span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">debugger_detection</span><span class="o">)))</span> <span class="o">{</span>
+    <span class="k">return</span><span class="o">;</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="c1">//here the sqlite databse activity is called
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">sqlite_db</span><span class="o">)))</span> <span class="o">{</span>
+        <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">c</span><span class="o">(),</span> <span class="n">SQLiteDataBaseActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="c1">//and here  is the issue for any other activity that is not the EncryptedDatabaseActivity navigate to an activity.
+</span><span class="c1"></span>    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(!</span><span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">sqlite_edb</span><span class="o">)))</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">str2</span><span class="o">,</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">realm_db</span><span class="o">)))</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//click on EncryptedDatabaseActivity ends up here always, so the Activity is never called
+</span><span class="c1"></span>        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>That method is the behavior from the Task button that evaluates the Activity to call based on the parameter sent to it when the onClick is executed. As the comments on the code explains there is no way to call the activity from the UI even when the Activity seems to be functional.</p>
+<p>Here we have two alternatives:</p>
+<p>a- Change the smali code and recompile the application in order to navigate to the Activity</p>
+<p>b- Navigate to the activity with Frida. Again this could be done with two main strategies:</p>
+<p>b.1- Change the behavior of the onClick method to create an Intent and send the application to the desired activity.
+b.2- Create some code that will not hook anything, but will force the application to navigate to the Activity.</p>
+<p>Here is the code for the second alternative:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span>  <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    
+    <span class="kd">var</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.content.Intent&#34;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
+    
+
+    <span class="kd">var</span> <span class="nx">startIntent</span> <span class="o">=</span> <span class="nx">Intent</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+    <span class="nx">startIntent</span><span class="p">.</span><span class="nx">setClassName</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;com.hpandro.androidsecurity&#34;</span><span class="p">),</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;com.hpandro.androidsecurity.ui.activity.task.datastorage.EncryptSQLiteDBActivity&#34;</span><span class="p">));</span>
+    <span class="c1">//myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+</span><span class="c1"></span>    <span class="nx">startIntent</span><span class="p">.</span><span class="nx">setFlags</span><span class="p">(</span><span class="mh">0x10000000</span><span class="p">);</span>
+    <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;android.app.ActivityThread&#39;</span><span class="p">).</span><span class="nx">currentApplication</span><span class="p">().</span><span class="nx">startActivity</span><span class="p">(</span><span class="nx">startIntent</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div><p>After we do that, the application shows the EncryptSQLiteDBActivity. The behavior of the Activity is like the one on the last challenge. The application gets the flag from the following URL:</p>
+<p>GET <a href="http://hpandro.raviramesh.info/flagstore.php?flag=edb">http://hpandro.raviramesh.info/flagstore.php?flag=edb</a></p>
+<p>which is obfuscated with the same mechanism as in the SQLite activity:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//este es el mismo script que en caso anterior para desencriptar. Se guarda en sb el resultado.
+</span><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">substring</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">2</span><span class="o">;</span>
+    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="n">v0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">x</span><span class="o">(</span><span class="n">substring</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i2</span><span class="o">,</span> <span class="s">&#34;(this as java.lang.Strin…ing(startIndex, endIndex)&#34;</span><span class="o">,</span> <span class="n">16</span><span class="o">,</span> <span class="n">16</span><span class="o">));</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i2</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">//no se hace nada con sb (g.d es una validación que se agrega por el uso de Kotlin)
+</span><span class="c1"></span><span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&#34;output.toString()&#34;</span><span class="o">);</span>
+<span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Insecure Storage flag received successfully.&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+<span class="n">ProgressBar</span> <span class="n">progressBar</span> <span class="o">=</span> <span class="o">(</span><span class="n">ProgressBar</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">progress</span><span class="o">);</span>
+<span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">progressBar</span><span class="o">,</span> <span class="s">&#34;progress&#34;</span><span class="o">);</span>
+<span class="n">progressBar</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">8</span><span class="o">);</span>
+</code></pre></div><p>We still want to solve this with Frida. It is a bit harder because we do not have a clear point where the output is being used (in the previous example it was the insert on the db. We&rsquo;ll do the following:</p>
+<p>hook the function that returns the flag:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">f</span> <span class="o">=</span> <span class="n">v0</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">f</span><span class="o">(</span><span class="n">rVar</span><span class="o">,</span> <span class="s">&#34;flag&#34;</span><span class="o">,</span> <span class="s">&#34;response.asJsonObject.get(\&#34;flag\&#34;)&#34;</span><span class="o">,</span> <span class="s">&#34;response.asJsonObject.get(\&#34;flag\&#34;).asString&#34;</span><span class="o">);</span>
+</code></pre></div><p>and overload it in order to decode the hexa String:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    
+    <span class="kd">var</span> <span class="nx">ClassToHook</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;v0.a.a.a.a&#34;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">StringJava</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
+    
+    <span class="kd">var</span> <span class="nx">strFlag</span> <span class="o">=</span> <span class="nx">StringJava</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;flag&#34;</span><span class="p">);</span> 
+    <span class="kd">var</span> <span class="nx">strCommand</span> <span class="o">=</span> <span class="nx">StringJava</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;(this as java.lang.Strin…ing(startIndex, endIndex)&#34;</span><span class="p">);</span>
+            
+    <span class="nx">ClassToHook</span><span class="p">.</span><span class="nx">f</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">rVar</span><span class="p">,</span> <span class="nx">str</span><span class="p">,</span> <span class="nx">str2</span><span class="p">,</span> <span class="nx">str3</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">returnValue</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">f</span><span class="p">(</span><span class="nx">rVar</span><span class="p">,</span> <span class="nx">str</span><span class="p">,</span> <span class="nx">str2</span><span class="p">,</span> <span class="nx">str3</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">strFlag</span><span class="p">.</span><span class="nx">equals</span><span class="p">(</span><span class="nx">str</span><span class="p">))</span> <span class="p">{</span>
+            <span class="c1">//procesdo el contenido
+</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">strResponse</span> <span class="o">=</span> <span class="nx">returnValue</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">strResponse</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">i2</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">resInterno</span> <span class="o">=</span> <span class="nx">ClassToHook</span><span class="p">.</span><span class="nx">x</span><span class="p">(</span><span class="nx">strResponse</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">i2</span><span class="p">,</span> <span class="nx">strCommand</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+                <span class="nx">res</span> <span class="o">=</span> <span class="nx">res</span> <span class="o">+</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">resInterno</span><span class="p">);</span>
+                <span class="nx">i</span> <span class="o">=</span> <span class="nx">i2</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">returnValue</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+<span class="p">});</span>        
+</code></pre></div><p>During the stream people suggested to hook the following instruction:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&#34;output.toString()&#34;</span><span class="o">);</span>
+</code></pre></div><p>So the script that was created was the following one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">StringBuilder</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.StringBuilder&#34;</span><span class="p">);</span>
+   <span class="nx">StringBuilder</span><span class="p">.</span><span class="nx">toString</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">resultado</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+        <span class="c1">//this if is just to show the content for the application when it has a flag 
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="nx">resultado</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&#34;hpandro{&#34;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;resultado: &#34;</span> <span class="o">+</span> <span class="nx">resultado</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">resultado</span><span class="p">;</span>
+   <span class="p">}</span> 
+<span class="p">});</span>
+</code></pre></div><p>In this post we didn&rsquo;t go too deep on SQLite Databases, and we played a bit more with Frida and reversing the application.</p>
+<p>In the following link <a href="https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%201">https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%201</a> you can find the application we used for this post</p>
+<p>In the following repo you&rsquo;ll have the link to the script used on the sqlite task: <a href="https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%204">https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%204</a></p>
+<p>And in the following link you&rsquo;ll have the link to the scripts used for the encrypted sqlite task: <a href="https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%204">https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%204</a></p>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><i
+                class="ti-twitter mr-3 text-primary"></i>@warlockk87</li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Buenos Aires, Argentina</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:cmrodriguez.mobile@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>cmrodriguez.mobile@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://twitter.com/warlockk87">twitter</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/CesarMRodriguez">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/cesar-mario-rodriguez/">linkedin</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.instagram.com/cesarm_rodriguez/">instagram</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/android">Android</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/automation">Automation</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/bug">Bug</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/challenge">Challenge</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/ctf">Ctf</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/frida">Frida</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/http">Http</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/https">Https</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/misc">Misc</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/pixeldungeon">Pixeldungeon</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/sqlite">Sqlite</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/tcp">Tcp</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/udp">Udp</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/blog">Post</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/contact">Contact</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://cmrodriguez.me">Cesar Rodriguez</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "https://cmrodriguez.me/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="https://cmrodriguez.me/plugins/jQuery/jquery.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/slick/slick.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/venobox/venobox.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/fuse.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/mark.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="https://cmrodriguez.me/js/script.min.js"></script>
+<!-- google analitycs -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'Your ID', 'auto');
+  ga('send', 'pageview');
+</script></body>
+</html>
