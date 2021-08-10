@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Solving CTF with Frida - Part 5</title>
+      <link>https://cmrodriguez.me/blog/hpandro-5/</link>
+      <pubDate>Mon, 09 Aug 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/hpandro-5/</guid>
+      <description>In this series of posts I&amp;rsquo;ll be solving some persistence challenges from hpandro ctf challenges.</description>
+    </item>
+    
+    <item>
       <title>Solving CTF with Frida - Part 4</title>
       <link>https://cmrodriguez.me/blog/hpandro-4/</link>
       <pubDate>Fri, 23 Jul 2021 10:07:47 +0600</pubDate>
