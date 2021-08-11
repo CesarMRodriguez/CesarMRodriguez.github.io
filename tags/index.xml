@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Aug 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Tue, 10 Aug 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,27 @@
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/tags/android/</link>
-      <pubDate>Mon, 09 Aug 2021 10:07:47 +0600</pubDate>
+      <pubDate>Tue, 10 Aug 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/tags/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Frida</title>
+      <link>https://cmrodriguez.me/tags/frida/</link>
+      <pubDate>Tue, 10 Aug 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/tags/frida/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hpAndro</title>
+      <link>https://cmrodriguez.me/tags/hpandro/</link>
+      <pubDate>Tue, 10 Aug 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/tags/hpandro/</guid>
       <description></description>
     </item>
     
@@ -35,15 +53,6 @@
       <pubDate>Mon, 09 Aug 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/tags/ctf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Frida</title>
-      <link>https://cmrodriguez.me/tags/frida/</link>
-      <pubDate>Mon, 09 Aug 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/tags/frida/</guid>
       <description></description>
     </item>
     

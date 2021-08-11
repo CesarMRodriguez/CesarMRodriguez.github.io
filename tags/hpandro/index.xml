@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hpAndro on Cesar Rodriguez | Personal blog</title>
+    <link>https://cmrodriguez.me/tags/hpandro/</link>
+    <description>Recent content in hpAndro on Cesar Rodriguez | Personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Aug 2021 10:07:47 +0600</lastBuildDate>
+    
+	<atom:link href="https://cmrodriguez.me/tags/hpandro/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Solving hpAndro</title>
+      <link>https://cmrodriguez.me/blog/hpandro/</link>
+      <pubDate>Tue, 10 Aug 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/hpandro/</guid>
+      <description>In this series of posts I&amp;rsquo;ll be solving the hpandro ctf challenges.</description>
+    </item>
+    
+  </channel>
+</rss>
