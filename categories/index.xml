@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Aug 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Thu, 26 Aug 2021 10:07:47 +0600</lastBuildDate>
     
 	<atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,25 +14,16 @@
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/categories/android/</link>
-      <pubDate>Tue, 10 Aug 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/android/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Frida</title>
-      <link>https://cmrodriguez.me/categories/frida/</link>
-      <pubDate>Tue, 10 Aug 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/frida/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Challenge</title>
       <link>https://cmrodriguez.me/categories/challenge/</link>
-      <pubDate>Mon, 09 Aug 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/challenge/</guid>
       <description></description>
@@ -41,9 +32,27 @@
     <item>
       <title>CTF</title>
       <link>https://cmrodriguez.me/categories/ctf/</link>
-      <pubDate>Mon, 09 Aug 2021 10:07:47 +0600</pubDate>
+      <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/ctf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Emulation detection</title>
+      <link>https://cmrodriguez.me/categories/emulation-detection/</link>
+      <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/emulation-detection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Frida</title>
+      <link>https://cmrodriguez.me/categories/frida/</link>
+      <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/frida/</guid>
       <description></description>
     </item>
     
