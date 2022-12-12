@@ -6,10 +6,15 @@
     <description>Recent content in Misc on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Nov 2020 10:07:47 +0600</lastBuildDate>
-    
-	<atom:link href="https://cmrodriguez.me/categories/misc/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Thu, 08 Dec 2022 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/categories/misc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CTF - Solving Medium</title>
+      <link>https://cmrodriguez.me/blog/solving-medium/</link>
+      <pubDate>Thu, 08 Dec 2022 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/solving-medium/</guid>
+      <description>In this post I will solve the challenge called Medium, created for the Ekoparty 2022 - Mobile Hacking Space CTF.</description>
+    </item>
     
     <item>
       <title>CTF - Solving Serialized</title>

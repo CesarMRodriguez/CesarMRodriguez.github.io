@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida scripting guide this reference">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -152,7 +152,7 @@
         <a href="/categories/android"
           class="text-primary">Android</a>
         
-        <h2>Frida Scripting Guide (4) - &lsquo;this&rsquo; Reference</h2>
+        <h2>Frida Scripting Guide (4) - &rsquo;this&rsquo; Reference</h2>
         <div class="mb-3 post-meta">
           <span>By Cesar Rodriguez</span>
           
@@ -161,15 +161,15 @@
           
         </div>
         
-        <img src="https://cmrodriguez.me/images/featured-post/this-reference.jpeg" class="img-fluid w-100 mb-4" alt="Frida Scripting Guide (4) - &lsquo;this&rsquo; Reference">
+        <img src="https://cmrodriguez.me/images/featured-post/this-reference.jpeg" class="img-fluid w-100 mb-4" alt="Frida Scripting Guide (4) - &rsquo;this&rsquo; Reference">
         
         <div class="content mb-5">
           <p>In this post I&rsquo;ll show how to access the this reference. In Java (and a lot of other languages as well) there is always a special variable called this that references the object which is running the method. In Frida, whenever someone is rewriting a method, he has access to the &ldquo;this&rdquo; parameter. Check the following script as an example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;the method is being called&#34;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>In this case the &ldquo;this&rdquo; references the class <strong>BasicTypes</strong>. So by calling the &ldquo;this.addTwoInts&rdquo; we are calling the original implementation of the method, instead of reimplementing it. This feature is useful for many use cases as:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;the method is being called&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In this case the &ldquo;this&rdquo; references the class <strong>BasicTypes</strong>. So by calling the &ldquo;this.addTwoInts&rdquo; we are calling the original implementation of the method, instead of reimplementing it. This feature is useful for many use cases as:</p>
 <ul>
 <li>know if a method is being called (as shown in the example above)</li>
 <li>print the input values to know what is being received by the function.</li>
@@ -242,10 +242,10 @@
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -263,7 +263,7 @@
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

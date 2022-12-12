@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida pixeldungeon automation">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -215,22 +215,22 @@
 </ul>
 <p>In order to make the characted do things, the application calls the Hero.call() method. This method checks the type of the HeroAction stored in the <em>curAction</em> attribute and then it calls the actXxxx(HeroAction) based on it. As an example if in the <strong>curAction</strong> the application stored a HeroAction.Move object, whenever the Hero.call() is invoked, the Hero will end up calling the <em>actMove()</em> method, sending as a parameter the HeroAction.Move from the <strong>curAction</strong> attribute.</p>
 <p>As an example, the following code can be used to move a character from one position to another:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">moveCharacter</span><span class="p">(</span><span class="nx">endPos</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> 
-
-	    <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.Hero&#34;</span><span class="p">,</span> <span class="p">{</span>
-	        <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">hero</span><span class="p">)</span> <span class="p">{</span>
-	        	<span class="kd">var</span> <span class="nx">heroObject</span> <span class="o">=</span> <span class="nx">hero</span><span class="p">;</span>
-	        	<span class="kd">var</span> <span class="nx">moveActionClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.HeroAction$Move&#34;</span><span class="p">);</span>
-				<span class="kd">var</span> <span class="nx">moveAction</span> <span class="o">=</span> <span class="nx">moveActionClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">endPos</span><span class="p">);</span>
-				<span class="nx">heroObject</span><span class="p">.</span><span class="nx">curAction</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">moveAction</span><span class="p">;</span>
-				<span class="nx">heroObject</span><span class="p">.</span><span class="nx">act</span><span class="p">();</span>	
-			<span class="p">},</span>
-	        <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
-	    <span class="p">});</span>
-	<span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div><p>In this case we use the <strong>Java.choose</strong> API call, because we want the Hero instance created by the application when the game starts.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">moveCharacter</span><span class="p">(</span><span class="nx">endPos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	    <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.Hero&#34;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	        <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">hero</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	        	<span class="kd">var</span> <span class="nx">heroObject</span> <span class="o">=</span> <span class="nx">hero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	        	<span class="kd">var</span> <span class="nx">moveActionClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.HeroAction$Move&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">				<span class="kd">var</span> <span class="nx">moveAction</span> <span class="o">=</span> <span class="nx">moveActionClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">endPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">heroObject</span><span class="p">.</span><span class="nx">curAction</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">moveAction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">heroObject</span><span class="p">.</span><span class="nx">act</span><span class="p">();</span>	
+</span></span><span class="line"><span class="cl">			<span class="p">},</span>
+</span></span><span class="line"><span class="cl">	        <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">	    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">	<span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In this case we use the <strong>Java.choose</strong> API call, because we want the Hero instance created by the application when the game starts.</p>
 <h3 id="level--map">Level &amp; Map</h3>
 <p>The following diagram shows the main classes related to the level and map creation and update:</p>
 <p><img src="/images/featured-post/pixel-dungeon-levels.png" alt="classdiagrams"></p>
@@ -238,135 +238,135 @@
 <p>The following image shows the values of the positions in a Room:</p>
 <p><img src="/images/featured-post/pixel-dungeon-map-position.png" alt="Positions in a map"></p>
 <p>The following script was used to print the positions of the cells:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
-            <span class="c1">//values in Terrain.java
-</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="nx">posPrint</span> <span class="o">+</span> <span class="s2">&#34; &#34;</span><span class="p">;</span>
-            <span class="p">}</span> 
-        <span class="p">}</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span>
-
-
-<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> 
-
-    <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.Hero&#34;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">hero</span><span class="p">)</span> <span class="p">{</span>
-        	<span class="kd">var</span> <span class="nx">heroObject</span> <span class="o">=</span> <span class="nx">hero</span><span class="p">;</span>
-        	<span class="c1">//cast a Char
-</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">charClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.Char&#34;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">charObj</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">hero</span><span class="p">,</span><span class="nx">charClass</span><span class="p">);</span>
-
-            <span class="kd">var</span> <span class="nx">Dungeon</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.Dungeon&#34;</span><span class="p">);</span>
-			<span class="kd">var</span> <span class="nx">level</span> <span class="o">=</span> <span class="nx">Dungeon</span><span class="p">.</span><span class="nx">level</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-            <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">);</span>
-
-		<span class="p">},</span>
-        <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
-    <span class="p">});</span>
-<span class="p">});</span>
-</code></pre></div><p>The following image shows the values stored in the map attribute for the same Room:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//values in Terrain.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="nx">posPrint</span> <span class="o">+</span> <span class="s2">&#34; &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.hero.Hero&#34;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">hero</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        	<span class="kd">var</span> <span class="nx">heroObject</span> <span class="o">=</span> <span class="nx">hero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        	<span class="c1">//cast a Char
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kd">var</span> <span class="nx">charClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.actors.Char&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">charObj</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">hero</span><span class="p">,</span><span class="nx">charClass</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">Dungeon</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.watabou.pixeldungeon.Dungeon&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">			<span class="kd">var</span> <span class="nx">level</span> <span class="o">=</span> <span class="nx">Dungeon</span><span class="p">.</span><span class="nx">level</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><p>The following image shows the values stored in the map attribute for the same Room:</p>
 <p><img src="/images/featured-post/pixel-dungeon-map-value.png" alt="Positions in a map"></p>
 <p>The only change from the above script was the printMap function:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
-            <span class="c1">//values in Terrain.java
-</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="nx">level</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&#34; &#34;</span><span class="p">;</span>
-            <span class="p">}</span> 
-        <span class="p">}</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>Another important attribute from the Level class is <strong>visited</strong>, which has an Array of booleans. This array has one item per pixel, and it stores if the user visited the pixel or not. Visit a pixel means it gets into the field of view of the character.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//values in Terrain.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="nx">level</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&#34; &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Another important attribute from the Level class is <strong>visited</strong>, which has an Array of booleans. This array has one item per pixel, and it stores if the user visited the pixel or not. Visit a pixel means it gets into the field of view of the character.</p>
 <p><img src="/images/featured-post/pixel-dungeon-map-visited.png" alt="Positions in a map"></p>
 <p>In this case the visited = true is mapped to 1 and the visited = false is mapped to 0. The only change from the above script was the printMap function:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
-            <span class="c1">//values in Terrain.java
-</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="p">.</span><span class="nx">visited</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">])</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;1 &#34;</span><span class="p">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;0 &#34;</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>The attribute <strong>fieldOfView</strong> attribute holds which pixels can be seen by the character. It depends on the place where the user is, the max range of sight (8 pixels), and if there is any object that blocks the sight (like a wall or a closed door). This attribute is reloaded each time the character moves.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//values in Terrain.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="p">.</span><span class="nx">visited</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;1 &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;0 &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The attribute <strong>fieldOfView</strong> attribute holds which pixels can be seen by the character. It depends on the place where the user is, the max range of sight (8 pixels), and if there is any object that blocks the sight (like a wall or a closed door). This attribute is reloaded each time the character moves.</p>
 <p><img src="/images/featured-post/pixel-dungeon-map-fieldofview.png" alt="Positions in a map"></p>
 <p>In this case the visible pixels are mapped to 1 and the others are mapped to 0. The only change from the above script was the printMap function:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
-            <span class="c1">//values in Terrain.java
-</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="p">.</span><span class="nx">fieldOfView</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">])</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;1 &#34;</span><span class="p">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;0 &#34;</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>With all this information, in next Phase, I&rsquo;ll try to generate an algorithm that crawls a level in the dungeon. See you soon!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">printMap</span><span class="p">(</span><span class="nx">charObj</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">charObj</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">pos</span> <span class="o">/</span> <span class="mi">32</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pos</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">RANGE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">y</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">minX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">maxX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">RANGE</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">minY</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span> <span class="nx">maxY</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">minX</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">maxX</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">posPrint</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//values in Terrain.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="nx">posPrint</span> <span class="o">==</span> <span class="nx">pos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;* &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="p">.</span><span class="nx">fieldOfView</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="nx">posPrint</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;1 &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">line</span> <span class="o">+=</span> <span class="s2">&#34;0 &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>With all this information, in next Phase, I&rsquo;ll try to generate an algorithm that crawls a level in the dungeon. See you soon!</p>
 
         </div>
 
@@ -432,10 +432,10 @@
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -453,7 +453,7 @@
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+
+  
+  <script data-ad-client="ca-pub-9039902373505756" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z6J58MYYPV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-Z6J58MYYPV');
+  </script>
+  <title>Cesar Rodriguez | Personal blog</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Write-up of solution of Medium (Mobile Hacking Space - Ekoparty 2022)">
+  <meta name="author" content="Cesar Rodriguez">
+  <meta name="generator" content="Hugo 0.101.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="https://cmrodriguez.me/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="https://cmrodriguez.me/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom pl-0">
+      <a class="navbar-brand mobile-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+          src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/warlockk87"><i class="ti-twitter-alt"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CesarMRodriguez"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/cesar-mario-rodriguez/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.instagram.com/cesarm_rodriguez/"><i class="ti-instagram"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <a class="navbar-brand mx-auto desktop-view" href="https://cmrodriguez.me"><img class="img-fluid" style="max-height: 5rem;"
+            src="https://cmrodriguez.me/images/logo-hermosa2.png" alt="Cesar Rodriguez | Personal blog"></a>
+
+        <ul class="navbar-nav">
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/blog">Post</a>
+          </li>
+          
+          
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              Guides
+            </a>
+            <div class="dropdown-menu">
+              
+              <a class="dropdown-item" href="https://cmrodriguez.me/blog/frida-scripting-guide">Frida Scripting Guide</a>
+              
+              <a class="dropdown-item" href="https://cmrodriguez.me/blog/hpandro">Solving hpAndro</a>
+              
+            </div>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://cmrodriguez.me/contact">Contact</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search pl-lg-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://cmrodriguez.me/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/misc"
+          class="text-primary">Misc</a>
+        
+        <a href="/categories/ctf"
+          class="text-primary">Ctf</a>
+        
+        <h2>CTF - Solving Medium</h2>
+        <div class="mb-3 post-meta">
+          <span>By Cesar Rodriguez</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>08 December 2022</span>
+          
+        </div>
+        
+        <img src="https://cmrodriguez.me/images/featured-post/solving-medium.webp" class="img-fluid w-100 mb-4" alt="CTF - Solving Medium">
+        
+        <div class="content mb-5">
+          <p>In this post I will solve the challenge called <strong>Medium</strong>, created for the Ekoparty 2022 - Mobile Hacking Space CTF. The challenge can be found in the following repo.</p>
+<p><a href="https://github.com/CesarMRodriguez/solving-medium/blob/main/medium.apk">medium.apk</a></p>
+<p>I will devide the blogpost in different sections so you can decide which part to read and maybe jump to a section you are interested in.</p>
+<ul>
+<li>Recon of application</li>
+<li>Reverse Engineering application - Java Layer</li>
+<li>Reverse Engineering application - Native Layer</li>
+<li>Fixing application with Frida</li>
+</ul>
+<h2 id="recon-of-application">Recon of application</h2>
+<p>The first thing I usually do whenever I have a CTF challenge is installing the file in a phone or emulator and run it. In this case whenever I did it I had a crash. Apparently the application was not meant to be run or it was somehow broken and we had to fix it. In order to discard an environment issue I decompiled the application and checked if the application was built with any particular native library that was crashing in my emulator. In order to do that I decompiled the application with <strong>unzip</strong> and checked the folder /lib in order to see if there was any library and which CPU architecture was it compatible with. I found the following folders:</p>
+<ul>
+<li>lib/arm64-v8a/libmedium.so</li>
+<li>lib/armeabi-v7a/libmedium.so</li>
+<li>lib/x86/libmedium.so</li>
+<li>lib/x86_64/libmedium.so</li>
+</ul>
+<p>So the application could be run almost in any device or emulator. The alternative in this case was probably that the application was broken and maybe the solution must come from a fix on the app or from a reverse engineering approach.</p>
+<h2 id="reverse-engineering-application---java-layer">Reverse Engineering application - Java Layer</h2>
+<p>The next step was opening the application with <strong>jadx-gui</strong> and checking the content and the logic inside. The first thing to check was the <strong>strings.xml</strong> file which sometimes have some content or clue about what should be done. I found the following content:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;resources&gt;</span>
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&#34;the_key&#34;</span><span class="nt">&gt;</span>a7rrg10/97BjqVgKu+eU<span class="nt">&lt;/string&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/resources&gt;</span>
+</span></span></code></pre></div><p>Based on the description it could be the encrypted flag or a key to decrypt the flag. I had to look for another value or understand in the application how <strong>the_key</strong> could be used. In order to do that I decided check the Java layer in order to find out more information.</p>
+<p>In the application we had only five classes created in the package <strong>com.mhs.medium</strong>:</p>
+<ul>
+<li>MainActivity: which is the activity launched when the application is started</li>
+<li>SupportOne: which has one method to encrypt a char array and another to decrypt it. The <em>decryptCipher</em> method is interesting because it gets only one parameter, which matches the <strong>the_key</strong> content.</li>
+<li>SupportTwo:  which has another method related to encrypt and decrypt which receives only one parameter.</li>
+<li>SupportThree: which is an interface to the libmedium.so libray I found in the first recon.</li>
+<li>SupportFour: which has methods that picks some values from an <strong>array</strong> static value. At that point the class seemed to be useless.</li>
+</ul>
+<p>After the first overview of the source code we seemed to have three potential candidates in order to solve the challenge. As the SupportOne and SupportTwo classes had simple methods we could try them by creating a class in java and using the <strong>the_key</strong> to see if any of them works:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">//Content from SupportOne
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">static</span> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">17</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">20</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="n">String</span> <span class="nf">decryptCipherSupportOne</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i2</span> <span class="o">&lt;</span> <span class="n">26</span><span class="o">;</span> <span class="n">i2</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">((</span><span class="n">a</span> <span class="o">*</span> <span class="n">i2</span><span class="o">)</span> <span class="o">%</span> <span class="n">26</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">i</span> <span class="o">=</span> <span class="n">i2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">str2</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i3</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i3</span> <span class="o">&lt;</span> <span class="n">str</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i3</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i3</span><span class="o">)</span> <span class="o">!=</span> <span class="sc">&#39; &#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">str2</span> <span class="o">=</span> <span class="n">str2</span> <span class="o">+</span> <span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="o">(((((</span><span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i3</span><span class="o">)</span> <span class="o">+</span> <span class="sc">&#39;A&#39;</span><span class="o">)</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">*</span> <span class="n">i</span><span class="o">)</span> <span class="o">%</span> <span class="n">26</span><span class="o">)</span> <span class="o">+</span> <span class="n">65</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">str2</span> <span class="o">=</span> <span class="n">str2</span> <span class="o">+</span> <span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">str2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="c1">//Content from SupportTwo
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">static</span> <span class="n">String</span> <span class="nf">decryptMessageSupportTwo</span><span class="o">(</span><span class="kt">char</span><span class="o">[]</span> <span class="n">cArr</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span><span class="o">[]</span> <span class="n">cArr2</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="n">cArr</span><span class="o">.</span><span class="na">length</span> <span class="o">/</span> <span class="n">2</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cArr</span><span class="o">.</span><span class="na">length</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cArr2</span><span class="o">[</span><span class="n">i</span> <span class="o">/</span> <span class="n">2</span><span class="o">]</span> <span class="o">=</span> <span class="n">cArr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">cArr2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">the_key</span> <span class="o">=</span> <span class="s">&#34;a7rrg10/97BjqVgKu+eU&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Return of SupportOne: &#34;</span> <span class="o">+</span> <span class="n">decryptCipherSupportOne</span><span class="o">(</span><span class="n">the_key</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Return of SupportTwo: &#34;</span> <span class="o">+</span> <span class="n">decryptMessageSupportTwo</span><span class="o">(</span><span class="n">the_key</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>The result of executing the code is:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Return of SupportOne: QMRRYEHKGMFPUXYEIWEA
+</span></span><span class="line"><span class="cl">Return of SupportTwo: arg09
+</span></span></code></pre></div><p>Even when it made sense, the keys didn&rsquo;t work whenever I used them on the CTFd platform. So I discarded those two classes and went for the option of <strong>SupportThree</strong>, which had a native library.</p>
+<h2 id="reverse-engineering-application---native-layer">Reverse Engineering application - Native Layer</h2>
+<p>After discarding the two options I followed with the analysis of the <strong>SupportThree</strong> class. This one required us to reverse engineer the <strong>libmedium.so</strong> library. If you do not know how to do it I created a small video explaining what is JNI and how to reverse engineer the library with Ghidra: <a href="https://www.youtube.com/watch?v=wZC7Pzm3jRA&amp;ab_channel=AgeOfEntropy">https://www.youtube.com/watch?v=wZC7Pzm3jRA&amp;ab_channel=AgeOfEntropy</a></p>
+<p>We see in the MainActivity the following code that gives us a clue about how to call the methods of the native interface:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">bundle</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">bundle</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SupportTwo</span><span class="o">.</span><span class="na">encryptMessage</span><span class="o">(</span><span class="n">SupportOne</span><span class="o">.</span><span class="na">encryptMessage</span><span class="o">(</span><span class="s">&#34;aguante_el_paco&#34;</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">()).</span><span class="na">toCharArray</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">finalEncrypt</span> <span class="o">=</span> <span class="n">SupportThree</span><span class="o">.</span><span class="na">finalEncrypt</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="s">&#34;test_it&#34;</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(),</span> <span class="n">0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="s">&#34;ENCRYPT&#34;</span><span class="o">,</span> <span class="n">finalEncrypt</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="s">&#34;ENCRYPT&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">decode</span><span class="o">(</span><span class="n">SupportThree</span><span class="o">.</span><span class="na">finalEncrypt</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span> <span class="n">finalEncrypt</span><span class="o">).</span><span class="na">getBytes</span><span class="o">(),</span> <span class="n">0</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>This class calls two methods. The first one is <strong>encryptMessage</strong> which receives a char array and the second one is <strong>finalEncrypt</strong> which receives a Base64 encoded String. If you paid attention to the the_key value it seems to be a Base64 encoded String, so without going any further on the decryption I suspect the candidate for the solution is in it.</p>
+<p>So in Ghidra I had to check the following method: <strong>Java_com_mhs_medium_SupportThree_finalEncrypt</strong> (the finalEncrypt method from com.medium.SupportThree class) after importing the jni header in the project and changing the types of the method from the following ones:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="n">undefined8</span>
+</span></span><span class="line"><span class="cl"><span class="n">Java_com_mhs_medium_SupportThree_finalEncrypt</span>
+</span></span><span class="line"><span class="cl">          <span class="p">(</span><span class="kt">long</span> <span class="o">*</span><span class="n">param_1</span><span class="p">,</span><span class="n">undefined8</span> <span class="n">param_2</span><span class="p">,</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="n">param_3</span><span class="p">,</span><span class="n">undefined8</span> <span class="n">param_4</span><span class="p">)</span>
+</span></span></code></pre></div><p>to:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="n">jstring</span> <span class="n">Java_com_mhs_medium_SupportThree_finalEncrypt</span>
+</span></span><span class="line"><span class="cl">                  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span><span class="n">jclass</span> <span class="n">supprtThreeClass</span><span class="p">,</span><span class="n">jobject</span> <span class="n">context</span><span class="p">,</span><span class="n">jstring</span> <span class="n">message</span><span class="p">)</span>
+</span></span></code></pre></div><p>The first two parameters are the ones that any JNI methods receives from Java when a static method is being called, which are a pointer to JNIEnv (which is used to call methods, classes from the JVM environment) and the <strong>jclass</strong> (which is the representation of the SupportThree class in the scope of the native library). The other parameters, if any, depend on the specification of the method defined. In this case the method receives two parameters:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">native</span> <span class="n">String</span> <span class="nf">finalEncrypt</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">String</span> <span class="n">message</span><span class="o">);</span>
+</span></span></code></pre></div><p>In JNI any particular instance of a class can be defined as a <strong>jobject</strong>, and in the case of the String class, it can be converted to <strong>jstring</strong> as we did in this case. The result of the pseudo-code generated in GHidra is the following one:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">jstring</span> <span class="nf">Java_com_mhs_medium_SupportThree_finalEncrypt</span>
+</span></span><span class="line"><span class="cl">                  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span><span class="n">jclass</span> <span class="n">supprtThreeClass</span><span class="p">,</span><span class="n">jobject</span> <span class="n">context</span><span class="p">,</span><span class="n">jstring</span> <span class="n">message</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jfieldID</span> <span class="n">p_Var3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ulong</span> <span class="n">uVar4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jobject</span> <span class="n">p_Var5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jmethodID</span> <span class="n">p_Var6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jsize</span> <span class="n">jVar7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jclass</span> <span class="n">p_Var8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jmethodID</span> <span class="n">p_Var9</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">_jmethodID</span> <span class="o">*</span><span class="n">p_Var10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jclass</span> <span class="n">p_Var11</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jmethodID</span> <span class="n">p_Var12</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jmethodID</span> <span class="n">p_Var13</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">undefined8</span> <span class="n">uVar14</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jstring</span> <span class="n">p_Var15</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jarray</span> <span class="n">array</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jarray</span> <span class="n">array_00</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jsize</span> <span class="n">jVar16</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="o">*</span><span class="n">__dest</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jbyte</span> <span class="o">*</span><span class="n">pjVar17</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="o">*</span><span class="n">__dest_00</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jbyteArray</span> <span class="n">array_01</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jstring</span> <span class="n">unaff_x23</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar1</span> <span class="o">=</span> <span class="n">validation1</span><span class="p">((</span><span class="n">_JNIEnv</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">iVar1</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">unaff_x23</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var8</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetObjectClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">context</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var9</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                       <span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;getPackageManager&#34;</span><span class="p">,</span><span class="s">&#34;()Landroid/content/pm/PackageManager;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var10</span> <span class="o">=</span> <span class="p">(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallObjectMethod</span><span class="p">((</span><span class="n">_jobject</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">context</span><span class="p">,</span><span class="n">p_Var9</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var11</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FindClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="s">&#34;android/content/pm/PackageManager&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var9</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                       <span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var11</span><span class="p">,</span><span class="s">&#34;getPackageInfo&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="s">&#34;(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar1</span> <span class="o">=</span> <span class="n">validation2</span><span class="p">((</span><span class="n">_JNIEnv</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">iVar1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">p_Var12</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;getPackageName&#34;</span><span class="p">,</span><span class="s">&#34;()Ljava/lang/String;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">unaff_x23</span> <span class="o">=</span> <span class="p">(</span><span class="n">jstring</span><span class="p">)</span><span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallObjectMethod</span><span class="p">((</span><span class="n">_jobject</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">context</span><span class="p">,</span><span class="n">p_Var12</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var3</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticFieldID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var11</span><span class="p">,</span><span class="s">&#34;GET_SIGNATURES&#34;</span><span class="p">,</span><span class="s">&#34;I&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uVar4</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticIntField</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var11</span><span class="p">,</span><span class="n">p_Var3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var5</span> <span class="o">=</span> <span class="p">(</span><span class="n">jobject</span><span class="p">)</span><span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallObjectMethod</span>
+</span></span><span class="line"><span class="cl">                                <span class="p">((</span><span class="n">_jobject</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var10</span><span class="p">,</span><span class="n">p_Var9</span><span class="p">,</span><span class="n">unaff_x23</span><span class="p">,</span><span class="n">uVar4</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var8</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FindClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="s">&#34;android/content/pm/PackageInfo&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var3</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetFieldID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;signatures&#34;</span><span class="p">,</span><span class="s">&#34;[Landroid/content/pm/Signature;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var5</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetObjectField</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var5</span><span class="p">,</span><span class="n">p_Var3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var8</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FindClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="s">&#34;java/security/MessageDigest&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var9</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticMethodID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                       <span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;getInstance&#34;</span><span class="p">,</span><span class="s">&#34;(Ljava/lang/String;)Ljava/security/MessageDigest;&#34;</span>
+</span></span><span class="line"><span class="cl">                       <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var12</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;update&#34;</span><span class="p">,</span><span class="s">&#34;([B)V&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_Var6</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;digest&#34;</span><span class="p">,</span><span class="s">&#34;()[B&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jVar7</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetArrayLength</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">jVar7</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var5</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetObjectArrayElement</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var5</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var11</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FindClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="s">&#34;android/content/pm/Signature&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var13</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var11</span><span class="p">,</span><span class="s">&#34;toByteArray&#34;</span><span class="p">,</span><span class="s">&#34;()[B&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uVar14</span> <span class="o">=</span> <span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallObjectMethod</span><span class="p">((</span><span class="n">_jobject</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">p_Var5</span><span class="p">,</span><span class="n">p_Var13</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var15</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="s">&#34;SHA&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var10</span> <span class="o">=</span> <span class="p">(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallStaticObjectMethod</span><span class="p">((</span><span class="n">_jclass</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">p_Var8</span><span class="p">,</span><span class="n">p_Var9</span><span class="p">,</span><span class="n">p_Var15</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallVoidMethod</span><span class="p">((</span><span class="n">_jobject</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var10</span><span class="p">,</span><span class="n">p_Var12</span><span class="p">,</span><span class="n">uVar14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">array</span> <span class="o">=</span> <span class="p">(</span><span class="n">jarray</span><span class="p">)</span><span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallObjectMethod</span><span class="p">((</span><span class="n">_jobject</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var10</span><span class="p">,</span><span class="n">p_Var6</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var8</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FindClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="s">&#34;android/util/Base64&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var9</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticMethodID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;decode&#34;</span><span class="p">,</span><span class="s">&#34;(Ljava/lang/String;I)[B&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var3</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticFieldID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;DEFAULT&#34;</span><span class="p">,</span><span class="s">&#34;I&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uVar4</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticIntField</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="n">p_Var3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">array_00</span> <span class="o">=</span> <span class="p">(</span><span class="n">jarray</span><span class="p">)</span><span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallStaticObjectMethod</span>
+</span></span><span class="line"><span class="cl">                               <span class="p">((</span><span class="n">_jclass</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">p_Var8</span><span class="p">,</span><span class="n">p_Var9</span><span class="p">,</span><span class="n">message</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">uVar4</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jVar7</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetArrayLength</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">array_00</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jVar16</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetArrayLength</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">array_00</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">jVar16</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__dest</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">((</span><span class="kt">long</span><span class="p">)(</span><span class="n">iVar1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">__dest</span> <span class="o">!=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x0</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">     <span class="p">(</span><span class="n">pjVar17</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetByteArrayElements</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">array_00</span><span class="p">,(</span><span class="n">jboolean</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">     <span class="n">pjVar17</span> <span class="o">!=</span> <span class="p">(</span><span class="n">jbyte</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x0</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">memcpy</span><span class="p">(</span><span class="n">__dest</span><span class="p">,</span><span class="n">pjVar17</span><span class="p">,(</span><span class="kt">long</span><span class="p">)</span><span class="n">iVar1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__dest</span><span class="p">[</span><span class="n">iVar1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">jVar16</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetArrayLength</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">array</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">jVar16</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__dest_00</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">((</span><span class="kt">long</span><span class="p">)(</span><span class="n">iVar1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">__dest_00</span> <span class="o">!=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x0</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">     <span class="p">(</span><span class="n">pjVar17</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetByteArrayElements</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">array</span><span class="p">,(</span><span class="n">jboolean</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x0</span><span class="p">),</span> <span class="n">pjVar17</span> <span class="o">!=</span> <span class="p">(</span><span class="n">jbyte</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">memcpy</span><span class="p">(</span><span class="n">__dest_00</span><span class="p">,</span><span class="n">pjVar17</span><span class="p">,(</span><span class="kt">long</span><span class="p">)</span><span class="n">iVar1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__dest_00</span><span class="p">[</span><span class="n">iVar1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar1</span> <span class="o">=</span> <span class="n">isHidden</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar2</span> <span class="o">=</span> <span class="n">validation3</span><span class="p">((</span><span class="n">_JNIEnv</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pjVar17</span> <span class="o">=</span> <span class="p">(</span><span class="n">jbyte</span> <span class="o">*</span><span class="p">)</span><span class="n">encryptDecrypt</span><span class="p">(</span><span class="n">__dest</span><span class="p">,</span><span class="n">__dest_00</span><span class="p">,</span><span class="n">iVar2</span> <span class="o">+</span> <span class="n">iVar1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">array_01</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">NewByteArray</span><span class="p">)(</span><span class="n">env</span><span class="p">,(</span><span class="n">jsize</span><span class="p">)</span><span class="n">jVar7</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">SetByteArrayRegion</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">array_01</span><span class="p">,</span><span class="mi">0</span><span class="p">,(</span><span class="n">jsize</span><span class="p">)</span><span class="n">jVar7</span><span class="p">,</span><span class="n">pjVar17</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var8</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FindClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="s">&#34;android/util/Base64&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var9</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticMethodID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;encodeToString&#34;</span><span class="p">,</span><span class="s">&#34;([BI)Ljava/lang/String;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var3</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticFieldID</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;DEFAULT&#34;</span><span class="p">,</span><span class="s">&#34;I&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uVar4</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStaticIntField</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="n">p_Var3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p_Var15</span> <span class="o">=</span> <span class="p">(</span><span class="n">jstring</span><span class="p">)</span><span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallStaticObjectMethod</span>
+</span></span><span class="line"><span class="cl">                               <span class="p">((</span><span class="n">_jclass</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">p_Var8</span><span class="p">,</span><span class="n">p_Var9</span><span class="p">,</span><span class="n">array_01</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">uVar4</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">p_Var15</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>After the change the method could be a bit simpler to understand. In this case there is a heavy use of the <strong>JNIEnv</strong>, so  in order to facilitate the understanding of the code you can use the following rules:</p>
+<h3 id="the-way-of-using-the-env-parameter">The way of using the env parameter.</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetObjectClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">context</span><span class="p">);</span>
+</span></span></code></pre></div><p>can be written a bit simpler:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">env</span><span class="o">-&gt;</span><span class="n">GetObjectClass</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">context</span><span class="p">)</span>
+</span></span></code></pre></div><h3 id="calling-a-static-method">Calling a static method</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">p_Var8</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetObjectClass</span><span class="p">)(</span><span class="n">env</span><span class="p">,</span><span class="n">context</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">p_Var9</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                       <span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;getPackageManager&#34;</span><span class="p">,</span><span class="s">&#34;()Landroid/content/pm/PackageManager;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">p_Var10</span> <span class="o">=</span> <span class="p">(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">_JNIEnv</span><span class="o">::</span><span class="n">CallObjectMethod</span><span class="p">((</span><span class="n">_jobject</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="p">,(</span><span class="n">_jmethodID</span> <span class="o">*</span><span class="p">)</span><span class="n">context</span><span class="p">,</span><span class="n">p_Var9</span><span class="p">);</span>
+</span></span></code></pre></div><p>can be written as well as:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">p_Var8</span> <span class="o">=</span> <span class="n">env</span><span class="o">-&gt;</span><span class="n">GetObjectClass</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">p_Var9</span> <span class="o">=</span> <span class="n">env</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">(</span><span class="n">p_Var8</span><span class="p">,</span><span class="s">&#34;getPackageManager&#34;</span><span class="p">,</span><span class="s">&#34;()Landroid/content/pm/PackageManager;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">p_Var10</span> <span class="o">=</span> <span class="n">env</span><span class="o">-&gt;</span><span class="n">CallObjectMethod</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="n">p_Var9</span><span class="p">);</span>
+</span></span></code></pre></div><p>which might be confusing but basically it does the following. In the line 1 it gets the class of the jobject (in this case <strong>context</strong>). Using the class as a parameter it gets a particular method using two parameters: <strong>getPackageManager</strong> and <strong>()Landroid/content/pm/PackageManager;</strong> which is the signature of the method translated to smali. The third line calls the method with the reference to the object, the method retrieved in the second line and the parameters it receives (if any). So In Java the previous method would be something like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PackageManager</span> <span class="n">packageManager</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getPackageManager</span><span class="o">();</span>
+</span></span></code></pre></div><p>Note: Check the logic of the data types from this post: <a href="https://cmrodriguez.me/blog/methods/">Datatypes in smali</a></p>
+<p>If we have patience and follow the rules we can get to the following pseudo-code in Java:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">jstring</span> <span class="nf">Java_com_mhs_medium_SupportThree_finalEncrypt</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="o">,</span><span class="n">jclass</span> <span class="n">supprtThreeClass</span><span class="o">,</span><span class="n">jobject</span> <span class="n">context</span><span class="o">,</span><span class="n">jstring</span> <span class="n">message</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">do</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//native validation1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">validation1</span><span class="o">(</span><span class="n">env</span><span class="o">)</span> <span class="o">!=</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">unaff_x23</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PackageManager</span> <span class="n">packageManager</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getPackageManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//native validation2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">validation2</span><span class="o">(</span><span class="n">env</span><span class="o">)</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">unaff_x23</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getPackageName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">signatureId</span> <span class="o">=</span> <span class="n">packageManaget</span><span class="o">.</span><span class="na">GET_SIGNATURES</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PackageInfo</span> <span class="n">packageInfo</span> <span class="o">=</span> <span class="n">packageManager</span><span class="o">.</span><span class="na">getPackageInfo</span><span class="o">(</span><span class="n">unaff_x23</span><span class="o">,</span><span class="n">signatureId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">Signature</span><span class="o">[]</span> <span class="n">signatures</span> <span class="o">=</span> <span class="n">packageInfo</span><span class="o">.</span><span class="na">signatures</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">signatures</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Signature</span> <span class="n">signature</span> <span class="o">=</span> <span class="n">signatures</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">byte</span><span class="o">[]</span> <span class="n">signatureArray</span> <span class="o">=</span> <span class="n">signature</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">byte</span><span class="o">[]</span> <span class="n">mdigest</span> <span class="o">=</span> <span class="n">MessageDigest</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&#34;SHA&#34;</span><span class="o">).</span><span class="na">digest</span><span class="o">();</span> 
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kt">byte</span><span class="o">[]</span> <span class="n">decodedParam</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">decode</span><span class="o">(</span><span class="n">message</span><span class="o">,</span><span class="n">Base64</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//digestC = lines that converts the digest from jbyteArray to a C array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//messageC = lines that converts the message from jbyteArray to a C array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//third method with static value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">outVal3</span> <span class="o">=</span> <span class="n">validation3</span><span class="o">(</span><span class="n">env</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">output</span> <span class="o">=</span> <span class="n">encryptDecrypt</span><span class="o">(</span><span class="n">digestC</span><span class="o">,</span><span class="n">messageC</span><span class="o">,</span><span class="n">outVal3</span> <span class="o">+</span> <span class="n">isHidden</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">output</span><span class="o">,</span><span class="n">Base64</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>So we see three validations that might be the cause of the crash of the application and a method that decrypts/encrypts the content received in the message parameter with the message digest and a paramter that is the sum of <strong>isHidden</strong> (a parameter in the lib) plus the output of <strong>validation3</strong>.</p>
+<p>Then I checked the <strong>validation1</strong> function and executed the same reverse engineering process that I did with the previous function. I discovered that the function did the following:</p>
+<ol>
+<li>var1 = Gets SupportFour.getFirst(0) //47</li>
+<li>var2 = Gets SupportFour.getSecond(0) //56</li>
+<li>var3 = Gets SupportFour.getThird(0) //87</li>
+<li>var4 = Gets SupportFour.getFourth(0) //140</li>
+<li>Executes the following arithmetic operations:
+5.1- resop1 = (var2 * var1) / var3; (int value kept)
+5.2- return var2 * var1 - resop1 * var3 == var4;</li>
+</ol>
+<p>So after replacing the variables with the values taken from the array:</p>
+<p>5.1 - 56 * 47 / 87 = 30
+5.2 - 56 * 47 - 30 * 87 = 2632 - 2610 = <strong>22 != 140</strong></p>
+<p>So because the function returns 0 (false in C is represented as 0), the method gets in if statement:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">iVar1</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">unaff_x23</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></div><p>In this case the problem is that <strong>unaff_x23</strong> is never instantiated, so whenever Java wants to shape the content to a String (what it was expecting based on the signature of the JNI method), but the variable points to anywhere so the application crashes.</p>
+<p>Making simple fixes on the binary is not possible because the method <strong>encryptDecrypt</strong> uses in some way the signature of the application to decrypt the message. Because of that changing the binary would change the signature as well (because of how the APK signatures work). So we would need to do a lot of modifications to the binary in order to hardcode the signature and then make the changes on the validations.</p>
+<p>Another alternative would be to use Frida, inject dynamically the modifications on the methods, which would not ruin the signature at all because the changes are made in the memory of the process. So this seems the easiest path to follow.</p>
+<h2 id="fixing-application-with-frida">Fixing application with Frida</h2>
+<p>In order to inject effectively the modifications I used the early instrumentation process as the method that crashed was called when the application was started. I executed the following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">frida -U -f com.mhs.medium
+</span></span></code></pre></div><p>Note that I did not use the no-pause flag in order to execute some scripts before starting the application. In this case I had to find the names of the validation1 to valitadion3 methods. In order to do so I used the following frida script in the frida-cli:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">exports</span> <span class="o">=</span> <span class="nx">Process</span><span class="p">.</span><span class="nx">getModuleByName</span><span class="p">(</span><span class="s2">&#34;libmedium.so&#34;</span><span class="p">).</span><span class="nx">enumerateExports</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">exports</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">exports</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&#34;validation&#34;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">exports</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>With this approach I got an error saying that the library was not loaded. I weas shocked initially, but then I realized that as I was using early instrumentation the library might not be yet loaded in memory (because the class was not loaded yet). So this apporach would not work.</p>
+<p>I shifted the strategy to overwrite the method onCreate of the MainActivity to avoid the call to the method that crashes. This can be done with early instrumentation:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">MainClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.mhs.medium.MainActivity&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">SupportThree</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.mhs.medium.SupportThree&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">MainClass</span><span class="p">.</span><span class="nx">onCreate</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">bundle</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">$super</span><span class="p">.</span><span class="nx">onCreate</span><span class="p">(</span><span class="nx">bundle</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><p>After the change when I run the script to get the names of the methods I got:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">_Z11validation3P7_JNIEnv
+</span></span><span class="line"><span class="cl">_Z11validation2P7_JNIEnv
+</span></span><span class="line"><span class="cl">_Z11validation1P7_JNIEnv
+</span></span></code></pre></div><p>So based on the analysis I executed on the libmedium.so we needed to get the following conditions (I leave the analysis of validation3 to you):</p>
+<ul>
+<li>validation1 return 1</li>
+<li>validation2 return 1</li>
+<li>validation3 return more than 1</li>
+</ul>
+<p>Here is the script to patch the native library:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">Interceptor</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Module</span><span class="p">.</span><span class="nx">findExportByName</span><span class="p">(</span><span class="s2">&#34;libmedium.so&#34;</span><span class="p">,</span><span class="s2">&#34;_Z11validation1P7_JNIEnv&#34;</span><span class="p">),</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">onEnter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Call validation1&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">onLeave</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">retval</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">retval</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">Interceptor</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Module</span><span class="p">.</span><span class="nx">findExportByName</span><span class="p">(</span><span class="s2">&#34;libmedium.so&#34;</span><span class="p">,</span><span class="s2">&#34;_Z11validation2P7_JNIEnv&#34;</span><span class="p">),</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">onEnter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Call validation2&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">onLeave</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">retval</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">retval</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">Interceptor</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Module</span><span class="p">.</span><span class="nx">findExportByName</span><span class="p">(</span><span class="s2">&#34;libmedium.so&#34;</span><span class="p">,</span><span class="s2">&#34;_Z11validation3P7_JNIEnv&#34;</span><span class="p">),</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">onEnter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Call validation3&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">onLeave</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">retval</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">retval</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><p>After that, the remaining thing to do is calling the method from SupportThree manually, in order to get the key decrypted:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.mhs.medium.MainActivity&#34;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Found instance: &#34;</span> <span class="o">+</span> <span class="nx">instance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Application context: &#34;</span> <span class="o">+</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">getApplicationContext</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">SupportThree</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.mhs.medium.SupportThree&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">SupportThree</span><span class="p">.</span><span class="nx">finalEncrypt</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">getApplicationContext</span><span class="p">(),</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;a7rrg10/97BjqVgKu+eU&#34;</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></div><p>The method returned the value <strong>RElPJCRtdWQ0X21VZGF9</strong> which could be Base64 decoded in order to get the value: <strong>DIO$$mud4_mUda}%</strong>, which was the right one!!</p>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><i
+                class="ti-twitter mr-3 text-primary"></i>@warlockk87</li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Buenos Aires, Argentina</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:cmrodriguez.mobile@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>cmrodriguez.mobile@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://twitter.com/warlockk87">twitter</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/CesarMRodriguez">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/cesar-mario-rodriguez/">linkedin</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.instagram.com/cesarm_rodriguez/">instagram</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/android">Android</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/automation">Automation</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/bug">Bug</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/challenge">Challenge</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/ctf">Ctf</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/emulation-detection">Emulation detection</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/frida">Frida</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/http">HTTP</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/https">HTTPS</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/misc">Misc</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/pixeldungeon">Pixeldungeon</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/root-detection">Root detection</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/sqlite">Sqlite</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/tcp">Tcp</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/udp">UDP</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/websocket">Websocket</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/blog">Post</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/guides">Guides</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://cmrodriguez.me/contact">Contact</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://cmrodriguez.me">Cesar Rodriguez</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "https://cmrodriguez.me/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="https://cmrodriguez.me/plugins/jQuery/jquery.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/slick/slick.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/venobox/venobox.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/fuse.min.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/mark.js"></script>
+
+<script src="https://cmrodriguez.me/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="https://cmrodriguez.me/js/script.min.js"></script>
+<!-- google analitycs -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'Your ID', 'auto');
+  ga('send', 'pageview');
+</script></body>
+</html>

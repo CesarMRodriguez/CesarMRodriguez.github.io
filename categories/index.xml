@@ -6,10 +6,24 @@
     <description>Recent content in Categories on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Aug 2021 10:07:47 +0600</lastBuildDate>
+    <lastBuildDate>Thu, 08 Dec 2022 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CTF</title>
+      <link>https://cmrodriguez.me/categories/ctf/</link>
+      <pubDate>Thu, 08 Dec 2022 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/ctf/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Misc</title>
+      <link>https://cmrodriguez.me/categories/misc/</link>
+      <pubDate>Thu, 08 Dec 2022 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/misc/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Android</title>
@@ -26,15 +40,6 @@
       <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/challenge/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CTF</title>
-      <link>https://cmrodriguez.me/categories/ctf/</link>
-      <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/ctf/</guid>
       <description></description>
     </item>
     
@@ -93,15 +98,6 @@
     </item>
     
     <item>
-      <title>HTTP</title>
-      <link>https://cmrodriguez.me/categories/http/</link>
-      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/http/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>HTTPS</title>
       <link>https://cmrodriguez.me/categories/https/</link>
       <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
@@ -129,6 +125,15 @@
     </item>
     
     <item>
+      <title>HTTP</title>
+      <link>https://cmrodriguez.me/categories/http/</link>
+      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Automation</title>
       <link>https://cmrodriguez.me/categories/automation/</link>
       <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
@@ -143,15 +148,6 @@
       <pubDate>Sun, 18 Apr 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/pixeldungeon/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Misc</title>
-      <link>https://cmrodriguez.me/categories/misc/</link>
-      <pubDate>Mon, 30 Nov 2020 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/misc/</guid>
       <description></description>
     </item>
     

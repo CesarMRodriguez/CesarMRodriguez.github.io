@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida scripting guide android primitive types">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -177,77 +177,76 @@
 </ul>
 <h3 id="using-integer-types">Using integer types</h3>
 <p>The different integer types are casted by frida automatically to the Javascript numeric type, which is capable of holding the the long Java type without loosing information. As an example the following code calls different functions from the BasicTypes class, and they are printed by Frida with no need to cast the types:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoInts: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoBytes: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoBytes</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoShorts: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoShorts</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoLongs: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoLongs</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoInts: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoInts: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoBytes: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoBytes</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoShorts: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoShorts</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoLongs: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoLongs</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;addTwoInts: &#34;</span> <span class="o">+</span> <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoInts</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span></span></span></code></pre></div>
 <blockquote>
 <p>console.log** is the function used to print in the frida CLI application output.</p>
 </blockquote>
 <blockquote>
-<p>BasicTypes** is the javascript wrapper for the BasicTypes class, binded by using the **Java.use** function.</p>
+<p>BasicTypes** is the javascript wrapper for the BasicTypes class, binded by using the <strong>Java.use</strong> function.</p>
 </blockquote>
 <p>Frida casts automatically values as well in the reimplementation of functions:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoBytes</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test addTwoBytes&#34;</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoShorts</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test addTwoShorts&#34;</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoLongs</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test addTwoLongs&#34;</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>In this case to test the function, it needs to be run from the Java environment, because the changes are not being reflected on the method in the Frida environment, that is why I created in a button in the Main Activity of the application. So in order to trigger the modified behavior you need to click the button in the application.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoBytes</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test addTwoBytes&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoShorts</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test addTwoShorts&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">addTwoLongs</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span><span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test addTwoLongs&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In this case to test the function, it needs to be run from the Java environment, because the changes are not being reflected on the method in the Frida environment, that is why I created in a button in the Main Activity of the application. So in order to trigger the modified behavior you need to click the button in the application.</p>
 <h3 id="using-boolean-types">Using boolean types</h3>
 <p>Frida converts automatically from Java boolean type to javascript boolean with no weird behavior. The following example is used to send boolean values from the Frida bridge to Java, and from Java to the script:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">testBooleanValues</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">negate</span><span class="p">(</span><span class="kc">false</span><span class="p">));</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">negate</span><span class="p">(</span><span class="kc">true</span><span class="p">));</span>
-  
-  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">negate</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test negate&#34;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="using-floating-point-types">Using floating point types</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">testBooleanValues</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">negate</span><span class="p">(</span><span class="kc">false</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">negate</span><span class="p">(</span><span class="kc">true</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">negate</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test negate&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="using-floating-point-types">Using floating point types</h3>
 <blockquote>
 <p><strong>WARNING</strong> In floating points we see some differences. The issue comes from the use of float values</p>
 </blockquote>
 <p>As an example, when the <strong>23/3</strong> is executed, the Java operation returns 7.666666507720947, because of the limitation on the precision. But javascript by default has an extended precision, so the division returns 7.666666666666667, as the double Java operation does. So be careful when you override a method as there could be issues when some value is sent to a function that works on floats. The following code shows multiple scenarios of float manipulation:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">testFloatValues</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;native values&#34;</span><span class="p">);</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mf">23.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">);</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mf">0.1234567890123</span><span class="o">/</span><span class="mi">1</span><span class="p">);</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">5</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;java values&#34;</span><span class="p">);</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideFloat</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideFloat</span><span class="p">(</span><span class="mf">0.1234567890123</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">(</span><span class="mf">0.1234567890123</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-  
-  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideFloat</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span> <span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test divideFloat&#34;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">var1</span> <span class="o">/</span> <span class="nx">var2</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span> <span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test divideDouble&#34;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">var1</span> <span class="o">/</span> <span class="nx">var2</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>which returns the following output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">testFloatValues</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;native values&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mf">23.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mf">0.1234567890123</span><span class="o">/</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;java values&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideFloat</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideFloat</span><span class="p">(</span><span class="mf">0.1234567890123</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">(</span><span class="mf">0.1234567890123</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideFloat</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span> <span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test divideFloat&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">var1</span> <span class="o">/</span> <span class="nx">var2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">divideDouble</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">var1</span><span class="p">,</span> <span class="nx">var2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;test divideDouble&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">var1</span> <span class="o">/</span> <span class="nx">var2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>which returns the following output:</p>
 <p><strong>javascript values</strong></p>
 <ul>
 <li><strong>23/3:</strong> 7.666666666666667</li>
@@ -264,74 +263,74 @@
 </ul>
 <h3 id="using-char-types">Using char types</h3>
 <p>Frida converts automatically from Java char type to javascript char with no weird behavior. The following example is used to send char values from the Frida bridge to Java, and from Java to the script:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">testCharValues</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-
-  <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">getNextChar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">));</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">isCChar</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">));</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">isCChar</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">));</span>
-  
-  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">getNextChar</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">char1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">&#39;F&#39;</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">isCChar</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">char1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">char1</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
-  <span class="p">}</span> 
-<span class="p">}</span>
-</code></pre></div><h3 id="using-string-type">Using String type</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">testCharValues</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">getNextChar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">isCChar</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">isCChar</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">getNextChar</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">char1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s1">&#39;F&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">isCChar</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">char1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">char1</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="using-string-type">Using String type</h3>
 <p>In this case the String is managed as a classic Java Object with some particularities regarding the javascript string type. Based on the previous logic used to send basic type parameters , we could call a method that receives two Strings in the following way:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">testStrings</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-
-    <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">concatString</span><span class="p">(</span><span class="s2">&#34;first&#34;</span><span class="p">,</span><span class="s2">&#34;second&#34;</span><span class="p">));</span>
-
-<span class="p">}</span>
-</code></pre></div><p>When we run this, we get the following error:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">TypeError: undefined not callable <span class="o">(</span>property <span class="s1">&#39;concatString&#39;</span> of <span class="o">[</span>object Object<span class="o">])</span> 
-  at <span class="o">[</span>anon<span class="o">]</span> <span class="o">(</span>../../../frida-gum/bindings/gumjs/duktape.c:65012<span class="o">)</span> 
-  at /examples.js:112 
-  at frida/node_modules/frida-java-bridge/lib/vm.js:11 
-  at E <span class="o">(</span>frida/node_modules/frida-java-bridge/index.js:346<span class="o">)</span> 
-  at frida/node_modules/frida-java-bridge/index.js:298 
-  at frida/node_modules/frida-java-bridge/lib/vm.js:11
-</code></pre></div><p>This is an error because the parameter sent is a native javascript String, but it should be encapsulated in a <strong>java.lang.String</strong> object. So we need to create an instance of the String:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
-
-<span class="kd">var</span> <span class="nx">str1</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;test &#34;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">str2</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;String&#34;</span><span class="p">);</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">concatString</span><span class="p">(</span><span class="nx">str1</span><span class="p">,</span><span class="nx">str2</span><span class="p">));</span>
-</code></pre></div><p>The second step to test is the override of a method that receives one or more String. We created the following function that overrides the concatString method from the example APK:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">concatString</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">str1</span><span class="p">,</span><span class="nx">str2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;First string: &#34;</span> <span class="o">+</span> <span class="nx">str1</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Second string: &#34;</span> <span class="o">+</span> <span class="nx">str2</span><span class="p">);</span>
-
-    <span class="k">return</span> <span class="nx">str1</span> <span class="o">+</span> <span class="nx">str2</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>This code works perfectly because Frida wraps the String parameters and then returns a Javascript String to the internal implementation. So the concatenation works as in javascript, and Frida is in charge of converting the result to a java.lang.String object. Also the concatenation works with native attributes as it does in Java. As an example the following command works in java and in Javascript in the same way:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">testStrings</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">BasicTypes</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.examples.BasicTypes&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">concatString</span><span class="p">(</span><span class="s2">&#34;first&#34;</span><span class="p">,</span><span class="s2">&#34;second&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>When we run this, we get the following error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">TypeError: undefined not callable <span class="o">(</span>property <span class="s1">&#39;concatString&#39;</span> of <span class="o">[</span>object Object<span class="o">])</span> 
+</span></span><span class="line"><span class="cl">  at <span class="o">[</span>anon<span class="o">]</span> <span class="o">(</span>../../../frida-gum/bindings/gumjs/duktape.c:65012<span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  at /examples.js:112 
+</span></span><span class="line"><span class="cl">  at frida/node_modules/frida-java-bridge/lib/vm.js:11 
+</span></span><span class="line"><span class="cl">  at E <span class="o">(</span>frida/node_modules/frida-java-bridge/index.js:346<span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  at frida/node_modules/frida-java-bridge/index.js:298 
+</span></span><span class="line"><span class="cl">  at frida/node_modules/frida-java-bridge/lib/vm.js:11
+</span></span></code></pre></div><p>This is an error because the parameter sent is a native javascript String, but it should be encapsulated in a <strong>java.lang.String</strong> object. So we need to create an instance of the String:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">str1</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;test &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">str2</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;String&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">concatString</span><span class="p">(</span><span class="nx">str1</span><span class="p">,</span><span class="nx">str2</span><span class="p">));</span>
+</span></span></code></pre></div><p>The second step to test is the override of a method that receives one or more String. We created the following function that overrides the concatString method from the example APK:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">BasicTypes</span><span class="p">.</span><span class="nx">concatString</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">str1</span><span class="p">,</span><span class="nx">str2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;First string: &#34;</span> <span class="o">+</span> <span class="nx">str1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Second string: &#34;</span> <span class="o">+</span> <span class="nx">str2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">str1</span> <span class="o">+</span> <span class="nx">str2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This code works perfectly because Frida wraps the String parameters and then returns a Javascript String to the internal implementation. So the concatenation works as in javascript, and Frida is in charge of converting the result to a java.lang.String object. Also the concatenation works with native attributes as it does in Java. As an example the following command works in java and in Javascript in the same way:</p>
 <blockquote>
-<p>str1&lt;&quot;test &ldquo;&gt; + int1 &lt;2&gt; + str2 &lt;&quot;strings&quot;&gt; = &ldquo;test 2 strings&rdquo;</p>
+<p>str1&lt;&ldquo;test &ldquo;&gt; + int1 &lt;2&gt; + str2 &lt;&ldquo;strings&rdquo;&gt; = &ldquo;test 2 strings&rdquo;</p>
 </blockquote>
 <h3 id="string-comparison">String comparison</h3>
 <p>The difference between a comparison between a native variable and a String is that the former is an object. So the variable that the developer manipulates holds a reference (pointer or memory value) to the real object. This is the reason a comparison == does not work with Strings, as it will naturally compare the references from the two Strings instead of the content. So to compare in Frida you should use the following script:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">    <span class="kd">var</span> <span class="nx">strHex</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;hex&#34;</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;--&gt; test&#34;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">strHex</span><span class="p">.</span><span class="nx">equals</span><span class="p">(</span><span class="nx">str1</span><span class="p">);</span>
-</code></pre></div><h3 id="accesing-string-attributes">Accesing String attributes</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">strHex</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;hex&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;--&gt; test&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">strHex</span><span class="p">.</span><span class="nx">equals</span><span class="p">(</span><span class="nx">str1</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="accesing-string-attributes">Accesing String attributes</h3>
 <p>If the String is in an attribute of a class, and you want to get access from the Frida script, you need to access it through the attribute &ldquo;value&rdquo;, as in the following example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">ScopedObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>  
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Direct access: &#34;</span> <span class="o">+</span> <span class="nx">ScopedObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-</code></pre></div><h3 id="encapsulation-of-attributes-optional">Encapsulation of attributes (optional)</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ScopedObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Direct access: &#34;</span> <span class="o">+</span> <span class="nx">ScopedObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="encapsulation-of-attributes-optional">Encapsulation of attributes (optional)</h3>
 <p>Initially I thought the access to an attribute will be transparent for the frida cli, so the first time I got to the situation of retrieving it, I tested the following FridaSnippet:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">ScopedObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>  
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Direct access: &#34;</span> <span class="o">+</span> <span class="nx">ScopedObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">);</span>
-</code></pre></div><p>which printed <strong>&ldquo;Direct access: [object Object]&quot;</strong>. This is due to the fact that the attributes in a Frida Object holds an encapsulation of a class. So when someone access it directly, it will return this content, and in this case it will cast it to the default Object string. To print the raw content of the variable (to check what it is), we can use the JSON.stringify javascript function:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">ScopedObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>  
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Direct access: &#34;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">ScopedObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">));</span>
-</code></pre></div><p>which will return:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ScopedObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Direct access: &#34;</span> <span class="o">+</span> <span class="nx">ScopedObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">);</span>
+</span></span></code></pre></div><p>which printed <strong>&ldquo;Direct access: [object Object]&rdquo;</strong>. This is due to the fact that the attributes in a Frida Object holds an encapsulation of a class. So when someone access it directly, it will return this content, and in this case it will cast it to the default Object string. To print the raw content of the variable (to check what it is), we can use the JSON.stringify javascript function:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ScopedObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Direct access: &#34;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">ScopedObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">));</span>
+</span></span></code></pre></div><p>which will return:</p>
 <blockquote>
-<p>{&ldquo;fieldType&rdquo;:1,&ldquo;fieldReturnType&rdquo;:{&ldquo;className&rdquo;:&ldquo;java.lang.String&rdquo;,&ldquo;name&rdquo;:&ldquo;Ljava/lang/String;&quot;,&ldquo;type&rdquo;:&ldquo;pointer&rdquo;,&ldquo;size&rdquo;:1},&ldquo;$holder&rdquo;:{}}</p>
+<p>{&ldquo;fieldType&rdquo;:1,&ldquo;fieldReturnType&rdquo;:{&ldquo;className&rdquo;:&ldquo;java.lang.String&rdquo;,&ldquo;name&rdquo;:&ldquo;Ljava/lang/String;&rdquo;,&ldquo;type&rdquo;:&ldquo;pointer&rdquo;,&ldquo;size&rdquo;:1},&quot;$holder&rdquo;:{}}</p>
 </blockquote>
 <p>which shows that the field is of type java.lang.String. In order to return the actual value, we should call the attribute value from the Frida Object.</p>
 <p>Next: <a href="https://cmrodriguez.me/blog/methods/">Methods</a></p>
@@ -400,10 +399,10 @@
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -421,7 +420,7 @@
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

@@ -6,11 +6,7 @@
     <description>Recent content in Tags on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Aug 2021 10:07:47 +0600</lastBuildDate>
-    
-	<atom:link href="https://cmrodriguez.me/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 26 Aug 2021 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Android</title>
       <link>https://cmrodriguez.me/tags/android/</link>
@@ -102,15 +98,6 @@
     </item>
     
     <item>
-      <title>HTTP</title>
-      <link>https://cmrodriguez.me/tags/http/</link>
-      <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/tags/http/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>HTTPS</title>
       <link>https://cmrodriguez.me/tags/https/</link>
       <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
@@ -134,6 +121,15 @@
       <pubDate>Thu, 17 Jun 2021 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/tags/udp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HTTP</title>
+      <link>https://cmrodriguez.me/tags/http/</link>
+      <pubDate>Fri, 11 Jun 2021 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/tags/http/</guid>
       <description></description>
     </item>
     

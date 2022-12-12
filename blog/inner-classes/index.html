@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida scripting guide inner classes">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -166,80 +166,80 @@
         <div class="content mb-5">
           <p>In this blogpost I will show how to consume inner classes in Java from Frida. In Java nested classes are classes that are defined inside another class. The purpose of a nested class is to clearly group the nested class with its surrounding class, signaling that these two classes are to be used together. Or perhaps that the nested class is only to be used from inside its enclosing (owning) class.</p>
 <p>As an example the following are nested classes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">public</span> <span class="kr">class</span> <span class="nx">OuterClass</span> <span class="p">{</span>
-
-    <span class="p">...</span>
-    <span class="kr">class</span> <span class="nx">InnerClass</span> <span class="p">{</span>
-
-        <span class="kr">public</span> <span class="kr">char</span> <span class="nx">getInnerChar</span><span class="p">()</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="s1">&#39;i&#39;</span><span class="p">;</span>
-        <span class="p">}</span>
-
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>In order to get with Frida to the InnerClass we have to use the following code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">InnerClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.OuterClass$InnerClass&#34;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">OuterClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.OuterClass&#34;</span><span class="p">);</span>
-</code></pre></div><p>If the inner class is instantiated as a static public class, it can be used in a code as a common class (besides the OuterClass, that always has access to the InnerClass). But if the class is configured as shown in the example the following code will generate an error:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">instanceInnerClass</span> <span class="o">=</span> <span class="nx">InnerClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-</code></pre></div><p>It will fail because the InnerClass will have by default a constructor that receives an instance from the OuterClass (as the declaration of the class is not static).
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">public</span> <span class="kr">class</span> <span class="nx">OuterClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">class</span> <span class="nx">InnerClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kr">public</span> <span class="kr">char</span> <span class="nx">getInnerChar</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="s1">&#39;i&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In order to get with Frida to the InnerClass we have to use the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">InnerClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.OuterClass$InnerClass&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">OuterClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.OuterClass&#34;</span><span class="p">);</span>
+</span></span></code></pre></div><p>If the inner class is instantiated as a static public class, it can be used in a code as a common class (besides the OuterClass, that always has access to the InnerClass). But if the class is configured as shown in the example the following code will generate an error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">instanceInnerClass</span> <span class="o">=</span> <span class="nx">InnerClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+</span></span></code></pre></div><p>It will fail because the InnerClass will have by default a constructor that receives an instance from the OuterClass (as the declaration of the class is not static).
 So to create an instance we need to execute the following code in Frida:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">instanceOuterClass</span> <span class="o">=</span> <span class="nx">OuterClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-<span class="kd">var</span> <span class="nx">instanceInnerClass</span> <span class="o">=</span> <span class="nx">InnerClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">instanceOuterClass</span><span class="p">);</span>
-</code></pre></div><p>So the reference to the OuterClass is stored in an internal attribute. In order to ge acces to it from a reimplementation of a method we can use the this$0 reference as in the following example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">InnerClass</span><span class="p">.</span><span class="nx">getInnerChar</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="c1">//reference to outer class, and call a method
-</span><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="k">this</span><span class="nx">$0</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">getIdOuterClass</span><span class="p">());</span>
-    <span class="c1">//reference to outer class, and call an attribute
-</span><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="k">this</span><span class="nx">$0</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">val</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-    <span class="k">return</span> <span class="s1">&#39;j&#39;</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>There is another type of innerclass called Anonymous Inner Class. It is an inner class without a name and for which only a single object is created. An anonymous inner class can be useful when making an instance of an object with certain “extras” such as overloading methods of a class or interface, without having to actually subclass a class. The following is an example of an anonymous inner class:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">public</span> <span class="kr">class</span> <span class="nx">AnonymousInnerClass</span> <span class="p">{</span>
-
-    <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getMessageAnonymous</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">InnerInterface</span> <span class="nx">inner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">InnerInterface</span><span class="p">()</span> <span class="p">{</span>
-            <span class="err">@</span><span class="nx">Override</span>
-            <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getMessage</span><span class="p">()</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="s2">&#34;getMessage&#34;</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">};</span>
-
-        <span class="k">return</span> <span class="nx">inner</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>Even when the anonmyous class seems not to have a name, Java internally at compile type generates a common nested class with a numeric name (starting in 1). In order to abstract ourselves from the name Java assigns to the class we can use the following code in Frida:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">enumerateLoadedClasses</span><span class="p">(</span>
-  <span class="p">{</span>
-  <span class="s2">&#34;onMatch&#34;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">className</span><span class="p">){</span>
-        <span class="k">if</span><span class="p">(</span><span class="nx">className</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.AnonymousInnerClass$&#34;</span><span class="p">)){</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">className</span><span class="p">);</span>
-        <span class="p">}</span>            
-    <span class="p">},</span>
-  <span class="s2">&#34;onComplete&#34;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){}</span>
-  <span class="p">}</span>
-<span class="p">);</span>
-</code></pre></div><p>This code snippet lists all the classes loaded in the VM by name. As we know that the anonymous class is created as an inner class, we know that the full classpath will be <strong>$</strong>. So we filter all the classes that starts with that name.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">instanceOuterClass</span> <span class="o">=</span> <span class="nx">OuterClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">instanceInnerClass</span> <span class="o">=</span> <span class="nx">InnerClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">instanceOuterClass</span><span class="p">);</span>
+</span></span></code></pre></div><p>So the reference to the OuterClass is stored in an internal attribute. In order to ge acces to it from a reimplementation of a method we can use the this$0 reference as in the following example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">InnerClass</span><span class="p">.</span><span class="nx">getInnerChar</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//reference to outer class, and call a method
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="k">this</span><span class="nx">$0</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">getIdOuterClass</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//reference to outer class, and call an attribute
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="k">this</span><span class="nx">$0</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">val</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s1">&#39;j&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>There is another type of innerclass called Anonymous Inner Class. It is an inner class without a name and for which only a single object is created. An anonymous inner class can be useful when making an instance of an object with certain “extras” such as overloading methods of a class or interface, without having to actually subclass a class. The following is an example of an anonymous inner class:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">public</span> <span class="kr">class</span> <span class="nx">AnonymousInnerClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getMessageAnonymous</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">InnerInterface</span> <span class="nx">inner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">InnerInterface</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="err">@</span><span class="nx">Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getMessage</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="s2">&#34;getMessage&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">inner</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Even when the anonmyous class seems not to have a name, Java internally at compile type generates a common nested class with a numeric name (starting in 1). In order to abstract ourselves from the name Java assigns to the class we can use the following code in Frida:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">enumerateLoadedClasses</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;onMatch&#34;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">className</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nx">className</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.AnonymousInnerClass$&#34;</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">className</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>            
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;onComplete&#34;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span></code></pre></div><p>This code snippet lists all the classes loaded in the VM by name. As we know that the anonymous class is created as an inner class, we know that the full classpath will be <strong>$</strong>. So we filter all the classes that starts with that name.
 As a caveat, the first time I listed all the inner classes from AnonymousInnerClass, I could find none. After some minutes of analyzing the reason I realized that it has not been loaded by a ClassLoader yet, as it was never used in the application. So I forced the VM to load it basically instantiating it:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">AnonymousInnerClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.AnonymousInnerClass&#34;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">instanceAnonymous</span> <span class="o">=</span> <span class="nx">AnonymousInnerClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-</code></pre></div><p>And after that I could achieve the dynamic instrumentation of the anonymous inner class:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">enumerateLoadedClasses</span><span class="p">(</span>
-  <span class="p">{</span>
-  <span class="s2">&#34;onMatch&#34;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">className</span><span class="p">){</span>
-        <span class="k">if</span><span class="p">(</span><span class="nx">className</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.AnonymousInnerClass&#34;</span><span class="p">)){</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">className</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&#34;$&#34;</span><span class="p">))</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">anonymousClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">className</span><span class="p">);</span>
-                <span class="nx">anonymousClass</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-                    <span class="k">return</span> <span class="s2">&#34;it works well :)&#34;</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>            
-    <span class="p">},</span>
-  <span class="s2">&#34;onComplete&#34;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){}</span>
-  <span class="p">}</span>
-<span class="p">);</span>
-</code></pre></div><p>Next: <a href="https://cmrodriguez.me/blog/exception-handling/">Exception handling</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">AnonymousInnerClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.AnonymousInnerClass&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">instanceAnonymous</span> <span class="o">=</span> <span class="nx">AnonymousInnerClass</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+</span></span></code></pre></div><p>And after that I could achieve the dynamic instrumentation of the anonymous inner class:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">enumerateLoadedClasses</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;onMatch&#34;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">className</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nx">className</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.innerclasses.AnonymousInnerClass&#34;</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">className</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&#34;$&#34;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">var</span> <span class="nx">anonymousClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">className</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">anonymousClass</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="s2">&#34;it works well :)&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>            
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;onComplete&#34;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span></code></pre></div><p>Next: <a href="https://cmrodriguez.me/blog/exception-handling/">Exception handling</a></p>
 
         </div>
 
@@ -305,10 +305,10 @@ As a caveat, the first time I listed all the inner classes from AnonymousInnerCl
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -326,7 +326,7 @@ As a caveat, the first time I listed all the inner classes from AnonymousInnerCl
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

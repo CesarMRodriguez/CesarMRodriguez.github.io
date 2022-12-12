@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="write-up of solution of Serialized (Mobile Hacking Space - Ekoparty 2020)">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -150,7 +150,7 @@
           class="text-primary">Misc</a>
         
         <a href="/categories/ctf"
-          class="text-primary">C t f</a>
+          class="text-primary">Ctf</a>
         
         <h2>CTF - Solving Serialized</h2>
         <div class="mb-3 post-meta">
@@ -167,8 +167,8 @@
           <p>In this post I will solve the challenge called <strong>Serializado</strong>, created for the Ekoparty 2020 - Mobile Hacking Space CTF. In this challenge we have the following file.</p>
 <p><a href="https://github.com/CesarMRodriguez/solving-serializado/blob/main/serializable.ab">serializable.ab</a></p>
 <p>The serializable.ab seems to be a back-up created through an Android OS. In order to get the content of the file we can execute the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">dd <span class="k">if</span><span class="o">=</span>serializable.ab <span class="nv">bs</span><span class="o">=</span><span class="m">1</span> <span class="nv">skip</span><span class="o">=</span><span class="m">24</span> <span class="p">|</span> python -c <span class="s2">&#34;import zlib,sys;sys.stdout.write(zlib.decompress(sys.stdin.read()))&#34;</span> <span class="p">|</span> tar -xvf -
-</code></pre></div><p>This will generate the following result:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>serializable.ab <span class="nv">bs</span><span class="o">=</span><span class="m">1</span> <span class="nv">skip</span><span class="o">=</span><span class="m">24</span> <span class="p">|</span> python -c <span class="s2">&#34;import zlib,sys;sys.stdout.write(zlib.decompress(sys.stdin.read()))&#34;</span> <span class="p">|</span> tar -xvf -
+</span></span></code></pre></div><p>This will generate the following result:</p>
 <ul>
 <li>apps/com.mhs.serializado/manifest</li>
 <li>apps/com.mhs.serializado/a/base.apk</li>
@@ -176,251 +176,251 @@
 <li>apps/com.mhs.serializado/r/content.txt</li>
 </ul>
 <p>In order to check what is each file, we have to open the base.apk file, which is the application backed-up in this file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">jadx-gui apps/com.mhs.serializado/a/base.apk
-</code></pre></div><p>In this application we have two activitied, SplashActivity.java (which is a splash screen page with no logic), and <strong>MainActivity.java</strong> which has two buttons btnStore and btnLoad.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">jadx-gui apps/com.mhs.serializado/a/base.apk
+</span></span></code></pre></div><p>In this application we have two activitied, SplashActivity.java (which is a splash screen page with no logic), and <strong>MainActivity.java</strong> which has two buttons btnStore and btnLoad.</p>
 <p>We check what the btnStore does by going through the decompiled source code:</p>
 <ol>
 <li>get bytes from <strong>txtSecretPassword</strong> value:</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtSecretPassword</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
-<span class="o">...</span>
-<span class="kt">byte</span><span class="o">[]</span> <span class="n">key</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtSecretPassword</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="kt">byte</span><span class="o">[]</span> <span class="n">key</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
+</span></span></code></pre></div><ol start="2">
 <li>Generate a CipherManagement class:</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">CipherManagement</span> <span class="n">cipherManagement</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CipherManagement</span><span class="o">();</span>
-<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x1</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x2</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">1</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x3</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">2</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x4</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">3</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x5</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">4</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x6</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">5</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x7</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">6</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x8</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">7</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x9</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">8</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x10</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">9</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x11</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">10</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x12</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">11</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x13</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">12</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x14</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">13</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x15</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">14</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">x16</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">15</span><span class="o">];</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
-</code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CipherManagement</span> <span class="n">cipherManagement</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CipherManagement</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x1</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x2</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">1</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x3</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">2</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x4</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">3</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x5</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">4</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x6</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">5</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x7</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">6</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x8</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">7</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x9</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">8</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x10</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">9</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x11</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">10</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x12</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">11</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x13</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">12</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x14</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">13</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x15</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">14</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x16</span> <span class="o">=</span> <span class="n">key</span><span class="o">[</span><span class="n">15</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
+</span></span></code></pre></div><ol start="3">
 <li>Call <strong>serializeObject</strong> from class <strong>Serializer</strong>. This class does, but here we can see that there is a key.ser String, which is the name of a file in the backup found.</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Serializer</span><span class="o">.</span><span class="na">serializeObject</span><span class="o">(</span><span class="n">cipherManagement</span><span class="o">,</span> <span class="s">&#34;key.ser&#34;</span><span class="o">);</span>
-</code></pre></div><ol start="4">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Serializer</span><span class="o">.</span><span class="na">serializeObject</span><span class="o">(</span><span class="n">cipherManagement</span><span class="o">,</span> <span class="s">&#34;key.ser&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><ol start="4">
 <li>Generates a file called <strong>ontent.txt</strong> with the value taken from txtContent, encrypted through the CipherManagement class, and then encoded in Base64. That is the second file we have in the backup.</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">multiLines</span> <span class="o">=</span> <span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtContent</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
-<span class="k">try</span> <span class="o">{</span>
-    <span class="n">FileOutputStream</span> <span class="n">fOut</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;/data/data/com.mhs.serializado/content.txt&#34;</span><span class="o">));</span>
-    <span class="n">OutputStreamWriter</span> <span class="n">myOutWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span><span class="n">fOut</span><span class="o">);</span>
-    <span class="n">String</span><span class="o">[]</span> <span class="n">lines</span> <span class="o">=</span> <span class="n">multiLines</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">);</span>
-    <span class="k">try</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">lines</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-        <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">i2</span> <span class="o">&lt;</span> <span class="n">length</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">myOutWriter</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">cipherManagement</span><span class="o">.</span><span class="na">encrypt</span><span class="o">(</span><span class="n">lines</span><span class="o">[</span><span class="n">i2</span><span class="o">]),</span> <span class="n">i</span><span class="o">));</span>
-            <span class="n">i2</span><span class="o">++;</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="n">myOutWriter</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-    <span class="n">fOut</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-    <span class="n">fOut</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e2</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">&#34;Exception&#34;</span><span class="o">,</span> <span class="s">&#34;File write failed: &#34;</span> <span class="o">+</span> <span class="n">e2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-<span class="o">}</span>
-</code></pre></div><p>In the case of the btnLoad, the application does the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">multiLines</span> <span class="o">=</span> <span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtContent</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FileOutputStream</span> <span class="n">fOut</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;/data/data/com.mhs.serializado/content.txt&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">OutputStreamWriter</span> <span class="n">myOutWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span><span class="n">fOut</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span><span class="o">[]</span> <span class="n">lines</span> <span class="o">=</span> <span class="n">multiLines</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">lines</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="o">(</span><span class="n">i2</span> <span class="o">&lt;</span> <span class="n">length</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">myOutWriter</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">cipherManagement</span><span class="o">.</span><span class="na">encrypt</span><span class="o">(</span><span class="n">lines</span><span class="o">[</span><span class="n">i2</span><span class="o">]),</span> <span class="n">i</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">            <span class="n">i2</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">myOutWriter</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fOut</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fOut</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">&#34;Exception&#34;</span><span class="o">,</span> <span class="s">&#34;File write failed: &#34;</span> <span class="o">+</span> <span class="n">e2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>In the case of the btnLoad, the application does the following:</p>
 <ol>
 <li>Recover the key from the <strong>key.ser</strong> file:</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">CipherManagement</span> <span class="n">cipherManagement</span> <span class="o">=</span> <span class="o">(</span><span class="n">CipherManagement</span><span class="o">)</span> <span class="n">Serializer</span><span class="o">.</span><span class="na">deserializeObject</span><span class="o">(</span><span class="s">&#34;key.ser&#34;</span><span class="o">);</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">cipherManagement</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getApplicationContext</span><span class="o">(),</span> <span class="s">&#34;Nothing encrypted yet&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
-    <span class="k">return</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CipherManagement</span> <span class="n">cipherManagement</span> <span class="o">=</span> <span class="o">(</span><span class="n">CipherManagement</span><span class="o">)</span> <span class="n">Serializer</span><span class="o">.</span><span class="na">deserializeObject</span><span class="o">(</span><span class="s">&#34;key.ser&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">cipherManagement</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getApplicationContext</span><span class="o">(),</span> <span class="s">&#34;Nothing encrypted yet&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="2">
 <li>Sets the keyin the txtSecretPassword field:</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">byte</span><span class="o">[]</span> <span class="n">key</span> <span class="o">=</span> <span class="o">{</span><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x1</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x2</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x3</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x4</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x5</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x6</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x7</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x8</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x9</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x10</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x11</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x12</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x13</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x14</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x15</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x16</span><span class="o">};</span>
-<span class="n">cipherManagement</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
-<span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtSecretPassword</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
-</code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">byte</span><span class="o">[]</span> <span class="n">key</span> <span class="o">=</span> <span class="o">{</span><span class="n">cipherManagement</span><span class="o">.</span><span class="na">x1</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x2</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x3</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x4</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x5</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x6</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x7</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x8</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x9</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x10</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x11</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x12</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x13</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x14</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x15</span><span class="o">,</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">x16</span><span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">cipherManagement</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtSecretPassword</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+</span></span></code></pre></div><ol start="3">
 <li>Gets the content of the content.txt file, and tries to decode it. First it decodes the content of the fiñe with a Base64 decoder, then the application tries to decrypt the decoded text with the CipherManagement class, and the result is being set in the txtContext field.</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;/data/data/com.mhs.serializado/content.txt&#34;</span><span class="o">)));</span>
-<span class="n">StringBuilder</span> <span class="n">resultingContent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">Build</span><span class="o">.</span><span class="na">VERSION</span><span class="o">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">26</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">line</span> <span class="o">:</span> <span class="n">Files</span><span class="o">.</span><span class="na">readAllLines</span><span class="o">(</span><span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/data/data/com.mhs.serializado/content.txt&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">0</span><span class="o">]),</span> <span class="n">Charset</span><span class="o">.</span><span class="na">defaultCharset</span><span class="o">()))</span> <span class="o">{</span>
-        <span class="n">String</span> <span class="n">decodedLine</span> <span class="o">=</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">decrypt</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">decode</span><span class="o">(</span><span class="n">line</span><span class="o">,</span> <span class="n">0</span><span class="o">));</span>
-        <span class="n">resultingContent</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">decodedLine</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtContent</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">resultingContent</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-</code></pre></div><p>The Serializer stores and loads a Java serialized object in the root package of the application. In this case the object being stored and loaded is a ChiperManagement instance, which holds the key.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;/data/data/com.mhs.serializado/content.txt&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl"><span class="n">StringBuilder</span> <span class="n">resultingContent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">Build</span><span class="o">.</span><span class="na">VERSION</span><span class="o">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">26</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">line</span> <span class="o">:</span> <span class="n">Files</span><span class="o">.</span><span class="na">readAllLines</span><span class="o">(</span><span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/data/data/com.mhs.serializado/content.txt&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">0</span><span class="o">]),</span> <span class="n">Charset</span><span class="o">.</span><span class="na">defaultCharset</span><span class="o">()))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">decodedLine</span> <span class="o">=</span> <span class="n">cipherManagement</span><span class="o">.</span><span class="na">decrypt</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">decode</span><span class="o">(</span><span class="n">line</span><span class="o">,</span> <span class="n">0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">resultingContent</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">decodedLine</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">txtContent</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">resultingContent</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span></code></pre></div><p>The Serializer stores and loads a Java serialized object in the root package of the application. In this case the object being stored and loaded is a ChiperManagement instance, which holds the key.</p>
 <p>After the analysis of the source code, we need to install the application and upload the backup.</p>
 <p>So we first try to install the apk:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">adb install apps/com.mhs.serializado/a/base.apk 
-</code></pre></div><p>which returns the following output:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">Performing Streamed Install
-adb: failed to install apps/com.mhs.serializado/a/base.apk: Failure <span class="o">[</span>INSTALL_FAILED_TEST_ONLY: installPackageLI<span class="o">]</span>
-</code></pre></div><p>this error is due to a flag of test in the manifest. We need to add a -t option in the adb install command to avoid this error:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">adb install -t apps/com.mhs.serializado/a/base.apk
-</code></pre></div><p>Now we need to restore the backup. As this is trivial in this case I will do it manually:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">adb shell rm /data/data/com.mhs.serializado/content.txt
-adb shell rm /data/data/com.mhs.serializado/key.ser
-
-adb push content.txt /data/data/com.mhs.serializado
-adb push key.ser /data/data/com.mhs.serializado
-</code></pre></div><p>Now we need to change the user rights on the files. So first you need to know the name of the user assigned by Android to the application, which will depend on the cellphone, so execute:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">adb shell ls -al /data/data/com.mhs.serializado 
-</code></pre></div><p>where you will get the a content similar to the following one:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">drwx------   <span class="m">4</span> u0_a118 u0_a118        <span class="m">4096</span> 2020-11-28 17:00 .
-drwxrwx--x <span class="m">169</span> system  system        <span class="m">12288</span> 2020-11-09 12:08 ..
-drwxrws--x   <span class="m">2</span> u0_a118 u0_a118_cache  <span class="m">4096</span> 2020-08-18 03:10 cache
-drwxrws--x   <span class="m">2</span> u0_a118 u0_a118_cache  <span class="m">4096</span> 2020-08-18 03:10 code_cache
-</code></pre></div><p>In this case the user is u0_118, so we execute:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">adb shell chown u0_a118:u0_a118 /data/data/com.mhs.serializado/content.txt
-adb shell chown u0_a118:u0_a118 /data/data/com.mhs.serializado/key.ser
-</code></pre></div><p>When we try to restore the content we get an error in the log:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">System.out  I  IOException is caught
-</code></pre></div><p>We have no information about what is going on, so let&rsquo;s check the content of the key file. As it is a Java-serialized object, we can use a tool called SerializationDumper (add link here).</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">java -jar SerializationDumper-v1.13.jar -f key.ser 
-
-STREAM_MAGIC - 0xac ed
-STREAM_VERSION - 0x00 <span class="m">05</span>
-Contents
-  TC_OBJECT - 0x73
-    TC_CLASSDESC - 0x72
-      className
-        Length - <span class="m">36</span> - 0x00 <span class="m">24</span>
-        Value - com.mhs.serializado.CipherManagement - 0x636f6d2e6d68732e73657269616c697a61646f2e4369706865724d616e6167656d656e74
-      serialVersionUID - 0xb2 8a <span class="m">53</span> <span class="m">35</span> <span class="m">20</span> <span class="m">34</span> <span class="m">41</span> <span class="m">18</span>
-      newHandle 0x00 7e <span class="m">00</span> <span class="m">00</span>
-      classDescFlags - 0x02 - SC_SERIALIZABLE
-      fieldCount - <span class="m">16</span> - 0x00 <span class="m">10</span>
-      Fields
-        0:
-          Byte - B - 0x42
-          fieldName
-            Length - <span class="m">2</span> - 0x00 <span class="m">02</span>
-            Value - x1 - 0x7831
-        1:
-          Byte - B - 0x42
-          ...
-        15:
-          Byte - B - 0x42
-          fieldName
-            Length - <span class="m">2</span> - 0x00 <span class="m">02</span>
-            Value - x9 - 0x7839
-      classAnnotations
-        TC_ENDBLOCKDATA - 0x78
-      superClassDesc
-        TC_NULL - 0x70
-    newHandle 0x00 7e <span class="m">00</span> <span class="m">01</span>
-    classdata
-      com.mhs.serializado.CipherManagement
-        values
-          x1
-            <span class="o">(</span>byte<span class="o">)</span><span class="m">97</span> <span class="o">(</span>ASCII: a<span class="o">)</span> - 0x61
-          x10
-            ...
-          x6
-            <span class="o">(</span>byte<span class="o">)</span><span class="m">57</span> <span class="o">(</span>ASCII: 9<span class="o">)</span> - 0x39
-          x7
-Exception in thread <span class="s2">&#34;main&#34;</span> java.util.NoSuchElementException
-	at java.util.LinkedList.removeFirst<span class="o">(</span>LinkedList.java:270<span class="o">)</span>
-	at java.util.LinkedList.pop<span class="o">(</span>LinkedList.java:801<span class="o">)</span>
-	at nb.deser.SerializationDumper.readByteField<span class="o">(</span>SerializationDumper.java:1369<span class="o">)</span>
-	at nb.deser.SerializationDumper.readFieldValue<span class="o">(</span>SerializationDumper.java:953<span class="o">)</span>
-	at nb.deser.SerializationDumper.readClassDataField<span class="o">(</span>SerializationDumper.java:939<span class="o">)</span>
-	at nb.deser.SerializationDumper.readClassData<span class="o">(</span>SerializationDumper.java:886<span class="o">)</span>
-	at nb.deser.SerializationDumper.readNewObject<span class="o">(</span>SerializationDumper.java:467<span class="o">)</span>
-	at nb.deser.SerializationDumper.readContentElement<span class="o">(</span>SerializationDumper.java:359<span class="o">)</span>
-	at nb.deser.SerializationDumper.parseStream<span class="o">(</span>SerializationDumper.java:331<span class="o">)</span>
-	at nb.deser.SerializationDumper.main<span class="o">(</span>SerializationDumper.java:113<span class="o">)</span>
-</code></pre></div><p>Through the error we get that the serialized file seems to be corrupted. There seems to be three values missing. As we can see in the definition of the class:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CipherManagement</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">transient</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">inferedKey</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">16</span><span class="o">];</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x1</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x10</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x11</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x12</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x13</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x14</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x15</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x16</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x2</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x3</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x4</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x5</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x6</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x7</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x8</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x9</span><span class="o">;</span> 
-</code></pre></div><p>Now we can assume the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">adb install apps/com.mhs.serializado/a/base.apk 
+</span></span></code></pre></div><p>which returns the following output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Performing Streamed Install
+</span></span><span class="line"><span class="cl">adb: failed to install apps/com.mhs.serializado/a/base.apk: Failure <span class="o">[</span>INSTALL_FAILED_TEST_ONLY: installPackageLI<span class="o">]</span>
+</span></span></code></pre></div><p>this error is due to a flag of test in the manifest. We need to add a -t option in the adb install command to avoid this error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">adb install -t apps/com.mhs.serializado/a/base.apk
+</span></span></code></pre></div><p>Now we need to restore the backup. As this is trivial in this case I will do it manually:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">adb shell rm /data/data/com.mhs.serializado/content.txt
+</span></span><span class="line"><span class="cl">adb shell rm /data/data/com.mhs.serializado/key.ser
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">adb push content.txt /data/data/com.mhs.serializado
+</span></span><span class="line"><span class="cl">adb push key.ser /data/data/com.mhs.serializado
+</span></span></code></pre></div><p>Now we need to change the user rights on the files. So first you need to know the name of the user assigned by Android to the application, which will depend on the cellphone, so execute:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">adb shell ls -al /data/data/com.mhs.serializado 
+</span></span></code></pre></div><p>where you will get the a content similar to the following one:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">drwx------   <span class="m">4</span> u0_a118 u0_a118        <span class="m">4096</span> 2020-11-28 17:00 .
+</span></span><span class="line"><span class="cl">drwxrwx--x <span class="m">169</span> system  system        <span class="m">12288</span> 2020-11-09 12:08 ..
+</span></span><span class="line"><span class="cl">drwxrws--x   <span class="m">2</span> u0_a118 u0_a118_cache  <span class="m">4096</span> 2020-08-18 03:10 cache
+</span></span><span class="line"><span class="cl">drwxrws--x   <span class="m">2</span> u0_a118 u0_a118_cache  <span class="m">4096</span> 2020-08-18 03:10 code_cache
+</span></span></code></pre></div><p>In this case the user is u0_118, so we execute:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">adb shell chown u0_a118:u0_a118 /data/data/com.mhs.serializado/content.txt
+</span></span><span class="line"><span class="cl">adb shell chown u0_a118:u0_a118 /data/data/com.mhs.serializado/key.ser
+</span></span></code></pre></div><p>When we try to restore the content we get an error in the log:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">System.out  I  IOException is caught
+</span></span></code></pre></div><p>We have no information about what is going on, so let&rsquo;s check the content of the key file. As it is a Java-serialized object, we can use a tool called SerializationDumper (add link here).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">java -jar SerializationDumper-v1.13.jar -f key.ser 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">STREAM_MAGIC - 0xac ed
+</span></span><span class="line"><span class="cl">STREAM_VERSION - 0x00 <span class="m">05</span>
+</span></span><span class="line"><span class="cl">Contents
+</span></span><span class="line"><span class="cl">  TC_OBJECT - 0x73
+</span></span><span class="line"><span class="cl">    TC_CLASSDESC - 0x72
+</span></span><span class="line"><span class="cl">      className
+</span></span><span class="line"><span class="cl">        Length - <span class="m">36</span> - 0x00 <span class="m">24</span>
+</span></span><span class="line"><span class="cl">        Value - com.mhs.serializado.CipherManagement - 0x636f6d2e6d68732e73657269616c697a61646f2e4369706865724d616e6167656d656e74
+</span></span><span class="line"><span class="cl">      serialVersionUID - 0xb2 8a <span class="m">53</span> <span class="m">35</span> <span class="m">20</span> <span class="m">34</span> <span class="m">41</span> <span class="m">18</span>
+</span></span><span class="line"><span class="cl">      newHandle 0x00 7e <span class="m">00</span> <span class="m">00</span>
+</span></span><span class="line"><span class="cl">      classDescFlags - 0x02 - SC_SERIALIZABLE
+</span></span><span class="line"><span class="cl">      fieldCount - <span class="m">16</span> - 0x00 <span class="m">10</span>
+</span></span><span class="line"><span class="cl">      Fields
+</span></span><span class="line"><span class="cl">        0:
+</span></span><span class="line"><span class="cl">          Byte - B - 0x42
+</span></span><span class="line"><span class="cl">          fieldName
+</span></span><span class="line"><span class="cl">            Length - <span class="m">2</span> - 0x00 <span class="m">02</span>
+</span></span><span class="line"><span class="cl">            Value - x1 - 0x7831
+</span></span><span class="line"><span class="cl">        1:
+</span></span><span class="line"><span class="cl">          Byte - B - 0x42
+</span></span><span class="line"><span class="cl">          ...
+</span></span><span class="line"><span class="cl">        15:
+</span></span><span class="line"><span class="cl">          Byte - B - 0x42
+</span></span><span class="line"><span class="cl">          fieldName
+</span></span><span class="line"><span class="cl">            Length - <span class="m">2</span> - 0x00 <span class="m">02</span>
+</span></span><span class="line"><span class="cl">            Value - x9 - 0x7839
+</span></span><span class="line"><span class="cl">      classAnnotations
+</span></span><span class="line"><span class="cl">        TC_ENDBLOCKDATA - 0x78
+</span></span><span class="line"><span class="cl">      superClassDesc
+</span></span><span class="line"><span class="cl">        TC_NULL - 0x70
+</span></span><span class="line"><span class="cl">    newHandle 0x00 7e <span class="m">00</span> <span class="m">01</span>
+</span></span><span class="line"><span class="cl">    classdata
+</span></span><span class="line"><span class="cl">      com.mhs.serializado.CipherManagement
+</span></span><span class="line"><span class="cl">        values
+</span></span><span class="line"><span class="cl">          x1
+</span></span><span class="line"><span class="cl">            <span class="o">(</span>byte<span class="o">)</span><span class="m">97</span> <span class="o">(</span>ASCII: a<span class="o">)</span> - 0x61
+</span></span><span class="line"><span class="cl">          x10
+</span></span><span class="line"><span class="cl">            ...
+</span></span><span class="line"><span class="cl">          x6
+</span></span><span class="line"><span class="cl">            <span class="o">(</span>byte<span class="o">)</span><span class="m">57</span> <span class="o">(</span>ASCII: 9<span class="o">)</span> - 0x39
+</span></span><span class="line"><span class="cl">          x7
+</span></span><span class="line"><span class="cl">Exception in thread <span class="s2">&#34;main&#34;</span> java.util.NoSuchElementException
+</span></span><span class="line"><span class="cl">	at java.util.LinkedList.removeFirst<span class="o">(</span>LinkedList.java:270<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at java.util.LinkedList.pop<span class="o">(</span>LinkedList.java:801<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.readByteField<span class="o">(</span>SerializationDumper.java:1369<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.readFieldValue<span class="o">(</span>SerializationDumper.java:953<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.readClassDataField<span class="o">(</span>SerializationDumper.java:939<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.readClassData<span class="o">(</span>SerializationDumper.java:886<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.readNewObject<span class="o">(</span>SerializationDumper.java:467<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.readContentElement<span class="o">(</span>SerializationDumper.java:359<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.parseStream<span class="o">(</span>SerializationDumper.java:331<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at nb.deser.SerializationDumper.main<span class="o">(</span>SerializationDumper.java:113<span class="o">)</span>
+</span></span></code></pre></div><p>Through the error we get that the serialized file seems to be corrupted. There seems to be three values missing. As we can see in the definition of the class:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CipherManagement</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">transient</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">inferedKey</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">16</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x10</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x11</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x12</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x13</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x14</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x15</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x16</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x3</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x4</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x5</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x6</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x7</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x8</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span> <span class="n">x9</span><span class="o">;</span> 
+</span></span></code></pre></div><p>Now we can assume the following:</p>
 <ul>
 <li>The known values are ordered.</li>
 <li>We do not know which values are missing.</li>
 <li>We&rsquo;ll try to test this with alphanumeric (a-zA-Z0-9) and if that does not work we&rsquo;ll test it with printable characters.</li>
 </ul>
 <p>I built the following java application in order to test this, and make the process faster than using Frida:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-	<span class="c1">// TODO Auto-generated method stub
-</span><span class="c1"></span>	<span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="s">&#34;jBUwXJdjVaHvZuYfaw/cew==&#34;</span><span class="o">;</span>
-	<span class="kt">byte</span> <span class="n">array</span><span class="o">[]</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getDecoder</span><span class="o">().</span><span class="na">decode</span><span class="o">(</span><span class="n">content</span><span class="o">);</span>
-
-	<span class="n">CipherManagement</span> <span class="n">cipher</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CipherManagement</span><span class="o">();</span>
-
-	<span class="n">cipher</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
-	<span class="n">CharsetEncoder</span> <span class="n">encoder</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;US-ASCII&#34;</span><span class="o">).</span><span class="na">newEncoder</span><span class="o">();</span>
-
-	<span class="c1">//starting time 
-</span><span class="c1"></span>	<span class="n">printTime</span><span class="o">();</span>
-	<span class="c1">// rotating positions
-</span><span class="c1"></span>	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pos1</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">pos1</span> <span class="o">&lt;</span> <span class="n">14</span><span class="o">;</span> <span class="n">pos1</span><span class="o">++)</span> <span class="o">{</span>
-		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pos2</span> <span class="o">=</span> <span class="n">pos1</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span> <span class="n">pos2</span> <span class="o">&lt;</span> <span class="n">15</span><span class="o">;</span> <span class="n">pos2</span><span class="o">++)</span> <span class="o">{</span>
-			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pos3</span> <span class="o">=</span> <span class="n">pos2</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span> <span class="n">pos3</span> <span class="o">&lt;</span> <span class="n">16</span><span class="o">;</span> <span class="n">pos3</span><span class="o">++)</span> <span class="o">{</span>
-				
-				<span class="n">setStaticValues</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">pos2</span><span class="o">,</span> <span class="n">pos3</span><span class="o">);</span>
-				<span class="c1">//bruteforcing just alphanumeric values to check if it returns results fast.
-</span><span class="c1"></span>				<span class="k">for</span> <span class="o">(</span><span class="kt">byte</span> <span class="n">x</span> <span class="o">=</span> <span class="n">49</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">122</span><span class="o">;</span> <span class="n">x</span><span class="o">++)</span> <span class="o">{</span>
-					<span class="n">setValue</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">x</span><span class="o">);</span>
-					<span class="k">for</span> <span class="o">(</span><span class="kt">byte</span> <span class="n">y</span> <span class="o">=</span> <span class="n">49</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">122</span><span class="o">;</span> <span class="n">y</span><span class="o">++)</span> <span class="o">{</span>
-						<span class="n">setValue</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos2</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
-						<span class="k">for</span> <span class="o">(</span><span class="kt">byte</span> <span class="n">z</span> <span class="o">=</span> <span class="n">49</span><span class="o">;</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="n">122</span><span class="o">;</span> <span class="n">z</span><span class="o">++)</span> <span class="o">{</span>
-							<span class="n">setValue</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos3</span><span class="o">,</span> <span class="n">z</span><span class="o">);</span>
-							<span class="n">cipher</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
-							<span class="n">String</span> <span class="n">decrypted</span><span class="o">;</span>
-							<span class="k">try</span> <span class="o">{</span>
-								<span class="n">decrypted</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="na">decrypt</span><span class="o">(</span><span class="n">array</span><span class="o">);</span>
-								<span class="c1">//this filters the solutions sent to output, but still there are false positives.
-</span><span class="c1"></span>								<span class="k">if</span> <span class="o">(</span><span class="n">encoder</span><span class="o">.</span><span class="na">canEncode</span><span class="o">(</span><span class="n">decrypted</span><span class="o">))</span> <span class="o">{</span>
-									<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">decrypted</span><span class="o">);</span>
-									<span class="c1">//this loop is just to measure what time it takes to get the key
-</span><span class="c1"></span>									<span class="k">if</span> <span class="o">(</span><span class="s">&#34;banana_loca&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">decrypted</span><span class="o">))</span> <span class="o">{</span>
-										<span class="n">printTime</span><span class="o">();</span>
-										<span class="k">return</span><span class="o">;</span>
-									<span class="o">}</span>
-								<span class="o">}</span>
-								
-							<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-								<span class="c1">// TODO Auto-generated catch block
-</span><span class="c1"></span>							<span class="o">}</span>
-						<span class="o">}</span>
-					<span class="o">}</span>
-				<span class="o">}</span>
-			<span class="o">}</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>the full source code is in the following repository: <a href="https://github.com/CesarMRodriguez/solving-serializado/tree/main/mhs-serializado">solving-serializado</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// TODO Auto-generated method stub
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="s">&#34;jBUwXJdjVaHvZuYfaw/cew==&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">byte</span> <span class="n">array</span><span class="o">[]</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getDecoder</span><span class="o">().</span><span class="na">decode</span><span class="o">(</span><span class="n">content</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">CipherManagement</span> <span class="n">cipher</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CipherManagement</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">cipher</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="n">CharsetEncoder</span> <span class="n">encoder</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;US-ASCII&#34;</span><span class="o">).</span><span class="na">newEncoder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">//starting time 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">printTime</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// rotating positions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pos1</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">pos1</span> <span class="o">&lt;</span> <span class="n">14</span><span class="o">;</span> <span class="n">pos1</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pos2</span> <span class="o">=</span> <span class="n">pos1</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span> <span class="n">pos2</span> <span class="o">&lt;</span> <span class="n">15</span><span class="o">;</span> <span class="n">pos2</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pos3</span> <span class="o">=</span> <span class="n">pos2</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span> <span class="n">pos3</span> <span class="o">&lt;</span> <span class="n">16</span><span class="o">;</span> <span class="n">pos3</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">				
+</span></span><span class="line"><span class="cl">				<span class="n">setStaticValues</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">pos2</span><span class="o">,</span> <span class="n">pos3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">//bruteforcing just alphanumeric values to check if it returns results fast.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="k">for</span> <span class="o">(</span><span class="kt">byte</span> <span class="n">x</span> <span class="o">=</span> <span class="n">49</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">122</span><span class="o">;</span> <span class="n">x</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">					<span class="n">setValue</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">x</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">					<span class="k">for</span> <span class="o">(</span><span class="kt">byte</span> <span class="n">y</span> <span class="o">=</span> <span class="n">49</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">122</span><span class="o">;</span> <span class="n">y</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">						<span class="n">setValue</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos2</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">						<span class="k">for</span> <span class="o">(</span><span class="kt">byte</span> <span class="n">z</span> <span class="o">=</span> <span class="n">49</span><span class="o">;</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="n">122</span><span class="o">;</span> <span class="n">z</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">							<span class="n">setValue</span><span class="o">(</span><span class="n">cipher</span><span class="o">,</span> <span class="n">pos3</span><span class="o">,</span> <span class="n">z</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">							<span class="n">cipher</span><span class="o">.</span><span class="na">generateSecret</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">							<span class="n">String</span> <span class="n">decrypted</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">							<span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">								<span class="n">decrypted</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="na">decrypt</span><span class="o">(</span><span class="n">array</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">								<span class="c1">//this filters the solutions sent to output, but still there are false positives.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>								<span class="k">if</span> <span class="o">(</span><span class="n">encoder</span><span class="o">.</span><span class="na">canEncode</span><span class="o">(</span><span class="n">decrypted</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">									<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">decrypted</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">									<span class="c1">//this loop is just to measure what time it takes to get the key
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>									<span class="k">if</span> <span class="o">(</span><span class="s">&#34;banana_loca&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">decrypted</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">										<span class="n">printTime</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">										<span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">									<span class="o">}</span>
+</span></span><span class="line"><span class="cl">								<span class="o">}</span>
+</span></span><span class="line"><span class="cl">								
+</span></span><span class="line"><span class="cl">							<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">								<span class="c1">// TODO Auto-generated catch block
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>							<span class="o">}</span>
+</span></span><span class="line"><span class="cl">						<span class="o">}</span>
+</span></span><span class="line"><span class="cl">					<span class="o">}</span>
+</span></span><span class="line"><span class="cl">				<span class="o">}</span>
+</span></span><span class="line"><span class="cl">			<span class="o">}</span>
+</span></span><span class="line"><span class="cl">		<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>the full source code is in the following repository: <a href="https://github.com/CesarMRodriguez/solving-serializado/tree/main/mhs-serializado">solving-serializado</a></p>
 <p>With this algorithm I found the key in 13,5 minutes, and decrypted the content of the text that is <strong>&ldquo;banana_loca&rdquo;</strong>.</p>
 
         </div>
@@ -487,10 +487,10 @@ Exception in thread <span class="s2">&#34;main&#34;</span> java.util.NoSuchEleme
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -508,7 +508,7 @@ Exception in thread <span class="s2">&#34;main&#34;</span> java.util.NoSuchEleme
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

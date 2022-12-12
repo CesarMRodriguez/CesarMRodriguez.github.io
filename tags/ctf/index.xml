@@ -6,11 +6,7 @@
     <description>Recent content in CTF on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Aug 2021 10:07:47 +0600</lastBuildDate>
-    
-	<atom:link href="https://cmrodriguez.me/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 26 Aug 2021 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Solving CTF with Frida - Part 6</title>
       <link>https://cmrodriguez.me/blog/hpandro-6/</link>

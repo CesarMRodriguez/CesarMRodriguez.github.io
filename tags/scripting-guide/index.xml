@@ -6,11 +6,7 @@
     <description>Recent content in Scripting guide on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 May 2020 10:07:47 +0600</lastBuildDate>
-    
-	<atom:link href="https://cmrodriguez.me/tags/scripting-guide/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 24 May 2020 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/tags/scripting-guide/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Frida Scripting Guide for Java</title>
       <link>https://cmrodriguez.me/blog/frida-scripting-guide/</link>

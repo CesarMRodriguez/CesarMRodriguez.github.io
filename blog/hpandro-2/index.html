@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida ctf challenge http intercept">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -153,19 +153,19 @@
           class="text-primary">Android</a>
         
         <a href="/categories/ctf"
-          class="text-primary">C t f</a>
+          class="text-primary">Ctf</a>
         
         <a href="/categories/challenge"
           class="text-primary">Challenge</a>
         
         <a href="/categories/https"
-          class="text-primary">H t t p s</a>
+          class="text-primary">HTTPS</a>
         
         <a href="/categories/tcp"
-          class="text-primary">T c p</a>
+          class="text-primary">Tcp</a>
         
         <a href="/categories/udp"
-          class="text-primary">U d p</a>
+          class="text-primary">UDP</a>
         
         <h2>Solving CTF with Frida - Part 2</h2>
         <div class="mb-3 post-meta">
@@ -203,24 +203,24 @@
 <p>c- Using Frida. I&rsquo;ve already covered different strategies and scripts in previous posts: <a href="https://cmrodriguez.me/blog/nsc-bypass-2/">Network security bypass 2</a> and <a href="https://cmrodriguez.me/blog/nsc-bypass/">Network security bypass</a>.</p>
 <p>One of the first things I do when I start the analysis of an application is checking the AndroidManifest to get an idea of the permissions the application requests, the exposed components and the network security configuration. In this case I&rsquo;ll check just the third as it is needed to solve the challenge:</p>
 <p>AndroidManifest.xml:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">  <span class="nt">&lt;application</span> <span class="na">android:theme=</span><span class="s">&#34;@style/AppTheme&#34;</span> <span class="na">android:label=</span><span class="s">&#34;@string/app_name&#34;</span> <span class="na">android:icon=</span><span class="s">&#34;@mipmap/ic_launcher&#34;</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.MainApp&#34;</span> <span class="err">...</span> <span class="err">*</span><span class="na">android:networkSecurityConfig=</span><span class="s">&#34;@xml/network_security_config&#34;</span><span class="err">*</span> <span class="err">...</span><span class="nt">&gt;</span>
-</code></pre></div><p>As the application tag has the attribute android:networkSecurityConfig, I need to check the file that is defined as the value of that attribute. In this case it is <em>res/xml/network_security_config.xml</em>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
-<span class="nt">&lt;network-security-config&gt;</span>
-    <span class="nt">&lt;domain-config</span> <span class="na">cleartextTrafficPermitted=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;domain</span> <span class="na">includeSubdomains=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>hpandro.raviramesh.info
-        <span class="nt">&lt;/domain&gt;</span>
-        <span class="nt">&lt;domain</span> <span class="na">includeSubdomains=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>raviramesh.info
-        <span class="nt">&lt;/domain&gt;</span>
-        <span class="nt">&lt;domain</span> <span class="na">includeSubdomains=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>hpandro.me
-        <span class="nt">&lt;/domain&gt;</span>
-        <span class="nt">&lt;trust-anchors&gt;</span>
-            <span class="nt">&lt;certificates</span> <span class="na">src=</span><span class="s">&#34;system&#34;</span><span class="nt">/&gt;</span>
-            <span class="nt">&lt;certificates</span> <span class="na">src=</span><span class="s">&#34;user&#34;</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;/trust-anchors&gt;</span>
-    <span class="nt">&lt;/domain-config&gt;</span>
-<span class="nt">&lt;/network-security-config&gt;</span>
-</code></pre></div><p>So in this case for the following domains, the application accepts user certificates:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">  <span class="nt">&lt;application</span> <span class="na">android:theme=</span><span class="s">&#34;@style/AppTheme&#34;</span> <span class="na">android:label=</span><span class="s">&#34;@string/app_name&#34;</span> <span class="na">android:icon=</span><span class="s">&#34;@mipmap/ic_launcher&#34;</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.MainApp&#34;</span> <span class="err">...</span> <span class="err">*</span><span class="na">android:networkSecurityConfig=</span><span class="s">&#34;@xml/network_security_config&#34;</span><span class="err">*</span> <span class="err">...</span><span class="nt">&gt;</span>
+</span></span></code></pre></div><p>As the application tag has the attribute android:networkSecurityConfig, I need to check the file that is defined as the value of that attribute. In this case it is <em>res/xml/network_security_config.xml</em>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;network-security-config&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;domain-config</span> <span class="na">cleartextTrafficPermitted=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;domain</span> <span class="na">includeSubdomains=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>hpandro.raviramesh.info
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/domain&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;domain</span> <span class="na">includeSubdomains=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>raviramesh.info
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/domain&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;domain</span> <span class="na">includeSubdomains=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>hpandro.me
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/domain&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;trust-anchors&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;certificates</span> <span class="na">src=</span><span class="s">&#34;system&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;certificates</span> <span class="na">src=</span><span class="s">&#34;user&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/trust-anchors&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/domain-config&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/network-security-config&gt;</span>
+</span></span></code></pre></div><p>So in this case for the following domains, the application accepts user certificates:</p>
 <ul>
 <li>hpandro.raviramesh.info</li>
 <li>raviramesh.info</li>
@@ -228,222 +228,221 @@
 </ul>
 <p>I still need to check what does the application in the challenge. If the request is to one of the previous domains, the proxy configuration will work without doing anything else.</p>
 <p>The activity called in the task can be seen in the AndroidManifest.xml as well:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.ui.activity.task.trafficanalysis.HTTPsTrafficActivity&#34;</span><span class="nt">/&gt;</span>
-</code></pre></div><p>Whenever I navigate to the class defined in the manifest and read the code in the <em>onCreate</em> function I see the following URL:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="k">if</span> <span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">WebView</span> <span class="n">webView4</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">);</span>
-    <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">webView4</span><span class="o">);</span>
-    <span class="n">webView4</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="s">&#34;https://hpandro.raviramesh.info/https_task.php&#34;</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div><p>So in this case the challenge could be solved easily, but as our objective is to solve the challenge with Frida, we&rsquo;ll have to create an script and retrieve the flag with it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.ui.activity.task.trafficanalysis.HTTPsTrafficActivity&#34;</span><span class="nt">/&gt;</span>
+</span></span></code></pre></div><p>Whenever I navigate to the class defined in the manifest and read the code in the <em>onCreate</em> function I see the following URL:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WebView</span> <span class="n">webView4</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">webView4</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">webView4</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="s">&#34;https://hpandro.raviramesh.info/https_task.php&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>So in this case the challenge could be solved easily, but as our objective is to solve the challenge with Frida, we&rsquo;ll have to create an script and retrieve the flag with it.</p>
 <p>By reading the content of the challenge I realized that the code is exactly the same as in the HTTPTrafficActivity, so the only change needed is to change the URL on the script. The final script is the following one:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">readNewStream</span><span class="p">(</span><span class="nx">inputStream</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="kd">var</span> <span class="nx">BufferedReader</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.io.BufferedReader&#39;</span><span class="p">);</span> 
-    <span class="kd">var</span> <span class="nx">InputStreamReader</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.io.InputStreamReader&#39;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">inputStreamReader</span> <span class="o">=</span> <span class="nx">InputStreamReader</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">inputStream</span><span class="p">);</span>
-    
-    <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">BufferedReader</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">inputStreamReader</span><span class="p">);</span>
-    
-    <span class="kd">var</span> <span class="nx">StringBuilder</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.lang.StringBuilder&#39;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="nx">StringBuilder</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-    <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.lang.String&#39;</span><span class="p">);</span>
-    <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">readLine</span><span class="p">();</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">line</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">total</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">line</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">));</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">total</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
-<span class="p">}</span>
-
-<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-
-    <span class="kd">var</span> <span class="nx">WebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;v0.d.a.c.a.d.h.b&#39;</span><span class="p">);</span>
-    <span class="nx">WebViewClient</span><span class="p">.</span><span class="nx">shouldInterceptRequest</span><span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebView&#39;</span><span class="p">,</span> <span class="s1">&#39;android.webkit.WebResourceRequest&#39;</span><span class="p">).</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-
-        <span class="kd">var</span> <span class="nx">WebResourceResponse</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebResourceResponse&#39;</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">isFavicon</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">getUrl</span><span class="p">().</span><span class="nx">toString</span><span class="p">().</span><span class="nx">search</span><span class="p">(</span><span class="s2">&#34;favicon.ico&#34;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
-        
-        <span class="kd">var</span> <span class="nx">URL</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.net.URL&#39;</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">URL</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">getUrl</span><span class="p">().</span><span class="nx">toString</span><span class="p">());</span>
-        
-        <span class="kd">var</span> <span class="nx">HttpURLConnection</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.net.HttpURLConnection&#39;</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">urlConnection</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">openConnection</span><span class="p">(),</span><span class="nx">HttpURLConnection</span><span class="p">);</span>
-        
-        <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.lang.String&#39;</span><span class="p">);</span>
-        <span class="nx">urlConnection</span><span class="p">.</span><span class="nx">setRequestProperty</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;User-Agent&#34;</span><span class="p">),</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;hpAndro&#34;</span><span class="p">));</span>
-        
-        <span class="kd">var</span> <span class="nx">BufferedInputStream</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.io.BufferedInputStream&#39;</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">inputStr</span> <span class="o">=</span> <span class="nx">BufferedInputStream</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">urlConnection</span><span class="p">.</span><span class="nx">getInputStream</span><span class="p">());</span>
-        <span class="kd">var</span> <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isFavicon</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">readNewStream</span><span class="p">(</span><span class="nx">inputStr</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">urlConnection</span><span class="p">.</span><span class="nx">getHeaderFields</span><span class="p">();</span>
-            <span class="kd">var</span> <span class="nx">iter</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="nx">entrySet</span><span class="p">().</span><span class="nx">iterator</span><span class="p">();</span>
-            
-            <span class="kd">var</span> <span class="nx">Entry</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.util.Map$Entry&#39;</span><span class="p">);</span>
-            <span class="k">while</span><span class="p">(</span><span class="nx">iter</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">entry</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">iter</span><span class="p">.</span><span class="nx">next</span><span class="p">(),</span><span class="nx">Entry</span><span class="p">);</span>
-                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Key : &#34;</span> <span class="o">+</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">getKey</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34; ,Value : &#34;</span> <span class="o">+</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">getValue</span><span class="p">());</span>
-            <span class="p">}</span>
-            
-            <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;text/html&#34;</span><span class="p">,</span><span class="s2">&#34;utf-8&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;image/vnd.microsoft.icon&#34;</span><span class="p">,</span><span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
-        <span class="p">}</span>
-        
-        <span class="k">return</span> <span class="nx">webResourceRes</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-
-</code></pre></div><h3 id="intercept-tcp-traffic">Intercept TCP traffic.</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">readNewStream</span><span class="p">(</span><span class="nx">inputStream</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">BufferedReader</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.io.BufferedReader&#39;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">InputStreamReader</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.io.InputStreamReader&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">inputStreamReader</span> <span class="o">=</span> <span class="nx">InputStreamReader</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">inputStream</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">BufferedReader</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">inputStreamReader</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">StringBuilder</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.lang.StringBuilder&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="nx">StringBuilder</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.lang.String&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">readLine</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">line</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">total</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">line</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">total</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">WebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;v0.d.a.c.a.d.h.b&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">WebViewClient</span><span class="p">.</span><span class="nx">shouldInterceptRequest</span><span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebView&#39;</span><span class="p">,</span> <span class="s1">&#39;android.webkit.WebResourceRequest&#39;</span><span class="p">).</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">WebResourceResponse</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebResourceResponse&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">isFavicon</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">getUrl</span><span class="p">().</span><span class="nx">toString</span><span class="p">().</span><span class="nx">search</span><span class="p">(</span><span class="s2">&#34;favicon.ico&#34;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">URL</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.net.URL&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">URL</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">getUrl</span><span class="p">().</span><span class="nx">toString</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">HttpURLConnection</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.net.HttpURLConnection&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">urlConnection</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">openConnection</span><span class="p">(),</span><span class="nx">HttpURLConnection</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.lang.String&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">urlConnection</span><span class="p">.</span><span class="nx">setRequestProperty</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;User-Agent&#34;</span><span class="p">),</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;hpAndro&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">BufferedInputStream</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.io.BufferedInputStream&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">inputStr</span> <span class="o">=</span> <span class="nx">BufferedInputStream</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">urlConnection</span><span class="p">.</span><span class="nx">getInputStream</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isFavicon</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">readNewStream</span><span class="p">(</span><span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">urlConnection</span><span class="p">.</span><span class="nx">getHeaderFields</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">iter</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="nx">entrySet</span><span class="p">().</span><span class="nx">iterator</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">Entry</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;java.util.Map$Entry&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span><span class="p">(</span><span class="nx">iter</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">var</span> <span class="nx">entry</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">cast</span><span class="p">(</span><span class="nx">iter</span><span class="p">.</span><span class="nx">next</span><span class="p">(),</span><span class="nx">Entry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Key : &#34;</span> <span class="o">+</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">getKey</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34; ,Value : &#34;</span> <span class="o">+</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">getValue</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;text/html&#34;</span><span class="p">,</span><span class="s2">&#34;utf-8&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;image/vnd.microsoft.icon&#34;</span><span class="p">,</span><span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">webResourceRes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><h3 id="intercept-tcp-traffic">Intercept TCP traffic.</h3>
 <p>As we have non HTTP Traffic, web proxies do not work here. In this case a lower level of sniffer is needed (like wireshark or tcpdump). As the objective is to solve this challenge with Frida, we need to find out how the TCP packets are being sent. We start by searching in the AndroidManifest the activity that generates the communication:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"> <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.ui.activity.task.nonhttptraffic.TCPTrafficActivity&#34;</span><span class="nt">/&gt;</span>
-</code></pre></div><p>We then check the TCPTrafficActivity, and analyze the code of the <em>onCreate</em> method. Note that by using the application we see that the packet seems to be sent whenever the user clicks the button CONNECT:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"> <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.ui.activity.task.nonhttptraffic.TCPTrafficActivity&#34;</span><span class="nt">/&gt;</span>
+</span></span></code></pre></div><p>We then check the TCPTrafficActivity, and analyze the code of the <em>onCreate</em> method. Note that by using the application we see that the packet seems to be sent whenever the user clicks the button CONNECT:</p>
 <p><img src="/images/featured-post/hpandro-2-1.png" alt="TCP task"></p>
 <p>So we want to check what the onClickListener does in that case. We can find it in the following code in the onCreate method:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">onCreate</span><span class="o">()</span>
-    <span class="o">((</span><span class="n">Button</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">btnConnectTCP</span><span class="o">)).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">d</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
-</code></pre></div><p>We then check <em>d</em>, a class that implement OnClickListener:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">d</span> <span class="kd">implements</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">final</span> <span class="cm">/* synthetic */</span> <span class="n">TCPTrafficActivity</span> <span class="n">e</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">d</span><span class="o">(</span><span class="n">TCPTrafficActivity</span> <span class="n">tCPTrafficActivity</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">e</span> <span class="o">=</span> <span class="n">tCPTrafficActivity</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">...</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>Whenever the user clicks the button, the onClick method from the OnCLickListener is being called, so we have to analyze that method.</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">.</span><span class="na">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">b</span><span class="o">());</span>
-    <span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">.</span><span class="na">t</span><span class="o">;</span>
-    <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">thread</span><span class="o">);</span>
-    <span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div><p>which basically instantiates <em>b</em> (an implementation of Runnable) and executes it. We&rsquo;ll do a review of the method <em>run</em>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">try</span> <span class="o">{</span>
-        <span class="o">...</span>
-        <span class="c1">// socket created with the folling domain and port 
-</span><span class="c1"></span>        <span class="c1">//    public final String w = &#34;hpandro.raviramesh.info&#34;;
-</span><span class="c1"></span>        <span class="c1">//    public final int x = 65000;
-</span><span class="c1"></span>
-        <span class="n">tCPTrafficActivity</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Socket</span><span class="o">(</span><span class="n">tCPTrafficActivity2</span><span class="o">.</span><span class="na">w</span><span class="o">,</span> <span class="n">tCPTrafficActivity2</span><span class="o">.</span><span class="na">x</span><span class="o">);</span>
-        
-        <span class="c1">//sets a buffer reader with the InputSttram from a socket in attribute b of the TCPTrafficActivity instance
-</span><span class="c1"></span>        <span class="n">tCPTrafficActivity4</span><span class="o">.</span><span class="na">v</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">socket2</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
-        <span class="c1">//run a new thread with a Runnable class (a)
-</span><span class="c1"></span>        <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">a</span><span class="o">()).</span><span class="na">start</span><span class="o">();</span>
-    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e2</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="n">e2</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e3</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">e3</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>We check the implementation of the class <em>a</em> that is in the same file as TCPTrafficActivity:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">BufferedReader</span> <span class="n">bufferedReader</span><span class="o">;</span>
-    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="c1">//v is the bufferreader that takes the InputStream from the socket
-</span><span class="c1"></span>            <span class="n">bufferedReader</span> <span class="o">=</span> <span class="n">TCPTrafficActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">v</span><span class="o">;</span>
-            <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">bufferedReader</span><span class="o">);</span>
-            <span class="k">break</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e2</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">e2</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="c1">//in this line the bufferReader retrieves the content of the socket, and does nothing with it
-</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-</code></pre></div><p>So in this case in order to solve the issue we could override the method <em>readLine</em> from <em>BufferReader</em> in order to show the content of the flag. The following script was created to solve it:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">BufferedReader</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.io.BufferedReader&#34;</span><span class="p">);</span>
-    <span class="nx">BufferedReader</span><span class="p">.</span><span class="nx">readLine</span><span class="p">.</span><span class="nx">overload</span><span class="p">().</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">readLine</span><span class="p">();</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
-        <span class="k">return</span> <span class="nx">line</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-</code></pre></div><h3 id="intercept-udp-traffic">Intercept UDP traffic.</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">onCreate</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">((</span><span class="n">Button</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">btnConnectTCP</span><span class="o">)).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">d</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
+</span></span></code></pre></div><p>We then check <em>d</em>, a class that implement OnClickListener:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">d</span> <span class="kd">implements</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">final</span> <span class="cm">/* synthetic */</span> <span class="n">TCPTrafficActivity</span> <span class="n">e</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">d</span><span class="o">(</span><span class="n">TCPTrafficActivity</span> <span class="n">tCPTrafficActivity</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">e</span> <span class="o">=</span> <span class="n">tCPTrafficActivity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Whenever the user clicks the button, the onClick method from the OnCLickListener is being called, so we have to analyze that method.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">.</span><span class="na">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">b</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">.</span><span class="na">t</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">thread</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>which basically instantiates <em>b</em> (an implementation of Runnable) and executes it. We&rsquo;ll do a review of the method <em>run</em>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// socket created with the folling domain and port 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//    public final String w = &#34;hpandro.raviramesh.info&#34;;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//    public final int x = 65000;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="n">tCPTrafficActivity</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Socket</span><span class="o">(</span><span class="n">tCPTrafficActivity2</span><span class="o">.</span><span class="na">w</span><span class="o">,</span> <span class="n">tCPTrafficActivity2</span><span class="o">.</span><span class="na">x</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">//sets a buffer reader with the InputSttram from a socket in attribute b of the TCPTrafficActivity instance
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">tCPTrafficActivity4</span><span class="o">.</span><span class="na">v</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">socket2</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//run a new thread with a Runnable class (a)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">a</span><span class="o">()).</span><span class="na">start</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e2</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e3</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e3</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>We check the implementation of the class <em>a</em> that is in the same file as TCPTrafficActivity:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BufferedReader</span> <span class="n">bufferedReader</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//v is the bufferreader that takes the InputStream from the socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">bufferedReader</span> <span class="o">=</span> <span class="n">TCPTrafficActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">v</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">bufferedReader</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e2</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//in this line the bufferReader retrieves the content of the socket, and does nothing with it
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span></code></pre></div><p>So in this case in order to solve the issue we could override the method <em>readLine</em> from <em>BufferReader</em> in order to show the content of the flag. The following script was created to solve it:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">BufferedReader</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.io.BufferedReader&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">BufferedReader</span><span class="p">.</span><span class="nx">readLine</span><span class="p">.</span><span class="nx">overload</span><span class="p">().</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">line</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">readLine</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">line</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><h3 id="intercept-udp-traffic">Intercept UDP traffic.</h3>
 <p>The process to solve this challenge is like the last one, so I&rsquo;ll focus on the analysis of the source code. The following image is taken from the UDP taks:</p>
 <p><img src="/images/featured-post/hpandro-2-2.png" alt="UDP task"></p>
 <p>We check the <em>onCreate</em> method to find the implementation of the OnCLickListener:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="o">((</span><span class="n">Button</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">btnConnectUDP</span><span class="o">)).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">a</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="k">this</span><span class="o">));</span>
-</code></pre></div><p>In the &ldquo;a&rdquo; class we have the following code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">;</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">finish</span><span class="o">();</span>
-    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">...</span>
-        <span class="c1">//this is the handler that receives the answer in UDPTrafficActivity
-</span><span class="c1"></span>        <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">s</span> <span class="o">=</span> <span class="k">new</span> <span class="n">b</span><span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">);</span>
-        <span class="n">b</span> <span class="n">bVar</span> <span class="o">=</span> <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">s</span><span class="o">;</span>
-        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">bVar</span><span class="o">);</span>
-
-        <span class="c1">//this class starts the communication and retrieves the messages
-</span><span class="c1"></span>        <span class="c1">//The application is connected to hpandro.raviramesh.info:65001
-</span><span class="c1"></span>        <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">c</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">g</span><span class="o">.</span><span class="na">b</span><span class="o">(</span><span class="s">&#34;hpandro.raviramesh.info&#34;</span><span class="o">,</span> <span class="n">65001</span><span class="o">,</span> <span class="n">bVar</span><span class="o">);</span>
-        <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">c</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">g</span><span class="o">.</span><span class="na">b</span> <span class="n">bVar2</span> <span class="o">=</span> <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">t</span><span class="o">;</span>
-        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">bVar2</span><span class="o">);</span>
-        <span class="n">bVar2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-        <span class="k">throw</span> <span class="kc">null</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>We have to navigate to <em>v0.d.a.c.a.d.g.b</em> and see the implementation of the <em>run</em> method:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="o">...</span>
-<span class="n">DatagramSocket</span> <span class="n">datagramSocket3</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">;</span>
-<span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">datagramSocket3</span><span class="o">);</span>
-<span class="n">datagramSocket3</span><span class="o">.</span><span class="na">receive</span><span class="o">(</span><span class="n">datagramPacket2</span><span class="o">);</span>
-<span class="c1">//data retrieved from the socket
-</span><span class="c1"></span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span> <span class="o">=</span> <span class="n">datagramPacket2</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
-<span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="s">&#34;packet.data&#34;</span><span class="o">);</span>
-<span class="c1">//converts byteArray to String
-</span><span class="c1"></span><span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">datagramPacket2</span><span class="o">.</span><span class="na">getLength</span><span class="o">(),</span> <span class="n">a</span><span class="o">.</span><span class="na">a</span><span class="o">);</span>
-<span class="n">UDPTrafficActivity</span><span class="o">.</span><span class="na">b</span> <span class="n">bVar3</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">;</span>
-<span class="c1">//bVar3.sendMessage is invoked and the String is sent as parameter 
-</span><span class="c1"></span><span class="n">bVar3</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">obtain</span><span class="o">(</span><span class="n">bVar3</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">str</span><span class="o">));</span><span class="n">UDPTrafficActivity</span><span class="o">.</span><span class="na">b</span>
-<span class="n">datagramSocket</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">;</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">datagramSocket</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><p>The application is using the (Message)[https://developer.android.com/reference/android/os/Message] framework that provides Android to send messages from the previous class to the AndroidActivity. So we have to check the handleMessage, and what it does with the String. The Message has the following content:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">((</span><span class="n">Button</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">btnConnectUDP</span><span class="o">)).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">a</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="k">this</span><span class="o">));</span>
+</span></span></code></pre></div><p>In the &ldquo;a&rdquo; class we have the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">finish</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//this is the handler that receives the answer in UDPTrafficActivity
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">s</span> <span class="o">=</span> <span class="k">new</span> <span class="n">b</span><span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="n">bVar</span> <span class="o">=</span> <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">s</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">bVar</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//this class starts the communication and retrieves the messages
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//The application is connected to hpandro.raviramesh.info:65001
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">c</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">g</span><span class="o">.</span><span class="na">b</span><span class="o">(</span><span class="s">&#34;hpandro.raviramesh.info&#34;</span><span class="o">,</span> <span class="n">65001</span><span class="o">,</span> <span class="n">bVar</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">c</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">g</span><span class="o">.</span><span class="na">b</span> <span class="n">bVar2</span> <span class="o">=</span> <span class="o">((</span><span class="n">UDPTrafficActivity</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">).</span><span class="na">t</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">bVar2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bVar2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>We have to navigate to <em>v0.d.a.c.a.d.g.b</em> and see the implementation of the <em>run</em> method:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">DatagramSocket</span> <span class="n">datagramSocket3</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">datagramSocket3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">datagramSocket3</span><span class="o">.</span><span class="na">receive</span><span class="o">(</span><span class="n">datagramPacket2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//data retrieved from the socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span> <span class="o">=</span> <span class="n">datagramPacket2</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="s">&#34;packet.data&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//converts byteArray to String
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">datagramPacket2</span><span class="o">.</span><span class="na">getLength</span><span class="o">(),</span> <span class="n">a</span><span class="o">.</span><span class="na">a</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">UDPTrafficActivity</span><span class="o">.</span><span class="na">b</span> <span class="n">bVar3</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">e</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//bVar3.sendMessage is invoked and the String is sent as parameter 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">bVar3</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">obtain</span><span class="o">(</span><span class="n">bVar3</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">str</span><span class="o">));</span><span class="n">UDPTrafficActivity</span><span class="o">.</span><span class="na">b</span>
+</span></span><span class="line"><span class="cl"><span class="n">datagramSocket</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">f</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">datagramSocket</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>The application is using the (Message)[https://developer.android.com/reference/android/os/Message] framework that provides Android to send messages from the previous class to the AndroidActivity. So we have to check the handleMessage, and what it does with the String. The Message has the following content:</p>
 <ul>
 <li><em>message.what</em>: int that identifies the kind of message sent . In this case it has the valui 1.</li>
 <li><em>message.obj</em>: Object with the message. In this case it is the String retrieved from the socket.</li>
 </ul>
 <p>The handleMessage handles the message type 1 in the following way:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">UDPTrafficActivity</span> <span class="n">uDPTrafficActivity2</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">a</span><span class="o">;</span>
-<span class="n">Object</span> <span class="n">obj2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="na">obj</span><span class="o">;</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">obj2</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">i3</span> <span class="o">=</span> <span class="n">UDPTrafficActivity</span><span class="o">.</span><span class="na">v</span><span class="o">;</span>
-    <span class="n">uDPTrafficActivity2</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">((</span><span class="n">Object</span><span class="o">)</span> <span class="o">(</span><span class="s">&#34;+++++++++++++++ updateRxMsg:&#34;</span> <span class="o">+</span> <span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">obj2</span><span class="o">)));</span>
-    <span class="n">uDPTrafficActivity2</span><span class="o">.</span><span class="na">runOnUiThread</span><span class="o">(</span><span class="k">new</span> <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">c</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">uDPTrafficActivity2</span><span class="o">));</span>
-    <span class="k">return</span><span class="o">;</span>
-</code></pre></div><p>As it can be seen the application executes a System.out.println with the String received. If we check the <em>logcat</em> logs from the application we will see that the flag is printed there. So there is no need to create a Frida script to solve the challenge. Nevertheless, we&rsquo;ll do it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">UDPTrafficActivity</span> <span class="n">uDPTrafficActivity2</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">a</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Object</span> <span class="n">obj2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="na">obj</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">obj2</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i3</span> <span class="o">=</span> <span class="n">UDPTrafficActivity</span><span class="o">.</span><span class="na">v</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uDPTrafficActivity2</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">((</span><span class="n">Object</span><span class="o">)</span> <span class="o">(</span><span class="s">&#34;+++++++++++++++ updateRxMsg:&#34;</span> <span class="o">+</span> <span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">obj2</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uDPTrafficActivity2</span><span class="o">.</span><span class="na">runOnUiThread</span><span class="o">(</span><span class="k">new</span> <span class="n">v0</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">c</span><span class="o">.</span><span class="na">a</span><span class="o">.</span><span class="na">d</span><span class="o">.</span><span class="na">g</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="n">uDPTrafficActivity2</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="o">;</span>
+</span></span></code></pre></div><p>As it can be seen the application executes a System.out.println with the String received. If we check the <em>logcat</em> logs from the application we will see that the flag is printed there. So there is no need to create a Frida script to solve the challenge. Nevertheless, we&rsquo;ll do it.</p>
 <p>In this case the easiest thing is to execute a hook on the method getData of DatagramPacket:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    
-    <span class="kd">var</span> <span class="nx">DatagramPacket</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.net.DatagramPacket&#34;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;a1.u.a&#34;</span><span class="p">);</span>
-    <span class="nx">DatagramPacket</span><span class="p">.</span><span class="nx">getData</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getData</span><span class="p">();</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">getLength</span><span class="p">(),</span><span class="nx">a</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">value</span><span class="p">));</span>
-        <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-</code></pre></div><p>In the following link <a href="https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%202">https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%202</a> you can find the following content:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">DatagramPacket</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.net.DatagramPacket&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.String&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;a1.u.a&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">DatagramPacket</span><span class="p">.</span><span class="nx">getData</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">getLength</span><span class="p">(),</span><span class="nx">a</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">value</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><p>In the following link <a href="https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%202">https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%202</a> you can find the following content:</p>
 <ul>
 <li>https_task.js: Scrip used to solve the task of https interception.</li>
 <li>tcp_traffic.js: Script to solve the TCP interception task.</li>
@@ -514,10 +513,10 @@
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -535,7 +534,7 @@
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

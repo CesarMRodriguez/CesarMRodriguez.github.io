@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida scripting guide access content classes">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -218,31 +218,31 @@
 </blockquote>
 <p>As an example a private method can only be invoked by the class or instance that owns the method (if it is not static, just by an instance).
 The static methods and objects can be used from a Frida script independently of the scope modifier, as shown in the following example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">ScopeObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">privateStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">protectedStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">nonModifiedStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">privateStaticMethod</span><span class="p">());</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">protectedStaticMethod</span><span class="p">());</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">publicStaticMethod</span><span class="p">());</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">nonModifiedStaticMethod</span><span class="p">());</span>
-</code></pre></div><p>In order to use the attributes and methods of an instance, we need to create an instance by calling its constructor. Frida acts like in the case of the static methods and attributes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">ScopeObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">scopeInstance</span> <span class="o">=</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">privateObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">protectedObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">publicObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">nonModifiedObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">privateMethod</span><span class="p">());</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">protectedMethod</span><span class="p">());</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">publicMethod</span><span class="p">());</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">nonModifiedMethod</span><span class="p">());</span>
-</code></pre></div><p>Next: <a href="https://cmrodriguez.me/blog/this-reference/">&ldquo;this&rdquo; reference</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ScopeObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">privateStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">protectedStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">publicStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;static object:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">nonModifiedStaticObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">privateStaticMethod</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">protectedStaticMethod</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">publicStaticMethod</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;static method:&#34;</span> <span class="o">+</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">nonModifiedStaticMethod</span><span class="p">());</span>
+</span></span></code></pre></div><p>In order to use the attributes and methods of an instance, we need to create an instance by calling its constructor. Frida acts like in the case of the static methods and attributes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ScopeObject</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.ScopeObject&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">scopeInstance</span> <span class="o">=</span> <span class="nx">ScopeObject</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">privateObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">protectedObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">publicObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;object:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">nonModifiedObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;private method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">privateMethod</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;protected method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">protectedMethod</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;public method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">publicMethod</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;method:&#34;</span> <span class="o">+</span> <span class="nx">scopeInstance</span><span class="p">.</span><span class="nx">nonModifiedMethod</span><span class="p">());</span>
+</span></span></code></pre></div><p>Next: <a href="https://cmrodriguez.me/blog/this-reference/">&ldquo;this&rdquo; reference</a></p>
 
         </div>
 
@@ -308,10 +308,10 @@ The static methods and objects can be used from a Frida script independently of 
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -329,7 +329,7 @@ The static methods and objects can be used from a Frida script independently of 
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

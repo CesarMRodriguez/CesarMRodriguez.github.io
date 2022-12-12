@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida scripting guide interfaces">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -176,33 +176,33 @@
 </ul>
 <p>To test this functionality I&rsquo;ve created in the application an interface called MyInterface, and a class that implements the interface called MyInterfaceClass.</p>
 <p>In order to get the interface representation in Frida we use the same code as we would use for a class:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">MyInterface</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.interfaces.MyInterface&#34;</span><span class="p">);</span>
-</code></pre></div><p>We can&rsquo;t intercept or modify the abstract methods exposed by the interface. As an example I tried to implement the getMessage method from the interface in the following way:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">MyInterface</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;it gets into the getMessage&#34;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;it works&#34;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>When we call the getMessage from the implementation of the getMessage method in the MyInterfaceClass, the console.log is not triggered. If we want to change the implementation, we have to do it in each class the abstract method is implemented. In this case we did it on the only class implementing MyInterface:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">MyInterfaceClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.interfaces.MyInterfaceClass&#34;</span><span class="p">);</span>
-<span class="nx">MyInterfaceClass</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;it gets into the getMessage&#34;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;it works&#34;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>Note that we can&rsquo;t instantiate an interface, it will throw the following error:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">Error</span><span class="o">:</span> <span class="nx">no</span> <span class="nx">supported</span> <span class="nx">overloads</span> 
-  <span class="nx">at</span> <span class="nx">makeConstructor</span> <span class="p">(</span><span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">478</span><span class="p">)</span> <span class="p">...</span> 
-  <span class="nx">at</span> <span class="o">/</span><span class="nx">examples</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">434</span>
-</code></pre></div><p>When we get an instance of a class that implements an interface, we can call the interfaces&rsquo; methods, but Frida will end up calling the classes implementations as in the following examples:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">//we get an instance of Interface and call the getMessage
-</span><span class="c1"></span><span class="kd">var</span> <span class="nx">interfaceInstance</span> <span class="o">=</span> <span class="nx">MyInterfaceClass</span><span class="p">.</span><span class="nx">getNewInstance</span><span class="p">();</span>
-
-<span class="c1">//internally it calls the getMessage from the MyInterfaceClass
-</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">interfaceInstance</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">());</span>
-
-<span class="c1">//this does not call the default interface, it calls the class one (even when it is
-</span><span class="c1">//casted as a MyInterface interface)
-</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">interfaceInstance</span><span class="p">.</span><span class="nx">getInt</span><span class="p">());</span>
-</code></pre></div><p>Next: <a href="https://cmrodriguez.me/blog/inner-classes/">Inner classes</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">MyInterface</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.interfaces.MyInterface&#34;</span><span class="p">);</span>
+</span></span></code></pre></div><p>We can&rsquo;t intercept or modify the abstract methods exposed by the interface. As an example I tried to implement the getMessage method from the interface in the following way:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">MyInterface</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;it gets into the getMessage&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;it works&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>When we call the getMessage from the implementation of the getMessage method in the MyInterfaceClass, the console.log is not triggered. If we want to change the implementation, we have to do it in each class the abstract method is implemented. In this case we did it on the only class implementing MyInterface:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">MyInterfaceClass</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.interfaces.MyInterfaceClass&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">MyInterfaceClass</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;it gets into the getMessage&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;it works&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Note that we can&rsquo;t instantiate an interface, it will throw the following error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nb">Error</span><span class="o">:</span> <span class="nx">no</span> <span class="nx">supported</span> <span class="nx">overloads</span> 
+</span></span><span class="line"><span class="cl">  <span class="nx">at</span> <span class="nx">makeConstructor</span> <span class="p">(</span><span class="nx">frida</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">java</span><span class="o">-</span><span class="nx">bridge</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="kr">class</span><span class="o">-</span><span class="nx">factory</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">478</span><span class="p">)</span> <span class="p">...</span> 
+</span></span><span class="line"><span class="cl">  <span class="nx">at</span> <span class="o">/</span><span class="nx">examples</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">434</span>
+</span></span></code></pre></div><p>When we get an instance of a class that implements an interface, we can call the interfaces&rsquo; methods, but Frida will end up calling the classes implementations as in the following examples:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">//we get an instance of Interface and call the getMessage
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">interfaceInstance</span> <span class="o">=</span> <span class="nx">MyInterfaceClass</span><span class="p">.</span><span class="nx">getNewInstance</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//internally it calls the getMessage from the MyInterfaceClass
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">interfaceInstance</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//this does not call the default interface, it calls the class one (even when it is
+</span></span></span><span class="line"><span class="cl"><span class="c1">//casted as a MyInterface interface)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">interfaceInstance</span><span class="p">.</span><span class="nx">getInt</span><span class="p">());</span>
+</span></span></code></pre></div><p>Next: <a href="https://cmrodriguez.me/blog/inner-classes/">Inner classes</a></p>
 
         </div>
 
@@ -268,10 +268,10 @@
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -289,7 +289,7 @@
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

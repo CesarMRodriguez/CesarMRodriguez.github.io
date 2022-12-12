@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida scripting guide arrays">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -165,39 +165,39 @@
         
         <div class="content mb-5">
           <p>In this post I&rsquo;ll explain how to use arrays from Java in Frida. Arrays are transformed in Frida from Javascript to Java transparently, so there is no special consideration, as shown in the following examples:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">intArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ArrayType</span><span class="p">.</span><span class="nx">sumArray</span><span class="p">(</span><span class="nx">intArray</span><span class="p">));</span>
-</code></pre></div><p>This example shows a transformation from a javascript Array to a Java array.</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">ArrayType</span><span class="p">.</span><span class="nx">sumArray</span><span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s2">&#34;[I&#34;</span><span class="p">).</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">arrayList</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arrayList</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">total</span> <span class="o">+=</span> <span class="nx">arrayList</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Entra en arrayInt sumArray: &#34;</span> <span class="o">+</span> <span class="nx">total</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">total</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>This method receives an array in Java. When the Frida user writes the reimplementation function, they will receive a Javascript Array.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">intArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ArrayType</span><span class="p">.</span><span class="nx">sumArray</span><span class="p">(</span><span class="nx">intArray</span><span class="p">));</span>
+</span></span></code></pre></div><p>This example shows a transformation from a javascript Array to a Java array.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">ArrayType</span><span class="p">.</span><span class="nx">sumArray</span><span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s2">&#34;[I&#34;</span><span class="p">).</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">arrayList</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arrayList</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">total</span> <span class="o">+=</span> <span class="nx">arrayList</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Entra en arrayInt sumArray: &#34;</span> <span class="o">+</span> <span class="nx">total</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">total</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This method receives an array in Java. When the Frida user writes the reimplementation function, they will receive a Javascript Array.</p>
 <blockquote>
 <p><strong>Warning</strong> The forEach structure (used in Javascript) to iterate on an array does not work.</p>
 </blockquote>
 <p>Whenever the following code is called:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="nx">arrayList</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span> <span class="nx">total</span> <span class="o">+=</span> <span class="nx">element</span><span class="p">;</span> <span class="p">});</span>
-</code></pre></div><p>the frida server generates an error:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">TypeError</span><span class="o">:</span> <span class="kc">undefined</span> <span class="nx">not</span> <span class="nx">callable</span> <span class="p">(</span><span class="nx">property</span> <span class="s1">&#39;forEach&#39;</span> <span class="k">of</span> <span class="p">[</span><span class="nx">object</span> <span class="nb">Object</span><span class="p">])</span>
-    <span class="nx">at</span> <span class="p">[</span><span class="nx">anon</span><span class="p">]</span> <span class="p">(..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">gum</span><span class="o">/</span><span class="nx">bindings</span><span class="o">/</span><span class="nx">gumjs</span><span class="o">/</span><span class="nx">duktape</span><span class="p">.</span><span class="nx">c</span><span class="o">:</span><span class="mi">65012</span><span class="p">)</span>
-    <span class="nx">at</span> <span class="o">/</span><span class="nx">examples</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">278</span>
-    <span class="nx">at</span> <span class="nx">input</span><span class="o">:</span><span class="mi">1</span>
-</code></pre></div><p>Working with array of Objects is like working with native types, with the exception that a position in the Array can be null, so it must be taken in consideration when the script is being developed, as in the following example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">peopleArray</span> <span class="o">=</span> <span class="nx">ArrayType</span><span class="p">.</span><span class="nx">getAllPeople</span><span class="p">();</span>
-<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">peopleArray</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&#34; - null&#34;</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getId</span><span class="p">()</span><span class="o">+</span><span class="s2">&#34; - &#34;</span><span class="o">+</span><span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34; - &#34;</span> <span class="o">+</span> <span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getAge</span><span class="p">());</span>    
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">arrayList</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span> <span class="nx">total</span> <span class="o">+=</span> <span class="nx">element</span><span class="p">;</span> <span class="p">});</span>
+</span></span></code></pre></div><p>the frida server generates an error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">TypeError</span><span class="o">:</span> <span class="kc">undefined</span> <span class="nx">not</span> <span class="nx">callable</span> <span class="p">(</span><span class="nx">property</span> <span class="s1">&#39;forEach&#39;</span> <span class="k">of</span> <span class="p">[</span><span class="nx">object</span> <span class="nb">Object</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">at</span> <span class="p">[</span><span class="nx">anon</span><span class="p">]</span> <span class="p">(..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">frida</span><span class="o">-</span><span class="nx">gum</span><span class="o">/</span><span class="nx">bindings</span><span class="o">/</span><span class="nx">gumjs</span><span class="o">/</span><span class="nx">duktape</span><span class="p">.</span><span class="nx">c</span><span class="o">:</span><span class="mi">65012</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">at</span> <span class="o">/</span><span class="nx">examples</span><span class="p">.</span><span class="nx">js</span><span class="o">:</span><span class="mi">278</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">at</span> <span class="nx">input</span><span class="o">:</span><span class="mi">1</span>
+</span></span></code></pre></div><p>Working with array of Objects is like working with native types, with the exception that a position in the Array can be null, so it must be taken in consideration when the script is being developed, as in the following example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">peopleArray</span> <span class="o">=</span> <span class="nx">ArrayType</span><span class="p">.</span><span class="nx">getAllPeople</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">peopleArray</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&#34; - null&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getId</span><span class="p">()</span><span class="o">+</span><span class="s2">&#34; - &#34;</span><span class="o">+</span><span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34; - &#34;</span> <span class="o">+</span> <span class="nx">peopleArray</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getAge</span><span class="p">());</span>    
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
 <p><strong>Note</strong> A null value in the Java array is translated to a null javascript value automatically by the framework.</p>
 </blockquote>
 <p>Next: <a href="https://cmrodriguez.me/blog/enums/">Enums</a></p>
@@ -266,10 +266,10 @@
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -287,7 +287,7 @@
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

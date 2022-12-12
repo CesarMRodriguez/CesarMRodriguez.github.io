@@ -1,325 +1,200 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://cmrodriguez.me/tags/android/</loc>
-    <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://cmrodriguez.me/categories/android/</loc>
-    <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
   <url>
     <loc>https://cmrodriguez.me/categories/</loc>
-    <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-12-08T10:07:47+06:00</lastmod>
+  </url><url>
     <loc>https://cmrodriguez.me/</loc>
+    <lastmod>2022-12-08T10:07:47+06:00</lastmod>
+  </url><url>
+    <loc>https://cmrodriguez.me/categories/ctf/</loc>
+    <lastmod>2022-12-08T10:07:47+06:00</lastmod>
+  </url><url>
+    <loc>https://cmrodriguez.me/blog/solving-medium/</loc>
+    <lastmod>2022-12-08T10:07:47+06:00</lastmod>
+  </url><url>
+    <loc>https://cmrodriguez.me/categories/misc/</loc>
+    <lastmod>2022-12-08T10:07:47+06:00</lastmod>
+  </url><url>
+    <loc>https://cmrodriguez.me/tags/android/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://cmrodriguez.me/categories/android/</loc>
+    <lastmod>2021-08-26T10:07:47+06:00</lastmod>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/challenge/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/challenge/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/ctf/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://cmrodriguez.me/categories/ctf/</loc>
-    <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/emulation-detection/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/emulation-detection/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/frida/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/frida/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hpandro-6/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/</loc>
     <lastmod>2021-08-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/hpandro/</loc>
     <lastmod>2021-08-10T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hpandro/</loc>
     <lastmod>2021-08-10T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/root-detection/</loc>
     <lastmod>2021-08-09T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/root-detection/</loc>
     <lastmod>2021-08-09T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hpandro-5/</loc>
     <lastmod>2021-08-09T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hpandro-4/</loc>
     <lastmod>2021-07-23T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/websocket/</loc>
     <lastmod>2021-07-23T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/websocket/</loc>
     <lastmod>2021-07-23T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hpandro-3/</loc>
     <lastmod>2021-07-06T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/sqlite/</loc>
     <lastmod>2021-07-06T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/sqlite/</loc>
     <lastmod>2021-07-06T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/bug-analysis-google-search-rce/</loc>
     <lastmod>2021-06-30T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/bug/</loc>
     <lastmod>2021-06-30T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/bug/</loc>
     <lastmod>2021-06-30T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://cmrodriguez.me/tags/http/</loc>
-    <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://cmrodriguez.me/categories/http/</loc>
-    <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/https/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/https/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hpandro-2/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/tcp/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/tcp/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/udp/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/udp/</loc>
     <lastmod>2021-06-17T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://cmrodriguez.me/tags/http/</loc>
+    <lastmod>2021-06-11T10:07:47+06:00</lastmod>
+  </url><url>
+    <loc>https://cmrodriguez.me/categories/http/</loc>
+    <lastmod>2021-06-11T10:07:47+06:00</lastmod>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hpandro-1/</loc>
     <lastmod>2021-06-11T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/auto-pixeldungeon-1/</loc>
     <lastmod>2021-04-18T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/automation/</loc>
     <lastmod>2021-04-18T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/automation/</loc>
     <lastmod>2021-04-18T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/pixeldungeon/</loc>
     <lastmod>2021-04-18T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/categories/pixeldungeon/</loc>
     <lastmod>2021-04-18T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/nsc-bypass-2/</loc>
     <lastmod>2021-01-26T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/solving-serialized/</loc>
     <lastmod>2020-11-30T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://cmrodriguez.me/categories/misc/</loc>
-    <lastmod>2020-11-30T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/frida-scripting-guide/</loc>
     <lastmod>2020-05-24T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/hello-world/</loc>
     <lastmod>2020-05-24T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/tags/scripting-guide/</loc>
     <lastmod>2020-05-24T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/primitive-types/</loc>
     <lastmod>2020-05-23T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/methods/</loc>
     <lastmod>2020-05-23T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/about/</loc>
     <lastmod>2019-10-29T13:49:23+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/contact/</loc>
     <lastmod>2019-10-29T13:49:23+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/search/</loc>
     <lastmod>2019-10-29T13:49:23+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/nsc-bypass/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/exception-handling/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/classes-content/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/this-reference/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/arrays/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/enums/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/inheritance/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/interfaces/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/inner-classes/</loc>
     <lastmod>2019-10-29T10:07:47+06:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://cmrodriguez.me/blog/</loc>
     <lastmod>2019-05-26T13:49:23+06:00</lastmod>
   </url>
-  
 </urlset>

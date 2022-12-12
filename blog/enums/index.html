@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida scripting guide enums">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -165,24 +165,24 @@
         
         <div class="content mb-5">
           <p>It is a bit complicated to work on Enums. There is a difference between Enums and common classes. The latter has multiple values but no status. So it is usually used to hold finite and semantically strong status, like in the following case months of a year (in Java code):</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">enum</span> <span class="n">Month</span> <span class="o">{</span> <span class="n">JAN</span><span class="o">,</span> <span class="n">FEB</span><span class="o">,</span> <span class="n">MAR</span><span class="o">,</span> <span class="n">APR</span><span class="o">,</span> <span class="n">MAY</span><span class="o">,</span> <span class="n">JUN</span><span class="o">,</span> <span class="n">JUL</span><span class="o">,</span> <span class="n">AUG</span><span class="o">,</span> <span class="n">SEP</span><span class="o">,</span> <span class="n">OCT</span><span class="o">,</span> <span class="n">NOV</span><span class="o">,</span> <span class="n">DEC</span> <span class="o">}</span>
-</code></pre></div><p>To set a value you have to define the value to set:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Month</span> <span class="n">month</span> <span class="o">=</span> <span class="n">Month</span><span class="o">.</span><span class="na">APR</span><span class="o">;</span>
-</code></pre></div><p>In Frida we have the following possibilties:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">enum</span> <span class="n">Month</span> <span class="o">{</span> <span class="n">JAN</span><span class="o">,</span> <span class="n">FEB</span><span class="o">,</span> <span class="n">MAR</span><span class="o">,</span> <span class="n">APR</span><span class="o">,</span> <span class="n">MAY</span><span class="o">,</span> <span class="n">JUN</span><span class="o">,</span> <span class="n">JUL</span><span class="o">,</span> <span class="n">AUG</span><span class="o">,</span> <span class="n">SEP</span><span class="o">,</span> <span class="n">OCT</span><span class="o">,</span> <span class="n">NOV</span><span class="o">,</span> <span class="n">DEC</span> <span class="o">}</span>
+</span></span></code></pre></div><p>To set a value you have to define the value to set:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Month</span> <span class="n">month</span> <span class="o">=</span> <span class="n">Month</span><span class="o">.</span><span class="na">APR</span><span class="o">;</span>
+</span></span></code></pre></div><p>In Frida we have the following possibilties:</p>
 <ol>
 <li>Generate a Frida reference to the enum</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Month</span> <span class="o">=</span>  <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.DateAbstraction$Month&#34;</span><span class="p">);</span>
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Month</span> <span class="o">=</span>  <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;com.blog.testfrida.complexobjects.DateAbstraction$Month&#34;</span><span class="p">);</span>
+</span></span></code></pre></div><ol start="2">
 <li>Get all the possible values (it returns an array, so it can be iterated as shown in the array part of this guide):</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Month</span><span class="p">.</span><span class="nx">values</span><span class="p">();</span>
-</code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Month</span><span class="p">.</span><span class="nx">values</span><span class="p">();</span>
+</span></span></code></pre></div><ol start="3">
 <li>Print the value of a particular state. Note that we need a .value to get to the real value and not the wrapper of the status:</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">//Month has not redefined the toString so it calls the Object one
-</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Month</span><span class="p">.</span><span class="nx">APR</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-</code></pre></div><ol start="4">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">//Month has not redefined the toString so it calls the Object one
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Month</span><span class="p">.</span><span class="nx">APR</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span></code></pre></div><ol start="4">
 <li>
 <p>The toString method does not work in this case, as it will print the generic
 <strong>&quot;[object Object]&quot;</strong> string.</p>
@@ -191,15 +191,15 @@
 <p>Instantiate a Month value based on a String, and send it as a parameter (there are two ways to send it as a parameter to the Java method):</p>
 </li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">DateAbstraction</span><span class="p">.</span><span class="nx">getMonthName</span><span class="p">(</span><span class="nx">Month</span><span class="p">.</span><span class="nx">valueOf</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;APR&#34;</span><span class="p">))));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">DateAbstraction</span><span class="p">.</span><span class="nx">getMonthName</span><span class="p">(</span><span class="nx">Month</span><span class="p">.</span><span class="nx">APR</span><span class="p">.</span><span class="nx">value</span><span class="p">));</span>
-</code></pre></div><p>While writing this guide I had issues finding a way to get the value from a method (when it returns an Enum) and get the value when You want to override a method. The following example does not work as expected. We have the following code in Java:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Month</span> <span class="nf">getMay</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">Month</span><span class="o">.</span><span class="na">MAY</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><p>When we get the result from Frida:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">May</span> <span class="o">=</span> <span class="nx">DateAbstraction</span><span class="p">.</span><span class="nx">getMay</span><span class="p">();</span>
-</code></pre></div><p>the object returned seems to be the Month enum itself and not the particular value (so as an example the <strong>.value</strong> does not work with the May object). I&rsquo;ll post a bug in the Frida repo and will update the result.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">DateAbstraction</span><span class="p">.</span><span class="nx">getMonthName</span><span class="p">(</span><span class="nx">Month</span><span class="p">.</span><span class="nx">valueOf</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;APR&#34;</span><span class="p">))));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">DateAbstraction</span><span class="p">.</span><span class="nx">getMonthName</span><span class="p">(</span><span class="nx">Month</span><span class="p">.</span><span class="nx">APR</span><span class="p">.</span><span class="nx">value</span><span class="p">));</span>
+</span></span></code></pre></div><p>While writing this guide I had issues finding a way to get the value from a method (when it returns an Enum) and get the value when You want to override a method. The following example does not work as expected. We have the following code in Java:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Month</span> <span class="nf">getMay</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Month</span><span class="o">.</span><span class="na">MAY</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>When we get the result from Frida:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">May</span> <span class="o">=</span> <span class="nx">DateAbstraction</span><span class="p">.</span><span class="nx">getMay</span><span class="p">();</span>
+</span></span></code></pre></div><p>the object returned seems to be the Month enum itself and not the particular value (so as an example the <strong>.value</strong> does not work with the May object). I&rsquo;ll post a bug in the Frida repo and will update the result.</p>
 <p>Next: <a href="https://cmrodriguez.me/blog/inheritance/">Inheritance</a></p>
 
         </div>
@@ -266,10 +266,10 @@
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -287,7 +287,7 @@
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>

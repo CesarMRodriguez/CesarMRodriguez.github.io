@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="frida ctf challenge http intercept">
   <meta name="author" content="Cesar Rodriguez">
-  <meta name="generator" content="Hugo 0.70.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -153,13 +153,13 @@
           class="text-primary">Android</a>
         
         <a href="/categories/ctf"
-          class="text-primary">C t f</a>
+          class="text-primary">Ctf</a>
         
         <a href="/categories/challenge"
           class="text-primary">Challenge</a>
         
         <a href="/categories/http"
-          class="text-primary">H t t p</a>
+          class="text-primary">HTTP</a>
         
         <h2>Solving CTF with Frida - Part 1</h2>
         <div class="mb-3 post-meta">
@@ -184,36 +184,36 @@
 </ul>
 <p>As we already explained, we&rsquo;ll be solving the challenge with Frida. So in order to find what to script with Frida, I&rsquo;ll check the decompiled application.</p>
 <p>So the first thing to find is which component is executing the request that has to be intercepted. This can be done analyzing the Android Manifest, where we can find the following activity:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">	        <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.ui.activity.task.trafficanalysis.HTTPTrafficActivity&#34;</span><span class="nt">/&gt;</span>
-</code></pre></div><p>In this case the activity class is descriptive, so we can read that class directly. We can find in the HTTPTrafficActivity class the following code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="k">if</span> <span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">WebView</span> <span class="n">webView4</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">);</span>
-        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">webView4</span><span class="o">);</span>
-        <span class="n">webView4</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="s">&#34;http://hpandro.raviramesh.info/http_task.php&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div><p>It can be seen that the URL is being loaded in a WebView. As it is a GET request, I executed it in a browser. But the server did not return any content on the response.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">	        <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;com.hpandro.androidsecurity.ui.activity.task.trafficanalysis.HTTPTrafficActivity&#34;</span><span class="nt">/&gt;</span>
+</span></span></code></pre></div><p>In this case the activity class is descriptive, so we can read that class directly. We can find in the HTTPTrafficActivity class the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">WebView</span> <span class="n">webView4</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">webView4</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">webView4</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="s">&#34;http://hpandro.raviramesh.info/http_task.php&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>It can be seen that the URL is being loaded in a WebView. As it is a GET request, I executed it in a browser. But the server did not return any content on the response.</p>
 <p>After reading a bit more what was being done in the code I found the following method:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">  <span class="n">a</span><span class="o">.</span><span class="na">D</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">J</span><span class="o">((</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">),</span> <span class="s">&#34;webviewTask!!.settings&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span> <span class="n">WebSettings</span><span class="o">.</span><span class="na">LayoutAlgorithm</span><span class="o">.</span><span class="na">SINGLE_COLUMN</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="s">&#34;hpAndro&#34;</span><span class="o">);</span>
-</code></pre></div><p>a.J does not do anything significative for our analysys, but a.D does the following:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">D</span><span class="o">(</span><span class="n">WebSettings</span> <span class="n">webSettings</span><span class="o">,</span> <span class="n">WebSettings</span><span class="o">.</span><span class="na">LayoutAlgorithm</span> <span class="n">layoutAlgorithm</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">z</span><span class="o">,</span> <span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">webSettings</span><span class="o">.</span><span class="na">setLayoutAlgorithm</span><span class="o">(</span><span class="n">layoutAlgorithm</span><span class="o">);</span>
-        <span class="n">webSettings</span><span class="o">.</span><span class="na">setCacheMode</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-        <span class="n">webSettings</span><span class="o">.</span><span class="na">setDomStorageEnabled</span><span class="o">(</span><span class="n">z</span><span class="o">);</span>
-        <span class="n">webSettings</span><span class="o">.</span><span class="na">setUserAgentString</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div><p>which sets up &ldquo;hpAndro&rdquo; as the User-Agent. I tested the request changing it:</p>
-<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html">GET /http_task.php HTTP/1.1
-Host: hpandro.raviramesh.info
-Pragma: no-cache
-Cache-Control: no-cache
-Upgrade-Insecure-Requests: 1
-User-Agent: hpAndro
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
-X-Requested-With: com.hpandro.androidsecurity
-Accept-Encoding: gzip, deflate
-Accept-Language: en-US,en;q=0.9
-Connection: close
-</code></pre></div><p>which returns the desired flag in a header. So in order to solve this challenge we need to see the way to intercept traffic in a WebView.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">  <span class="n">a</span><span class="o">.</span><span class="na">D</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">J</span><span class="o">((</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">),</span> <span class="s">&#34;webviewTask!!.settings&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span> <span class="n">WebSettings</span><span class="o">.</span><span class="na">LayoutAlgorithm</span><span class="o">.</span><span class="na">SINGLE_COLUMN</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="s">&#34;hpAndro&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>a.J does not do anything significative for our analysys, but a.D does the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">D</span><span class="o">(</span><span class="n">WebSettings</span> <span class="n">webSettings</span><span class="o">,</span> <span class="n">WebSettings</span><span class="o">.</span><span class="na">LayoutAlgorithm</span> <span class="n">layoutAlgorithm</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">z</span><span class="o">,</span> <span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">webSettings</span><span class="o">.</span><span class="na">setLayoutAlgorithm</span><span class="o">(</span><span class="n">layoutAlgorithm</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">webSettings</span><span class="o">.</span><span class="na">setCacheMode</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">webSettings</span><span class="o">.</span><span class="na">setDomStorageEnabled</span><span class="o">(</span><span class="n">z</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">webSettings</span><span class="o">.</span><span class="na">setUserAgentString</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>which sets up &ldquo;hpAndro&rdquo; as the User-Agent. I tested the request changing it:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">GET /http_task.php HTTP/1.1
+</span></span><span class="line"><span class="cl">Host: hpandro.raviramesh.info
+</span></span><span class="line"><span class="cl">Pragma: no-cache
+</span></span><span class="line"><span class="cl">Cache-Control: no-cache
+</span></span><span class="line"><span class="cl">Upgrade-Insecure-Requests: 1
+</span></span><span class="line"><span class="cl">User-Agent: hpAndro
+</span></span><span class="line"><span class="cl">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+</span></span><span class="line"><span class="cl">X-Requested-With: com.hpandro.androidsecurity
+</span></span><span class="line"><span class="cl">Accept-Encoding: gzip, deflate
+</span></span><span class="line"><span class="cl">Accept-Language: en-US,en;q=0.9
+</span></span><span class="line"><span class="cl">Connection: close
+</span></span></code></pre></div><p>which returns the desired flag in a header. So in order to solve this challenge we need to see the way to intercept traffic in a WebView.</p>
 <p>Whenever I have to create a complex script with Frida I follow 3 steps.</p>
 <ol>
 <li>
@@ -232,151 +232,151 @@ Connection: close
 <p><strong>Note: This function works fine for GET parameters, with other verbs with body it does not work.</strong></p>
 <p>So I created an Activity in an application with a WebView, and implemented the shouldInterceptRequest:</p>
 <p>a. Configure the WebViewClient for the WebView:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">        <span class="n">testWebView</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="k">new</span> <span class="n">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
-
-            <span class="nd">@RequiresApi</span><span class="o">(</span><span class="n">api</span> <span class="o">=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">LOLLIPOP</span><span class="o">)</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="n">WebResourceResponse</span> <span class="nf">shouldInterceptRequest</span> <span class="o">(</span><span class="kd">final</span> <span class="n">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="n">WebResourceRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-
-            	<span class="o">...</span>
-                <span class="n">WebResourceResponse</span> <span class="n">webResourceResponse</span> <span class="o">=</span> <span class="n">FirstFragment</span><span class="o">.</span><span class="na">shouldInterceptRequest</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
-                <span class="k">return</span> <span class="n">webResourceResponse</span><span class="o">;</span>
-                <span class="o">...</span>
-</code></pre></div><p>b. Implement the function that takes the content of the original request (WebResourceRequest) and executes the request. It is possible, because the WebResourceRequest instance has the URL and headers of the original petition.</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="nd">@RequiresApi</span><span class="o">(</span><span class="n">api</span> <span class="o">=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">LOLLIPOP</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="kd">static</span>  <span class="n">WebResourceResponse</span> <span class="nf">shouldInterceptRequest</span> <span class="o">(</span><span class="kd">final</span> <span class="n">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="n">WebResourceRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-
-    	<span class="c1">//show method
-</span><span class="c1"></span>	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Method: &#34;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="na">getMethod</span><span class="o">());</span>
-        <span class="c1">//show URL and queryString
-</span><span class="c1"></span>	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Uri: &#34;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="na">getUrl</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
-        <span class="c1">//show all http headers
-</span><span class="c1"></span>        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestHeaders</span><span class="o">();</span>
-        <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">headers</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Header: &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span>
-                    <span class="s">&#34;= &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
-
-        <span class="c1">// and here, if you want, you can load the page normally
-</span><span class="c1"></span>        <span class="n">String</span> <span class="n">htmlContent</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
-
-        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-        <span class="k">try</span> <span class="o">{</span>
-        	<span class="c1">//execute the request
-</span><span class="c1"></span>            <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getUrl</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
-            <span class="n">HttpURLConnection</span> <span class="n">urlConnection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
-            <span class="n">urlConnection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">&#34;User-Agent&#34;</span><span class="o">,</span> <span class="s">&#34;hpAndro&#34;</span><span class="o">);</span>
-            <span class="k">try</span> <span class="o">{</span>
-                <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedInputStream</span><span class="o">(</span><span class="n">urlConnection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">());</span>
-                <span class="c1">//print content of response
-</span><span class="c1"></span>                <span class="n">readStream</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
-                <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">urlConnection</span><span class="o">.</span><span class="na">getHeaderFields</span><span class="o">();</span>
-                <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
-                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Key : &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; ,Value : &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
-                <span class="o">}</span>
-                <span class="c1">//return response to the WebView.
-</span><span class="c1"></span>                <span class="n">WebResourceResponse</span> <span class="n">webResourceRes</span><span class="o">;</span>
-                <span class="n">webResourceRes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WebResourceResponse</span><span class="o">(</span><span class="s">&#34;text/html&#34;</span><span class="o">,</span><span class="s">&#34;utf-8&#34;</span><span class="o">,</span> <span class="n">in</span><span class="o">);</span>
-                <span class="k">return</span> <span class="n">webResourceRes</span><span class="o">;</span>
-                <span class="o">...</span>
-</code></pre></div><p>As it can be seen in the previous code, we achieve the initial goal of sending the request to the Java layer in order to manipulate it then with Frida.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">        <span class="n">testWebView</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="k">new</span> <span class="n">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="nd">@RequiresApi</span><span class="o">(</span><span class="n">api</span> <span class="o">=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">LOLLIPOP</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="n">WebResourceResponse</span> <span class="nf">shouldInterceptRequest</span> <span class="o">(</span><span class="kd">final</span> <span class="n">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="n">WebResourceRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">                <span class="n">WebResourceResponse</span> <span class="n">webResourceResponse</span> <span class="o">=</span> <span class="n">FirstFragment</span><span class="o">.</span><span class="na">shouldInterceptRequest</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">webResourceResponse</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">...</span>
+</span></span></code></pre></div><p>b. Implement the function that takes the content of the original request (WebResourceRequest) and executes the request. It is possible, because the WebResourceRequest instance has the URL and headers of the original petition.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="nd">@RequiresApi</span><span class="o">(</span><span class="n">api</span> <span class="o">=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">LOLLIPOP</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span>  <span class="n">WebResourceResponse</span> <span class="nf">shouldInterceptRequest</span> <span class="o">(</span><span class="kd">final</span> <span class="n">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="n">WebResourceRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    	<span class="c1">//show method
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Method: &#34;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="na">getMethod</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//show URL and queryString
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Uri: &#34;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="na">getUrl</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//show all http headers
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">headers</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Header: &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;= &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// and here, if you want, you can load the page normally
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">String</span> <span class="n">htmlContent</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        	<span class="c1">//execute the request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getUrl</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">            <span class="n">HttpURLConnection</span> <span class="n">urlConnection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">urlConnection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">&#34;User-Agent&#34;</span><span class="o">,</span> <span class="s">&#34;hpAndro&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedInputStream</span><span class="o">(</span><span class="n">urlConnection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">//print content of response
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">readStream</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">urlConnection</span><span class="o">.</span><span class="na">getHeaderFields</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Key : &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; ,Value : &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">//return response to the WebView.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">WebResourceResponse</span> <span class="n">webResourceRes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">webResourceRes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WebResourceResponse</span><span class="o">(</span><span class="s">&#34;text/html&#34;</span><span class="o">,</span><span class="s">&#34;utf-8&#34;</span><span class="o">,</span> <span class="n">in</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">webResourceRes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">...</span>
+</span></span></code></pre></div><p>As it can be seen in the previous code, we achieve the initial goal of sending the request to the Java layer in order to manipulate it then with Frida.</p>
 <h2 id="step-2">Step 2</h2>
 <p>We need to translate the previous code to a Frida script. Most of the translation is straightforward if you have done some scripts on your own.</p>
 <p>The most complex part of the translation is that the solution needs us to create a new class that inherits from WebViewClient, and that implements the shouldInterceptRequest.</p>
 <p>The following Java code creates an anonymous class, that is being used as a parameter in the setWebViewClient:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">        <span class="n">testWebView</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="k">new</span> <span class="n">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
-</code></pre></div><p>In Frida we can&rsquo;t create anonymous classes, so we have to use the <em>Java.registerClass</em> API:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">	<span class="kd">var</span> <span class="nx">WebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebViewClient&#39;</span><span class="p">);</span>
-	
-	<span class="kd">var</span> <span class="nx">MyWebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">registerClass</span><span class="p">({</span>
-	  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;com.example.MyWebViewClient&#39;</span><span class="p">,</span>
-	  <span class="nx">superClass</span><span class="o">:</span> <span class="nx">WebViewClient</span><span class="p">,</span>
-	  <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
-	    <span class="nx">$init</span><span class="p">()</span> <span class="p">{</span>
-	      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Constructor called&#39;</span><span class="p">);</span>
-	    <span class="p">},</span>
-	    <span class="nx">shouldInterceptRequest</span><span class="o">:</span> <span class="p">[{</span>
-	      <span class="nx">returnType</span><span class="o">:</span> <span class="s1">&#39;android.webkit.WebResourceResponse&#39;</span><span class="p">,</span>
-	      <span class="nx">argumentTypes</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;android.webkit.WebView&#39;</span><span class="p">,</span> <span class="s1">&#39;android.webkit.WebResourceRequest&#39;</span><span class="p">],</span>
-	      <span class="nx">implementation</span><span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-				<span class="p">...</span>
-			    <span class="k">return</span> <span class="nx">webResourceRes</span><span class="p">;</span>
-	    	<span class="p">}</span>
-	    <span class="p">}],</span>
-	  <span class="p">}</span>
-	<span class="p">});</span>
-</code></pre></div><p>The other issue I had creating the scripts is that Frida-client breaks whenever a method returns a <em>null</em> value. In this case I wanted to return null in all non HTML requests (like the favico or any javascript/css request), and avoid creating a WebResourceResponse per each potential kind of resource.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">        <span class="n">testWebView</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="k">new</span> <span class="n">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
+</span></span></code></pre></div><p>In Frida we can&rsquo;t create anonymous classes, so we have to use the <em>Java.registerClass</em> API:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">WebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebViewClient&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">MyWebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">registerClass</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">	  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;com.example.MyWebViewClient&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	  <span class="nx">superClass</span><span class="o">:</span> <span class="nx">WebViewClient</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	  <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	    <span class="nx">$init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Constructor called&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">	    <span class="nx">shouldInterceptRequest</span><span class="o">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">	      <span class="nx">returnType</span><span class="o">:</span> <span class="s1">&#39;android.webkit.WebResourceResponse&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	      <span class="nx">argumentTypes</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;android.webkit.WebView&#39;</span><span class="p">,</span> <span class="s1">&#39;android.webkit.WebResourceRequest&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">	      <span class="nx">implementation</span><span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="p">...</span>
+</span></span><span class="line"><span class="cl">			    <span class="k">return</span> <span class="nx">webResourceRes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	    	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	    <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">	  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">});</span>
+</span></span></code></pre></div><p>The other issue I had creating the scripts is that Frida-client breaks whenever a method returns a <em>null</em> value. In this case I wanted to return null in all non HTML requests (like the favico or any javascript/css request), and avoid creating a WebResourceResponse per each potential kind of resource.</p>
 <p>As I couldn&rsquo;t find a way to make it work I analyzed the resources being requested by the webview and then create different WebResourceResponses based on them. That is the reason you&rsquo;ll find in a script the following if statement:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">			    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isFavicon</span><span class="p">)</span> <span class="p">{</span>
-			    	<span class="p">...</span>
-				    <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;text/html&#34;</span><span class="p">,</span><span class="s2">&#34;utf-8&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
-				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-					<span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;image/vnd.microsoft.icon&#34;</span><span class="p">,</span><span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
-				<span class="p">}</span>
-</code></pre></div><p>In order to create a custom script to intercept all HTTP traffic, you&rsquo;ll need to consider that you&rsquo;ll need to handle the non HTTP traffic as well, because of the return of null error.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">			    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isFavicon</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			    	<span class="p">...</span>
+</span></span><span class="line"><span class="cl">				    <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;text/html&#34;</span><span class="p">,</span><span class="s2">&#34;utf-8&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;image/vnd.microsoft.icon&#34;</span><span class="p">,</span><span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span></code></pre></div><p>In order to create a custom script to intercept all HTTP traffic, you&rsquo;ll need to consider that you&rsquo;ll need to handle the non HTTP traffic as well, because of the return of null error.</p>
 <h2 id="step-3">Step 3</h2>
 <p>I needed to find a place to inject the script in the original application. The requirements of the script I wrote is that I need the reference to the WebView in order to set the WebViewClient. Based on the decompiled code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">  <span class="kr">super</span><span class="p">.</span><span class="nx">onCreate</span><span class="p">(</span><span class="nx">bundle</span><span class="p">);</span>
-        <span class="nx">setContentView</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">layout</span><span class="p">.</span><span class="nx">activity_httptraffic</span><span class="p">);</span>
-        <span class="p">...</span>
-        <span class="kr">boolean</span> <span class="nx">z</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">i</span><span class="p">.</span><span class="nx">a</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="nx">v0</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">c</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">h</span><span class="p">.</span><span class="nx">j</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="kc">true</span><span class="p">));</span>
-        <span class="nx">a</span><span class="p">.</span><span class="nx">D</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">J</span><span class="p">((</span><span class="nx">WebView</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">webviewTask</span><span class="p">),</span> <span class="s2">&#34;webviewTask!!.settings&#34;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span> <span class="nx">WebSettings</span><span class="p">.</span><span class="nx">LayoutAlgorithm</span><span class="p">.</span><span class="nx">SINGLE_COLUMN</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s2">&#34;hpAndro&#34;</span><span class="p">);</span>
-        <span class="kr">int</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">Build</span><span class="p">.</span><span class="nx">VERSION</span><span class="p">.</span><span class="nx">SDK_INT</span><span class="p">;</span>
-        <span class="nx">WebView</span> <span class="nx">webView</span> <span class="o">=</span> <span class="p">(</span><span class="nx">WebView</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">webviewTask</span><span class="p">);</span>
-        <span class="p">...</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">systemService</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-            <span class="p">...</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">WebView</span> <span class="nx">webView4</span> <span class="o">=</span> <span class="p">(</span><span class="nx">WebView</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">webviewTask</span><span class="p">);</span>
-                <span class="nx">g</span><span class="p">.</span><span class="nx">c</span><span class="p">(</span><span class="nx">webView4</span><span class="p">);</span>
-                <span class="nx">webView4</span><span class="p">.</span><span class="nx">loadUrl</span><span class="p">(</span><span class="s2">&#34;http://hpandro.raviramesh.info/http_task.php&#34;</span><span class="p">);</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">RelativeLayout</span> <span class="nx">relativeLayout</span> <span class="o">=</span> <span class="p">(</span><span class="nx">RelativeLayout</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span>
-                <span class="p">...</span>
-            <span class="p">}</span>
-            <span class="p">((</span><span class="nx">Button</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">btnCheck</span><span class="p">)).</span><span class="nx">setOnClickListener</span><span class="p">(</span><span class="k">new</span> <span class="nx">i</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
-            <span class="k">return</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nx">NullPointerException</span><span class="p">(</span><span class="s2">&#34;null cannot be cast to non-null type android.net.ConnectivityManager&#34;</span><span class="p">);</span>
-</code></pre></div><p>the function that receives a WebView as a parameter is a.J. So I created the hook on that function:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript">	<span class="kd">var</span> <span class="nx">WebViewConfigurator</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;v0.a.a.a.a&#34;</span><span class="p">);</span>
-	<span class="nx">WebViewConfigurator</span><span class="p">.</span><span class="nx">J</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">str</span><span class="p">,</span> <span class="nx">z</span><span class="p">,</span> <span class="nx">z2</span><span class="p">,</span> <span class="nx">z3</span><span class="p">,</span> <span class="nx">z4</span><span class="p">,</span> <span class="nx">z5</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">webView</span><span class="p">.</span><span class="nx">setWebViewClient</span><span class="p">(</span><span class="nx">MyWebViewClient</span><span class="p">.</span><span class="nx">$new</span><span class="p">());</span>
-		<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">J</span><span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">str</span><span class="p">,</span> <span class="nx">z</span><span class="p">,</span> <span class="nx">z2</span><span class="p">,</span> <span class="nx">z3</span><span class="p">,</span> <span class="nx">z4</span><span class="p">,</span> <span class="nx">z5</span><span class="p">);</span>
-	<span class="p">}</span>
-</code></pre></div><p>The final script can be seen in the following URL: <a href="https://github.com/CesarMRodriguez/lunesdemobile/blob/main/Sesion%201/http_task.js">https://github.com/CesarMRodriguez/lunesdemobile/blob/main/Sesion%201/http_task.js</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">  <span class="kr">super</span><span class="p">.</span><span class="nx">onCreate</span><span class="p">(</span><span class="nx">bundle</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">setContentView</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">layout</span><span class="p">.</span><span class="nx">activity_httptraffic</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">...</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">boolean</span> <span class="nx">z</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">i</span><span class="p">.</span><span class="nx">a</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="nx">v0</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">c</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">h</span><span class="p">.</span><span class="nx">j</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="kc">true</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">a</span><span class="p">.</span><span class="nx">D</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">J</span><span class="p">((</span><span class="nx">WebView</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">webviewTask</span><span class="p">),</span> <span class="s2">&#34;webviewTask!!.settings&#34;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span> <span class="nx">WebSettings</span><span class="p">.</span><span class="nx">LayoutAlgorithm</span><span class="p">.</span><span class="nx">SINGLE_COLUMN</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s2">&#34;hpAndro&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">int</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">Build</span><span class="p">.</span><span class="nx">VERSION</span><span class="p">.</span><span class="nx">SDK_INT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">WebView</span> <span class="nx">webView</span> <span class="o">=</span> <span class="p">(</span><span class="nx">WebView</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">webviewTask</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">...</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">systemService</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="p">...</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">WebView</span> <span class="nx">webView4</span> <span class="o">=</span> <span class="p">(</span><span class="nx">WebView</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">webviewTask</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">g</span><span class="p">.</span><span class="nx">c</span><span class="p">(</span><span class="nx">webView4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">webView4</span><span class="p">.</span><span class="nx">loadUrl</span><span class="p">(</span><span class="s2">&#34;http://hpandro.raviramesh.info/http_task.php&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">RelativeLayout</span> <span class="nx">relativeLayout</span> <span class="o">=</span> <span class="p">(</span><span class="nx">RelativeLayout</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="p">...</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">((</span><span class="nx">Button</span><span class="p">)</span> <span class="nx">y</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">btnCheck</span><span class="p">)).</span><span class="nx">setOnClickListener</span><span class="p">(</span><span class="k">new</span> <span class="nx">i</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="nx">NullPointerException</span><span class="p">(</span><span class="s2">&#34;null cannot be cast to non-null type android.net.ConnectivityManager&#34;</span><span class="p">);</span>
+</span></span></code></pre></div><p>the function that receives a WebView as a parameter is a.J. So I created the hook on that function:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">WebViewConfigurator</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;v0.a.a.a.a&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">WebViewConfigurator</span><span class="p">.</span><span class="nx">J</span><span class="p">.</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">str</span><span class="p">,</span> <span class="nx">z</span><span class="p">,</span> <span class="nx">z2</span><span class="p">,</span> <span class="nx">z3</span><span class="p">,</span> <span class="nx">z4</span><span class="p">,</span> <span class="nx">z5</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">webView</span><span class="p">.</span><span class="nx">setWebViewClient</span><span class="p">(</span><span class="nx">MyWebViewClient</span><span class="p">.</span><span class="nx">$new</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">J</span><span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">str</span><span class="p">,</span> <span class="nx">z</span><span class="p">,</span> <span class="nx">z2</span><span class="p">,</span> <span class="nx">z3</span><span class="p">,</span> <span class="nx">z4</span><span class="p">,</span> <span class="nx">z5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span></code></pre></div><p>The final script can be seen in the following URL: <a href="https://github.com/CesarMRodriguez/lunesdemobile/blob/main/Sesion%201/http_task.js">https://github.com/CesarMRodriguez/lunesdemobile/blob/main/Sesion%201/http_task.js</a></p>
 <p>Sadly after running the script in the application to see if it worked, I found that the custom class was not being called. After reading and checking the script I found that between a.J and webview.loadUrl, the HttpTrafficActivity class was setting a custom webViewClient, overwriting the custom class I wrote.</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">        <span class="n">a</span><span class="o">.</span><span class="na">D</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">J</span><span class="o">((</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">),</span> <span class="s">&#34;webviewTask!!.settings&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span> <span class="n">WebSettings</span><span class="o">.</span><span class="na">LayoutAlgorithm</span><span class="o">.</span><span class="na">SINGLE_COLUMN</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="s">&#34;hpAndro&#34;</span><span class="o">);</span>
-        <span class="o">...</span>
-        <span class="n">webView3</span><span class="o">.</span><span class="na">setWebChromeClient</span><span class="o">(</span><span class="k">new</span> <span class="n">h</span><span class="o">());</span>
-        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-        <span class="n">Object</span> <span class="n">systemService</span> <span class="o">=</span> <span class="n">getSystemService</span><span class="o">(</span><span class="s">&#34;connectivity&#34;</span><span class="o">);</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">systemService</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        	<span class="o">...</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">WebView</span> <span class="n">webView4</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">);</span>
-                <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">webView4</span><span class="o">);</span>
-                <span class="n">webView4</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="s">&#34;http://hpandro.raviramesh.info/http_task.php&#34;</span><span class="o">);</span>
-</code></pre></div><p>So I had to create a new script. In this case the solution was much more simpler than what I wrote initially, because I only had to overwrite the shouldInterceptRequest from that class:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-
-	<span class="kd">var</span> <span class="nx">WebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;v0.d.a.c.a.d.h.g&#39;</span><span class="p">);</span>
-	<span class="nx">WebViewClient</span><span class="p">.</span><span class="nx">shouldInterceptRequest</span><span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebView&#39;</span><span class="p">,</span> <span class="s1">&#39;android.webkit.WebResourceRequest&#39;</span><span class="p">).</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-
-		<span class="p">...</span>
-		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isFavicon</span><span class="p">)</span> <span class="p">{</span>
-	    	<span class="nx">readNewStream</span><span class="p">(</span><span class="nx">inputStr</span><span class="p">);</span>
-		    <span class="p">...</span>
-		    
-		    <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;text/html&#34;</span><span class="p">,</span><span class="s2">&#34;utf-8&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
-		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-			<span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;image/vnd.microsoft.icon&#34;</span><span class="p">,</span><span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
-		<span class="p">}</span>
-	    
-	    <span class="k">return</span> <span class="nx">webResourceRes</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="p">});</span>
-</code></pre></div><p>This second script worked as desired, achieving the goal of solving the challenge with Frida.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">        <span class="n">a</span><span class="o">.</span><span class="na">D</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">J</span><span class="o">((</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">),</span> <span class="s">&#34;webviewTask!!.settings&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span> <span class="n">WebSettings</span><span class="o">.</span><span class="na">LayoutAlgorithm</span><span class="o">.</span><span class="na">SINGLE_COLUMN</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="s">&#34;hpAndro&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="n">webView3</span><span class="o">.</span><span class="na">setWebChromeClient</span><span class="o">(</span><span class="k">new</span> <span class="n">h</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Object</span> <span class="n">systemService</span> <span class="o">=</span> <span class="n">getSystemService</span><span class="o">(</span><span class="s">&#34;connectivity&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">systemService</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">WebView</span> <span class="n">webView4</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">y</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webviewTask</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">g</span><span class="o">.</span><span class="na">c</span><span class="o">(</span><span class="n">webView4</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">webView4</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="s">&#34;http://hpandro.raviramesh.info/http_task.php&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>So I had to create a new script. In this case the solution was much more simpler than what I wrote initially, because I only had to overwrite the shouldInterceptRequest from that class:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">WebViewClient</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;v0.d.a.c.a.d.h.g&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">WebViewClient</span><span class="p">.</span><span class="nx">shouldInterceptRequest</span><span class="p">.</span><span class="nx">overload</span><span class="p">(</span><span class="s1">&#39;android.webkit.WebView&#39;</span><span class="p">,</span> <span class="s1">&#39;android.webkit.WebResourceRequest&#39;</span><span class="p">).</span><span class="nx">implementation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">webView</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="p">...</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isFavicon</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	    	<span class="nx">readNewStream</span><span class="p">(</span><span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">		    
+</span></span><span class="line"><span class="cl">		    <span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;text/html&#34;</span><span class="p">,</span><span class="s2">&#34;utf-8&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">webResourceRes</span> <span class="o">=</span> <span class="nx">WebResourceResponse</span><span class="p">.</span><span class="nx">$new</span><span class="p">(</span><span class="s2">&#34;image/vnd.microsoft.icon&#34;</span><span class="p">,</span><span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="nx">inputStr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	    
+</span></span><span class="line"><span class="cl">	    <span class="k">return</span> <span class="nx">webResourceRes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><p>This second script worked as desired, achieving the goal of solving the challenge with Frida.</p>
 <p>In the following link <a href="https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%201">https://github.com/CesarMRodriguez/lunesdemobile/tree/main/Sesion%201</a> you can find the following content:</p>
 <ul>
 <li>test: Application written with Android Studio to practice the script from step 2. There you will find two Fragments. The first fragment has the code used in step 1, and the second one has an empty structure in order to generate the script manually.</li>
@@ -449,10 +449,10 @@ Connection: close
               href="/categories/frida">Frida</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/http">Http</a>
+              href="/categories/http">HTTP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/https">Https</a>
+              href="/categories/https">HTTPS</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/misc">Misc</a>
@@ -470,7 +470,7 @@ Connection: close
               href="/categories/tcp">Tcp</a>
           </li>
           <li class="mb-3"><a class="text-dark"
-              href="/categories/udp">Udp</a>
+              href="/categories/udp">UDP</a>
           </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/websocket">Websocket</a>
