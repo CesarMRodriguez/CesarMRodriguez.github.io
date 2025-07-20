@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Trainings on Cesar Rodriguez | Personal blog</title>
+    <link>https://cmrodriguez.me/categories/trainings/</link>
+    <description>Recent content in Trainings on Cesar Rodriguez | Personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 20 Jul 2025 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/categories/trainings/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Explotacion Avanzada de Android</title>
+      <link>https://cmrodriguez.me/blog/advanced-android-exploitation-es/</link>
+      <pubDate>Sun, 20 Jul 2025 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/advanced-android-exploitation-es/</guid>
+      <description>🛡️ Training Intermedio / Avanzado de Android 🔥 ¿Qué vas a encontrar en este curso?</description>
+    </item>
+    
+  </channel>
+</rss>

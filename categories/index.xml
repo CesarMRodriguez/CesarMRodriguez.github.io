@@ -6,7 +6,25 @@
     <description>Recent content in Categories on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Dec 2022 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Jul 2025 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android</title>
+      <link>https://cmrodriguez.me/categories/android/</link>
+      <pubDate>Sun, 20 Jul 2025 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Trainings</title>
+      <link>https://cmrodriguez.me/categories/trainings/</link>
+      <pubDate>Sun, 20 Jul 2025 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/categories/trainings/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>CTF</title>
       <link>https://cmrodriguez.me/categories/ctf/</link>
@@ -22,15 +40,6 @@
       <pubDate>Thu, 08 Dec 2022 10:07:47 +0600</pubDate>
       
       <guid>https://cmrodriguez.me/categories/misc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Android</title>
-      <link>https://cmrodriguez.me/categories/android/</link>
-      <pubDate>Thu, 26 Aug 2021 10:07:47 +0600</pubDate>
-      
-      <guid>https://cmrodriguez.me/categories/android/</guid>
       <description></description>
     </item>
     

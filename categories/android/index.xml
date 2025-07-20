@@ -6,7 +6,16 @@
     <description>Recent content in Android on Cesar Rodriguez | Personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Aug 2021 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/categories/android/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Jul 2025 10:07:47 +0600</lastBuildDate><atom:link href="https://cmrodriguez.me/categories/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Explotacion Avanzada de Android</title>
+      <link>https://cmrodriguez.me/blog/advanced-android-exploitation-es/</link>
+      <pubDate>Sun, 20 Jul 2025 10:07:47 +0600</pubDate>
+      
+      <guid>https://cmrodriguez.me/blog/advanced-android-exploitation-es/</guid>
+      <description>🛡️ Training Intermedio / Avanzado de Android 🔥 ¿Qué vas a encontrar en este curso?</description>
+    </item>
+    
     <item>
       <title>Solving CTF with Frida - Part 6</title>
       <link>https://cmrodriguez.me/blog/hpandro-6/</link>
